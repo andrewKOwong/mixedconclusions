@@ -1,3 +1,27 @@
-span {
-  font-size: 40px;
+:root {
+  --background-color: #ffe8e1;
+  --font-color: #131542;
+  --link-color: #c1121f;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: var(--link-color);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
+
+.container {
+  padding-left: 20px;
+  padding-right: 20px;
 }
