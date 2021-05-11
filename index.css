@@ -58,3 +58,29 @@ li {
   /* Moving the icon so it's lower than text baseline */
   transform: translateY(0.225em);
 }
+
+.preamble {
+  animation-delay: 0.5s;
+}
+
+.resources {
+  animation-delay: 2s;
+}
+
+.fade-in-bottom {
+  animation-name: fade-in-bottom;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: backwards;
+}
+
+@keyframes fade-in-bottom {
+  0% {
+    transform: translateY(3em);
+    opacity: 0%;
+  }
+  100% {
+    transform: translateY(0em);
+    opacity: 100%;
+  }
+}
