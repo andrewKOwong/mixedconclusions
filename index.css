@@ -19,6 +19,15 @@ a {
   color: var(--link-color);
 }
 
+/* clear margin */
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--font-color);
