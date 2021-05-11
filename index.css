@@ -5,7 +5,7 @@
   --font-color: #131542;
   --link-color: #c1121f;
   font-family: "Lato", sans-serif;
-  font-size: 1.5rem;
+  font-size: 24px;
   line-height: 1.25;
 }
 
@@ -43,7 +43,7 @@ body {
 }
 
 .container {
-  width: min(85%, 30rem);
+  width: min(85%, 25rem);
 }
 
 ul {
