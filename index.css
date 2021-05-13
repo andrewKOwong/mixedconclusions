@@ -6,7 +6,7 @@
   --link-color: #c1121f;
   font-family: "Lato", sans-serif;
   font-size: 24px;
-  line-height: 1.4;
+  line-height: 1.4em;
 }
 
 *,
@@ -17,7 +17,17 @@
 
 a {
   text-decoration: none;
+  color: white;
+  background-color: var(--link-color);
+  padding: 0.1em 0.5em;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+  border-radius: 0.5em;
+}
+
+a:hover {
   color: var(--link-color);
+  background-color: white;
 }
 
 /* clear margin */
@@ -56,7 +66,7 @@ li {
 .fa-flask {
   margin-right: 0.5rem;
   /* Moving the icon so it's lower than text baseline */
-  transform: translateY(0.225em);
+  transform: translateY(0.4em);
 }
 
 .preamble {
