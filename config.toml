@@ -1,4 +1,41 @@
 baseURL = 'https://mixedconclusions.com/'
 languageCode = 'en-ca'
 title = 'Mixed Conclusions'
-theme = \"mediumish-gohugo-theme\"
+theme = 'mediumish-gohugo-theme'
+copyright = 'Andrew Wong - All Rights Reserved.'
+
+[params]
+logo = "/images/test_icon.png"
+description = "test description"
+#mailchimp =
+#mailprotect = 
+#customCSS = "css/test.css"
+
+[params.author]
+name = "andrewKOwong"
+thumbnail = "/images/andrew.jpeg"
+description = "Creator of this blog."
+
+[params.index]
+picture = "/images/andrew.jpeg"
+title = "Bonjour"
+subtitle = "Place holder subtitle."
+mdtext = '''More placeholder markdown.'''
+alertbar = true
+
+[params.social]
+github = "andrewKOwong"
+linkedin = "akowong"
+
+## Main Menu
+[[menu.main]]
+    name = "Blog"
+    weight = 100
+    identifier = "blog"
+    url = "/blog"
+[[menu.main]]
+    name = "About Me"
+    identifier = "about"
+    weight = 100
+    url = "/"
+
