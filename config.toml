@@ -1,0 +1,4 @@
+baseURL = 'https://mixedconclusions.com/'
+languageCode = 'en-ca'
+title = 'Mixed Conclusions'
+theme = \"mediumish-gohugo-theme\"
