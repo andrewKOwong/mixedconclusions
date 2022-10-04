@@ -11,6 +11,10 @@ description = "test description"
 #mailprotect = 
 #customCSS = "css/test.css"
 
+[params.homeInfoParams]
+Title = "Bonjour"
+Content = "Test"
+
 [params.author]
 name = "andrewKOwong"
 thumbnail = "/images/andrew.jpeg"
