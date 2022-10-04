@@ -15,7 +15,11 @@ During an elevator ride years ago, an elderly neighbour remarked on the fresh st
 
 And while I do consider myself enthusiastic about board games, I was never enthusiastic enough to, say, make an account on [boardgamegeek.com](https://boardgamegeek.com/) and participate in that gaming community online.
 
+
+
 To acquire this evidence, 
+
+Some API things already exist. Since, primarily doing this for my own learning, I decided to write my own anyways for my own benefit, for bulk download, and since I only need part of the API.
 
 ## Data Download
 ### The BoardGameGeek XML API
@@ -49,9 +53,24 @@ Project folder structure[^2]
  ┗ 📄script_retrieve_all_boardgames.py
 
  ```
+Most of the 
 
- This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection
 
+By default, ids are sampled randomly. This is incase something happened that prevented me from getting everything, I would still get a random sample across ids.
+
+The server will throttle when requests are too often. Too large will be blocked out right, but there's also a size that isn't blocked but often causes errors.
+
+I ran this on an AWS server, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
+
+Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
+
+Logging is both to stdout and a logging file.
+
+
+ This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection.
+
+`Retriever` is initialized with a save path.
+Other description, used script as guide.
 
 - Resumability
 - Server behaviour
@@ -59,9 +78,61 @@ Project folder structure[^2]
 
 - Testing
 
+Test coverage isn't very high.
+Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
+
 ## ETL
+### Structure of Returned XML data
+Data is returned as xml files. Show abbreviated example of xml code.
+
+Decided to extract as three kinds of things.
+
+### Data Extractor Design
+Code in `core/etl.py` module. `Script` to run.
+
+mermaid diagram
+
+```mermaid
+flowchart LR
+ Start --> Stop
+```
+
+Read in a file, then get the root xml thing. You should be able 
+
+#### An unexpected encoding bug
+
+Unexpected bug is double escaping. XML `&amp;3483 -> ` but one of things already handles. However, encoding is still weird on my end, HASHI de CUBES example, but no on their end description.
+
+#### Extractor
+
+extractor has a bunch of custom things for each field. I basically wrote a separate func.
+
+Three separate type of data comes out.
+
+#### Flow of data back out into a huge pandas object
+
+Then return a dict or w/e.
+Then a bunch of those can concatenated into a list of dataframes.
+
+Dataframes are further concatenated.
+
+#### Saving the file
+CSV, compressed csv, parquet
+
+#### Running the script
+chose to save parquet, for faster loading downstream analysis (~3-8 seconds) vs 
+(~15-20). 
+
+Also file sizes. Drawback is that it is not human readable.
 
 ## Summary and Discussion
+
+Turn into a package, how would I do that.
+Probably something like: I don't know.
+
+Further testing?
+
+
 
 ## Notes
 [^1]: [Dominion](https://boardgamegeek.com/boardgame/36218/dominion) is a card-based board game. A copious number of [expansions](https://www.riograndegames.com/games/dominion/) are available, each of which add new cards to the game. This results in players having to carry multiple boxes around to their friends' house, unless they pursue [alternate](https://imgur.com/a/oH2yj) [solutions](https://www.google.com/search?q=dominion+storage+box), or perhaps [play online](https://dominion.games/).
