@@ -82,10 +82,99 @@ Test coverage isn't very high.
 Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
 
 ## ETL
-### Structure of Returned XML data
-Data is returned as xml files. Show abbreviated example of xml code.
+This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage an analysis.
 
-Decided to extract as three kinds of things.
+### Structure of Input XML Data
+Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing many `<item>` tags. Each `<item>` has a number of subtags for attributes of the boardgame such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls users can vote on, and `<link>` tags contain information to types of data contained in other tables, such as types of boardgame mechanics the game uses, or the publisher of the game. A <statistics> tag contains information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<items termsofuse="https://boardgamegeek.com/xmlapi/termsofuse">
+    <item type="boardgame" id="101769">
+        <thumbnail>https://cf.geekdo-images.com/....png</thumbnail>
+        <image>https://cf.geekdo-images.com/....png</image>
+        <name type="primary" sortindex="1" value="Keine Mark zuviel" />
+        <description>
+            Merchandising game&amp;#10;&amp;#10;Players have to roll dice, 
+            move meeples over the board and reach target spots in order to 
+            get Bargain cards.&amp;#10;&amp;#10;
+        </description>
+        <yearpublished value="1991" />
+        <minplayers value="2" />
+        <maxplayers value="6" />
+        <poll name="suggested_numplayers"
+              title="User Suggested Number of Players"
+              totalvotes="0">
+            <results numplayers="1">
+                <result value="Best" numvotes="0" />
+                <result value="Recommended" numvotes="0" />
+                <result value="Not Recommended" numvotes="0" />
+            </results>
+            <results numplayers="2">
+                ...
+            </results>
+            ...
+        </poll>
+        <playingtime value="30" />
+        <minplaytime value="30" />
+        <maxplaytime value="30" />
+        <minage value="7" />
+        <poll name="suggested_playerage"
+              title="User Suggested Player Age"
+              totalvotes="0">
+            <results>
+                <result value="2" numvotes="0" />
+                ...
+                <result value="18" numvotes="0" />
+                <result value="21 and up" numvotes="0" />
+            </results>
+        </poll>
+        <poll name="language_dependence"
+              title="Language Dependence"
+              totalvotes="0">
+            <results>
+                <result level="1"
+                        value="No necessary in-game text"
+                        numvotes="0" />
+                <result level="5"
+                        value="Unplayable in another language"
+                        numvotes="0" />
+            </results>
+        </poll>
+        <link type="boardgamecategory" id="1017" value="Dice" />
+        ...
+        <link type="boardgamepublisher"
+              id="4065"
+              value="Neckermann Versand AG" />
+        <statistics page="1">
+            <ratings>
+                <usersrated value="0" />
+                <average value="0" />
+                <bayesaverage value="0" />
+                <ranks>
+                    <rank type="subtype"
+                          id="1" name="boardgame"
+                          friendlyname="Board Game Rank"
+                          value="Not Ranked"
+                          bayesaverage="Not Ranked" />
+                </ranks>
+                <stddev value="0" />
+                <median value="0" />
+                <owned value="1" />
+                <trading value="0" />
+                <wanting value="0" />
+                <wishing value="0" />
+                <numcomments value="0" />
+                <numweights value="0" />
+                <averageweight value="0" />
+            </ratings>
+        </statistics>
+    </item>
+    ...
+</items>
+```
+
+Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
 ### Data Extractor Design
 Code in `core/etl.py` module. `Script` to run.
@@ -116,7 +205,7 @@ Then a bunch of those can concatenated into a list of dataframes.
 
 Dataframes are further concatenated.
 
-#### Saving the file
+#### Output Data Storage
 CSV, compressed csv, parquet
 
 #### Running the script
