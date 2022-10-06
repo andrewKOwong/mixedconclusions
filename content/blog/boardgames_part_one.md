@@ -209,10 +209,9 @@ Dataframes are further concatenated.
 CSV, compressed csv, parquet
 
 #### Running the script
-chose to save parquet, for faster loading downstream analysis (~3-8 seconds) vs 
-(~15-20). 
 
-Also file sizes. Drawback is that it is not human readable.
+
+For file storage, I found uncompressed csv would have been >300MB. Compressed csvs or parquet files were around ~70MB, but loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 ## Summary and Discussion
 
