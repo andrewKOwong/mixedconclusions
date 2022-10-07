@@ -189,9 +189,7 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
 ### Data Extractor Design
-Classes and functions for extracting the data from the xml and transforming it into a storage format are located in `core/etl.py`.
-
-
+#### File Structure
 ```
  📦boardgames
   ┣ 📂core
@@ -204,6 +202,46 @@ Classes and functions for extracting the data from the xml and transforming it i
  ```
 
 
+Classes and functions for extracting the data from the xml and transforming it into a storage format are located in `core/etl.py`.
+
+`script.etl.py` calls functions in `etl.py`, and runs with command line args.
+```text
+$ python script_etl.py -h
+
+usage: script_etl.py [-h] [--omit-general-data] [--omit-link-data]
+                     [--omit-poll-data] [--output-csv]
+                     [--omit-csv-compression]
+                     read_xml_dir output_dir output_prefix
+
+Extract a folder of xml files containing boardgame data and save them as
+parquet (default) or csv files. Saved files will have format:
+<output_dir>/<output_prefix>_<data_type>.<parquet|csv|csv.gz> where
+<data_type> indicates whetherthe file contains general data, link data, or
+poll data.
+
+positional arguments:
+  read_xml_dir          Directory of xml files downloaded from BGG.
+  output_dir            Directory to save output parquet (default) or csv
+                        files.
+  output_prefix         Prefix for naming output files.
+
+options:
+  -h, --help            show this help message and exit
+  --omit-general-data   Flag to omit general data extraction.
+  --omit-link-data      Flag to omit link data extraction.
+  --omit-poll-data      Flag to omit poll data extraction.
+  --output-csv          Output files as csv instead of parquet.
+  --omit-csv-compression
+                        Omit gunzip compression of csv files.
+```
+
+#### Function Flow
+
+`script_etl.py` primarily calls a function that takes an xml, which in turn calls in a loop a function that gets takes a single file and gets all the xml data from it.
+
+flatten gets the root element of each file (which is the `<items>` tag), and loads each `<item>` subtag in an `ItemExtractor` instance.
+
+
 ```mermaid
 flowchart LR
     script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
@@ -211,40 +249,51 @@ flowchart LR
  subgraph core/etl.py
     folder_func --> file_func["flatten_xml_file_to_dataframes()"];
     file_func --> ItemExtractor;
+    
  end
 ```
 
+`ItemExtractor` contains a number of methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large. And tweak behaviour.
+
+Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
 
 
-`Script` to run.
+```mermaid
+flowchart TD
+    folder_func["flatten_xml_folder_to_dataframe()"] -->|"dict[pd.DataFrame]"|script["📄 script_etl.py"];
+ subgraph core/etl.py
+    ItemExtractor["ItemExtractor<br>.extract_general_data() <br> .extract_link_data() <br> .extract_poll_data()"];
+    ItemExtractor --> |"dict[pd.DataFrame]"|file_func;
+    file_func["flatten_xml_file_to_dataframes()"] --> |"dict[pd.DataFrame]"|folder_func;
+ end
+
+```
 
 
-Read in a file, then get the root xml thing. You should be able 
-
-#### An unexpected encoding bug
+#### Note: An unexpected encoding bug
 
 Unexpected bug is double escaping. XML `&amp;3483 -> ` but one of things already handles. However, encoding is still weird on my end, HASHI de CUBES example, but no on their end description.
 
-#### Extractor
-
-extractor has a bunch of custom things for each field. I basically wrote a separate func.
-
-Three separate type of data comes out.
-
-#### Flow of data back out into a huge pandas object
-
-Then return a dict or w/e.
-Then a bunch of those can concatenated into a list of dataframes.
-
-Dataframes are further concatenated.
 
 #### Output Data Storage
-CSV, compressed csv, parquet
+`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv would have been >300MB. Compressed csvs or parquet files were around ~70MB, but loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
-#### Running the script
+Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
-
-For file storage, I found uncompressed csv would have been >300MB. Compressed csvs or parquet files were around ~70MB, but loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
+```
+ 📦boardgames
+  ┣ 📂core
+  ┃ ┣ 📄bgg.py
+  ┃ ┗ 📄etl.py
+  ┃ 📂data
+  ┃ ┣ 📂xml
+* ┃ ┗ 📂parquet
+* ┃   ┣ 2022-09-19_general_data.parquet
+* ┃   ┣ 2022-09-19_link_data.parquet
+* ┃   ┗ 2022-09-19_poll_data.parquet
+  ┣ 📄script_etl.py
+  ┗ 📄script_retrieve_all_boardgames.py
+```
 
 ## Summary and Discussion
 
