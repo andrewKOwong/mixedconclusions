@@ -81,6 +81,18 @@ Other description, used script as guide.
 Test coverage isn't very high.
 Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
 
+```
+ 📦boardgames
+  ┣ 📂core
+  ┃ ┗ 📄bgg.py
+* ┃ 📂data
+* ┃ ┗ 📂xml
+* ┃   ┣ 0.xml
+* ┃   ┗ ...
+  ┗ 📄script_retrieve_all_boardgames.py
+
+ ```
+
 ## ETL
 This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage an analysis.
 
@@ -177,14 +189,35 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
 ### Data Extractor Design
-Code in `core/etl.py` module. `Script` to run.
+Classes and functions for extracting the data from the xml and transforming it into a storage format are located in `core/etl.py`.
 
-mermaid diagram
+
+```
+ 📦boardgames
+  ┣ 📂core
+  ┃ ┣ 📄bgg.py
+* ┃ ┗ 📄etl.py
+  ┃ 📂data
+* ┣ 📄script_etl.py
+  ┗ 📄script_retrieve_all_boardgames.py
+
+ ```
+
 
 ```mermaid
 flowchart LR
- Start --> Stop
+    script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
+
+ subgraph core/etl.py
+    folder_func --> file_func["flatten_xml_file_to_dataframes()"];
+    file_func --> ItemExtractor;
+ end
 ```
+
+
+
+`Script` to run.
+
 
 Read in a file, then get the root xml thing. You should be able 
 
