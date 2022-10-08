@@ -191,8 +191,7 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
-### Data Extractor Design
-### File Structure
+### Data Extractor - File Structure
 ```
  📦boardgames
   ┣ 📂core
@@ -238,7 +237,7 @@ options:
                         Omit gunzip compression of csv files.
 ```
 
-### Function Flow
+### Data Extractor - Function Flow
 
 `script_etl.py` primarily calls a function that takes an xml, which in turn calls in a loop a function that gets takes a single file and gets all the xml data from it.
 
@@ -272,7 +271,7 @@ flowchart TD
 
 ```
 
-### Data sanitzation
+### Data Sanitzation
 
 
 
