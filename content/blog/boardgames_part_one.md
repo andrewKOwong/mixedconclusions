@@ -269,10 +269,34 @@ flowchart TD
 
 ```
 
+#### Data sanitzation
 
-#### Note: An unexpected encoding bug
 
-Unexpected bug is double escaping. XML `&amp;3483 -> ` but one of things already handles. However, encoding is still weird on my end, HASHI de CUBES example, but no on their end description.
+
+#### Note: An encoding bug
+
+Consider the [board game]() with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
+
+While the first sentence of the description on the [BGG website](https://boardgamegeek.com/boardgame/292791/cubes-hashi-de-cubes) begins with: 
+
+```
+箸でCUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
+``` 
+
+the description field in the raw xml is a doubly escaped string:
+
+```
+&amp;#231;&amp;#174;&amp;#184;&amp;#227;&amp;#129;&amp;#167;CUBEs (Hashi de CUBEs), roughly translated as &amp;quot;Cubes with chopsticks&amp;quot;
+```
+
+that when unescaped twice becomes:
+```
+ç®¸ã§CUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
+```
+
+It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis greatly for now. 
+
+Additionally, double unescaping is actually handled in two instance, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
 
 #### Output Data Storage
