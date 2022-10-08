@@ -251,7 +251,7 @@ flowchart LR
  subgraph core/etl.py
     folder_func --> file_func["flatten_xml_file_to_dataframes()"];
     file_func --> ItemExtractor;
-    
+
  end
 ```
 
@@ -330,6 +330,6 @@ Further testing?
 
 
 
-## Notes
+
 [^1]: [Dominion](https://boardgamegeek.com/boardgame/36218/dominion) is a card-based board game. A copious number of [expansions](https://www.riograndegames.com/games/dominion/) are available, each of which add new cards to the game. This results in players having to carry multiple boxes around to their friends' house, unless they pursue [alternate](https://imgur.com/a/oH2yj) [solutions](https://www.google.com/search?q=dominion+storage+box), or perhaps [play online](https://dominion.games/).
-[^2] See this [StackOverflow post](https://stackoverflow.com/questions/19699059/representing-directory-file-structure-in-markdown-syntax) for this format of folder tree.
+[^2]: See this [StackOverflow post](https://stackoverflow.com/questions/19699059/representing-directory-file-structure-in-markdown-syntax) for this format of folder tree.
