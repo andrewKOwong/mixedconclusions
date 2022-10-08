@@ -9,6 +9,9 @@ draft: true
 
 # Exploring Boardgames Part One: Data Download and ETL
 TODO: link to part 2
+
+{{< toc >}}
+
 ## Introduction
 
 During an elevator ride years ago, an elderly neighbour remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about it being "the golden age of board games", which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
@@ -189,7 +192,7 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
 ### Data Extractor Design
-#### File Structure
+### File Structure
 ```
  📦boardgames
   ┣ 📂core
@@ -235,7 +238,7 @@ options:
                         Omit gunzip compression of csv files.
 ```
 
-#### Function Flow
+### Function Flow
 
 `script_etl.py` primarily calls a function that takes an xml, which in turn calls in a loop a function that gets takes a single file and gets all the xml data from it.
 
@@ -269,11 +272,11 @@ flowchart TD
 
 ```
 
-#### Data sanitzation
+### Data sanitzation
 
 
 
-#### Note: An encoding bug
+### An Encoding Bug
 
 Consider the [board game]() with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
 
@@ -299,7 +302,7 @@ It's likely that these Japanese characters are encoded differently than `utf-8` 
 Additionally, double unescaping is actually handled in two instance, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
 
-#### Output Data Storage
+### Output Data Storage
 `script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv would have been >300MB. Compressed csvs or parquet files were around ~70MB, but loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
