@@ -243,9 +243,9 @@ options:
 
 ### Data Extractor - Function Flow
 
-`script_etl.py` primarily calls a function that takes an xml, which in turn calls in a loop a function that gets takes a single file and gets all the xml data from it.
+`script_etl.py` primarily calls `etl.flatten_xml_folder_to_dataframe()`, which takes a folder of `xml` files and call `etl.flatten_xml_file_to_dataframe()` on each file in a loop. 
 
-flatten gets the root element of each file (which is the `<items>` tag), and loads each `<item>` subtag in an `ItemExtractor` instance.
+`flatten_xml_file_to_dataframe()` gets the root element of each file (which is the `<items>` tag), and loads each `<item>` subtag (representing an individual board game) in an `ItemExtractor` instance for data extraction.
 
 
 ```mermaid
@@ -267,10 +267,162 @@ subgraph background [ ]
 class padding1 emptypadding
 class background backgroundbox
 ```
+`ItemExtractor` has three public extraction methods 
+TODO some sort of visualization of how data looks 
 
-`ItemExtractor` contains a number of methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large. And tweak behaviour.
+```python
+# A dict containing keys that will be pandas col headings
+extractor.extract_general_data() --> 
+    {'id': 348, 'name': 'Name of Game', ...}
 
+# list of dicts, as there are multiple links per each boardgame
+extractor.extract_link_data() --> 
+    [
+        {'boardgame_id': 4, 'link_id': 394, 'type':'boardgamepublisher',... },
+        {...},
+        ...
+    ]
+
+# list of dicts, as there are multiple polls per each boardgame
+extractor.extract_poll_data() -->
+    [
+        {'boardgame_id': 101769
+         'poll_name': 'suggested_numplayers'
+         'poll_title': 'User Suggested Number of Players'
+         'poll_totalvotes': 0
+         'results_numplayers': 1
+         'result_value': 'Best'
+         'result_numvotes': '0'},
+         {...},
+         ...
+    ]
+```
+
+These methods rely on a bunch of private methods.
+
+
+`ItemExtractor` contains a number of methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large, and this allowed me to tweak individual extractor method behaviour without hard commitments.
+
+TODO: Example tweak extractor thing
+TODO: Example methods
+
+For example, below is a series of methods that gets integer-like fields:
+
+```python
+    def _extract_year_published(self) -> int | None:
+        """Return boardgame year published."""
+        tag = self.item.find("yearpublished")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_players(self) -> int | None:
+        """Return minimum number of players."""
+        tag = self.item.find("minplayers")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_max_players(self) -> int | None:
+        """Return maximum number of players"""
+        tag = self.item.find("maxplayers")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_playing_time(self) -> int | None:
+        """Return playing time."""
+        tag = self.item.find("playingtime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_playtime(self) -> int | None:
+        """Return minimum playing time."""
+        tag = self.item.find("minplaytime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_max_playtime(self) -> int | None:
+        """Return maximum playing time."""
+        tag = self.item.find("maxplaytime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_age(self) -> int | None:
+        """Return minimum recommended age."""
+        tag = self.item.find("minage")
+        return None if tag is None else int(tag.attrib['value'])
+```
+
+Potentially, one could write something like:
+```python
+    def extract_int_like(self, tag_name:str) -> int | None:
+        tag = self.item.find(tagname)
+        return None if tag is None else int(tag.attrib['value'])
+
+```
+But I wasn't totally convinced that I wouldn't want to tweak behaviour on an individual basis later, since these are semantically very different type of parameters.
+
+As a side note, by 
+
+TODO Note, inting here, has the advatnage of throwing error if data isn't a int, but a float.
+
+
+TODO similarly, we can do data cleaning by doing something like, where we round floats to 3 decimals.
+```python
+    def _extract_ratings_average(self) -> float | None:
+        """Return mean average rating to 3 decimals."""
+        out = self._extract_ratings_subtag_helper("average")
+        return None if out is None else round(float(out), 3)
+```
+
+For each `<item>` tag, an `ItemExtractor` instance's 
 Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
+
+```python
+def flatten_xml_file_to_dataframes(
+        file_path: str,
+        get_general_data: bool = True,
+        get_link_data: bool = True,
+        get_poll_data: bool = True
+        ) -> dict[pd.DataFrame]:
+    """Given a single xml file, return its data in pandas DataFrames.
+
+    Args:
+        file_path (str): Location of the input xml file.
+        get_general_data (bool, optional): Return general data.
+            Defaults to True.
+        get_link_data (bool, optional): Return data relating boardgames to
+            other types of items.
+            Defaults to True.
+        get_poll_data (bool, optional): Return poll data for each boardgame.
+            Defaults to True.
+
+    Returns:
+        dict[pd.DataFrame]: Contains the requested dataframes.
+    """
+    # Initialize
+    out = {}
+    if get_general_data:
+        out[KEY_GENERAL_DATA] = []
+    if get_link_data:
+        out[KEY_LINK_DATA] = []
+    if get_poll_data:
+        out[KEY_POLL_DATA] = []
+
+    # Extract data.
+    # Link and poll data are lists of dicts themselves,
+    # hence extend not append.
+    root = _read_xml_file(file_path)
+    for item in root:
+        extractor = ItemExtractor(item)
+        if get_general_data:
+            out[KEY_GENERAL_DATA].append(extractor.extract_general_data())
+        if get_link_data:
+            out[KEY_LINK_DATA].extend(extractor.extract_link_data())
+        if get_poll_data:
+            out[KEY_POLL_DATA].extend(extractor.extract_poll_data())
+
+    # Convert to pandas DataFrames
+    out[KEY_GENERAL_DATA] = pd.DataFrame(out[KEY_GENERAL_DATA])
+    out[KEY_LINK_DATA] = pd.DataFrame(out[KEY_LINK_DATA])
+    out[KEY_POLL_DATA] = pd.DataFrame(out[KEY_POLL_DATA])
+
+    return out
+```
+This dict of dataframes is then further concatenated by each file by `flatten_xml_folder_to_dataframe()` resulting in a final dict of dataframes.
+
 
 
 ```mermaid
@@ -294,11 +446,30 @@ class background backgroundbox
 
 ```
 
-### Data Sanitzation
 
+### Output Data Storage
+TODO the dict of dataframe is called by writing....
 
+`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
-### An Encoding Bug
+Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
+
+```
+ 📦boardgames
+  ┣ 📂core
+  ┃ ┣ 📄bgg.py
+  ┃ ┗ 📄etl.py
+  ┃ 📂data
+  ┃ ┣ 📂xml
+* ┃ ┗ 📂parquet
+* ┃   ┣ 2022-09-19_general_data.parquet
+* ┃   ┣ 2022-09-19_link_data.parquet
+* ┃   ┗ 2022-09-19_poll_data.parquet
+  ┣ 📄script_etl.py
+  ┗ 📄script_retrieve_all_boardgames.py
+```
+
+### Note: An Encoding Bug
 
 Consider the board game with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
 
@@ -323,27 +494,6 @@ It's likely that these Japanese characters are encoded differently than `utf-8` 
 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
-
-### Output Data Storage
-`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
-
-Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
-
-```
- 📦boardgames
-  ┣ 📂core
-  ┃ ┣ 📄bgg.py
-  ┃ ┗ 📄etl.py
-  ┃ 📂data
-  ┃ ┣ 📂xml
-* ┃ ┗ 📂parquet
-* ┃   ┣ 2022-09-19_general_data.parquet
-* ┃   ┣ 2022-09-19_link_data.parquet
-* ┃   ┗ 2022-09-19_poll_data.parquet
-  ┣ 📄script_etl.py
-  ┗ 📄script_retrieve_all_boardgames.py
-```
-
 ## Summary and Discussion
 
 Turn into a package, how would I do that.
@@ -353,6 +503,10 @@ Further testing?
 
 TODO link to next blog post
 
+Improvements: 
+Converting all print statements to logger methods.
+
+Structural pattern matching improvement in batch download. Available in python 3.10?? used it in writing funcs, but not batch download.
 
 
 [^1]: [Dominion](https://boardgamegeek.com/boardgame/36218/dominion) is a card-based board game. A copious number of [expansions](https://www.riograndegames.com/games/dominion/) are available, each of which add new cards to the game. This results in players having to carry multiple boxes around to their friends' house, unless they pursue [alternate](https://imgur.com/a/oH2yj) [solutions](https://www.google.com/search?q=dominion+storage+box), or perhaps [play online](https://dominion.games/).
