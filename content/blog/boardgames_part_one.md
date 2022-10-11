@@ -104,7 +104,7 @@ Run testing with `pytest` something, verbose something. Temporary files. Monkeyp
 This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage and analysis.
 
 ### Structure of Input XML Data
-Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing many `<item>` tags. Each `<item>` has a number of subtags for attributes of the boardgame such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls users can vote on, and `<link>` tags contain information to types of data contained in other tables, such as types of boardgame mechanics the game uses, or the publisher of the game. A <statistics> tag contains information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
+Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing many `<item>` tags. Each `<item>` has a number of subtags for attributes of the boardgame such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls users can vote on, and `<link>` tags contain information to types of data contained in other tables, such as types of boardgame mechanics the game uses, or the publisher of the game. Subtags of the `<statistics>` tag contain information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -300,7 +300,7 @@ class background backgroundbox
 
 ### An Encoding Bug
 
-Consider the [board game]() with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
+Consider the board game with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
 
 While the first sentence of the description on the [BGG website](https://boardgamegeek.com/boardgame/292791/cubes-hashi-de-cubes) begins with: 
 
@@ -319,13 +319,13 @@ that when unescaped twice becomes:
 ç®¸ã§CUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
 ```
 
-It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis greatly for now. 
+It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis much for now. 
 
-Additionally, double unescaping is actually handled in two instance, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
+Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
 
 ### Output Data Storage
-`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
+`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
