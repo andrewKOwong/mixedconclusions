@@ -448,9 +448,9 @@ class background backgroundbox
 
 
 ### Output Data Storage
-TODO the dict of dataframe is called by writing....
+By default, `script_etl.py` calls `etl.write_dataframes_to_parquet()` to write the final dict of dataframes to disk for storage. 
 
-`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
+I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
