@@ -24,6 +24,10 @@ To acquire this evidence,
 
 Some API things already exist. Since, primarily doing this for my own learning, I decided to write my own anyways for my own benefit, for bulk download, and since I only need part of the API.
 
+Some APIs written. Some partial data sets. Link and Link. So I wanted to download the whole thing. And analyze the data.
+
+
+
 ## Data Download
 ### The BoardGameGeek XML API
 All board games on BoardGameGeek (BGG) have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames specifically is somewhere around `362383`.
@@ -97,7 +101,7 @@ Run testing with `pytest` something, verbose something. Temporary files. Monkeyp
  ```
 
 ## ETL
-This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage an analysis.
+This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage and analysis.
 
 ### Structure of Input XML Data
 Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing many `<item>` tags. Each `<item>` has a number of subtags for attributes of the boardgame such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls users can vote on, and `<link>` tags contain information to types of data contained in other tables, such as types of boardgame mechanics the game uses, or the publisher of the game. A <statistics> tag contains information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
@@ -245,7 +249,12 @@ flatten gets the root element of each file (which is the `<items>` tag), and loa
 
 
 ```mermaid
-flowchart LR
+%%{init: {'theme':'forest'}}%%
+graph LR
+
+classDef no_link_fill fill:None;
+
+subgraph background [ ]
     script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
 
  subgraph core/etl.py
@@ -253,6 +262,10 @@ flowchart LR
     file_func --> ItemExtractor;
 
  end
+ end
+
+class padding1 emptypadding
+class background backgroundbox
 ```
 
 `ItemExtractor` contains a number of methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large. And tweak behaviour.
@@ -261,13 +274,23 @@ Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` ea
 
 
 ```mermaid
-flowchart TD
+%%{init: {'theme':'forest'}}%%
+graph TD
+    classDef emptypadding fill:None, stroke:None;
+    classDef backgroundbox stroke:None;
+
+ subgraph background [ ]
     folder_func["flatten_xml_folder_to_dataframe()"] -->|"dict[pd.DataFrame]"|script["📄 script_etl.py"];
  subgraph core/etl.py
+ subgraph padding1 [ ]
     ItemExtractor["ItemExtractor<br>.extract_general_data() <br> .extract_link_data() <br> .extract_poll_data()"];
     ItemExtractor --> |"dict[pd.DataFrame]"|file_func;
     file_func["flatten_xml_file_to_dataframes()"] --> |"dict[pd.DataFrame]"|folder_func;
  end
+ end
+ end
+class padding1 emptypadding
+class background backgroundbox
 
 ```
 
@@ -302,7 +325,7 @@ Additionally, double unescaping is actually handled in two instance, as it is un
 
 
 ### Output Data Storage
-`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv would have been >300MB. Compressed csvs or parquet files were around ~70MB, but loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
+`script_etl.py` by default writes the output as `parquet` files. I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook in downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
@@ -328,6 +351,7 @@ Probably something like: I don't know.
 
 Further testing?
 
+TODO link to next blog post
 
 
 
