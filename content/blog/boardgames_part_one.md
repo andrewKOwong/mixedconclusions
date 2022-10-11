@@ -243,132 +243,29 @@ options:
 
 ### Data Extractor - Function Flow
 
-`script_etl.py` primarily calls `etl.flatten_xml_folder_to_dataframe()`, which takes a folder of `xml` files and call `etl.flatten_xml_file_to_dataframe()` on each file in a loop. 
-
-`flatten_xml_file_to_dataframe()` gets the root element of each file (which is the `<items>` tag), and loads each `<item>` subtag (representing an individual board game) in an `ItemExtractor` instance for data extraction.
-
+`script_etl.py` primarily calls `etl.flatten_xml_folder_to_dataframe()`, which takes a folder of `xml` files and calls `etl.flatten_xml_file_to_dataframe()` on each file in a loop. 
 
 ```mermaid
 %%{init: {'theme':'forest'}}%%
 graph LR
 
-classDef no_link_fill fill:None;
+    classDef no_link_fill fill:None;
 
-subgraph background [ ]
-    script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
+    subgraph background [ ]
+        script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
 
- subgraph core/etl.py
-    folder_func --> file_func["flatten_xml_file_to_dataframes()"];
-    file_func --> ItemExtractor;
+        subgraph core/etl.py
+            folder_func --> file_func["flatten_xml_file_to_dataframes()"];
+            file_func --> ItemExtractor;
 
- end
- end
+        end
+    end
 
 class padding1 emptypadding
 class background backgroundbox
 ```
-`ItemExtractor` has three public extraction methods 
-TODO some sort of visualization of how data looks 
 
-```python
-# A dict containing keys that will be pandas col headings
-extractor.extract_general_data() --> 
-    {'id': 348, 'name': 'Name of Game', ...}
-
-# list of dicts, as there are multiple links per each boardgame
-extractor.extract_link_data() --> 
-    [
-        {'boardgame_id': 4, 'link_id': 394, 'type':'boardgamepublisher',... },
-        {...},
-        ...
-    ]
-
-# list of dicts, as there are multiple polls per each boardgame
-extractor.extract_poll_data() -->
-    [
-        {'boardgame_id': 101769
-         'poll_name': 'suggested_numplayers'
-         'poll_title': 'User Suggested Number of Players'
-         'poll_totalvotes': 0
-         'results_numplayers': 1
-         'result_value': 'Best'
-         'result_numvotes': '0'},
-         {...},
-         ...
-    ]
-```
-
-These methods rely on a bunch of private methods.
-
-
-`ItemExtractor` contains a number of methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large, and this allowed me to tweak individual extractor method behaviour without hard commitments.
-
-TODO: Example tweak extractor thing
-TODO: Example methods
-
-For example, below is a series of methods that gets integer-like fields:
-
-```python
-    def _extract_year_published(self) -> int | None:
-        """Return boardgame year published."""
-        tag = self.item.find("yearpublished")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_min_players(self) -> int | None:
-        """Return minimum number of players."""
-        tag = self.item.find("minplayers")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_max_players(self) -> int | None:
-        """Return maximum number of players"""
-        tag = self.item.find("maxplayers")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_playing_time(self) -> int | None:
-        """Return playing time."""
-        tag = self.item.find("playingtime")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_min_playtime(self) -> int | None:
-        """Return minimum playing time."""
-        tag = self.item.find("minplaytime")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_max_playtime(self) -> int | None:
-        """Return maximum playing time."""
-        tag = self.item.find("maxplaytime")
-        return None if tag is None else int(tag.attrib['value'])
-
-    def _extract_min_age(self) -> int | None:
-        """Return minimum recommended age."""
-        tag = self.item.find("minage")
-        return None if tag is None else int(tag.attrib['value'])
-```
-
-Potentially, one could write something like:
-```python
-    def extract_int_like(self, tag_name:str) -> int | None:
-        tag = self.item.find(tagname)
-        return None if tag is None else int(tag.attrib['value'])
-
-```
-But I wasn't totally convinced that I wouldn't want to tweak behaviour on an individual basis later, since these are semantically very different type of parameters.
-
-As a side note, by 
-
-TODO Note, inting here, has the advatnage of throwing error if data isn't a int, but a float.
-
-
-TODO similarly, we can do data cleaning by doing something like, where we round floats to 3 decimals.
-```python
-    def _extract_ratings_average(self) -> float | None:
-        """Return mean average rating to 3 decimals."""
-        out = self._extract_ratings_subtag_helper("average")
-        return None if out is None else round(float(out), 3)
-```
-
-For each `<item>` tag, an `ItemExtractor` instance's 
-Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
+`flatten_xml_file_to_dataframe()` gets the root element of each file (which is the `<items>` tag) and loads each `<item>` subtag (representing an individual board game) in an `ItemExtractor` instance for data extraction.
 
 ```python
 def flatten_xml_file_to_dataframes(
@@ -421,6 +318,102 @@ def flatten_xml_file_to_dataframes(
 
     return out
 ```
+
+
+`ItemExtractor` has three public extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
+
+```python
+# A dict containing keys that will be pandas col headings
+extractor.extract_general_data() --> 
+    {'id': 348, 'name': 'Name of Game', ...}
+
+# list of dicts, as there are multiple links per each boardgame
+extractor.extract_link_data() --> 
+    [
+        {'boardgame_id': 4, 'link_id': 394, 'type':'boardgamepublisher',... },
+        {...},
+        ...
+    ]
+
+# list of dicts, as there are multiple polls per each boardgame
+extractor.extract_poll_data() -->
+    [
+        {'boardgame_id': 101769
+         'poll_name': 'suggested_numplayers'
+         'poll_title': 'User Suggested Number of Players'
+         'poll_totalvotes': 0
+         'results_numplayers': 1
+         'result_value': 'Best'
+         'result_numvotes': '0'},
+         {...},
+         ...
+    ]
+```
+
+These extraction methods use a number of private methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large, and this allowed me to tweak individual extractor method behaviour without hard commitments.
+
+For example, below is a series of methods that gets integer-like fields:
+
+```python
+    def _extract_year_published(self) -> int | None:
+        """Return boardgame year published."""
+        tag = self.item.find("yearpublished")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_players(self) -> int | None:
+        """Return minimum number of players."""
+        tag = self.item.find("minplayers")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_max_players(self) -> int | None:
+        """Return maximum number of players"""
+        tag = self.item.find("maxplayers")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_playing_time(self) -> int | None:
+        """Return playing time."""
+        tag = self.item.find("playingtime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_playtime(self) -> int | None:
+        """Return minimum playing time."""
+        tag = self.item.find("minplaytime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_max_playtime(self) -> int | None:
+        """Return maximum playing time."""
+        tag = self.item.find("maxplaytime")
+        return None if tag is None else int(tag.attrib['value'])
+
+    def _extract_min_age(self) -> int | None:
+        """Return minimum recommended age."""
+        tag = self.item.find("minage")
+        return None if tag is None else int(tag.attrib['value'])
+```
+
+Could be written as:
+```python
+    def extract_int_like(self, tag_name:str) -> int | None:
+        tag = self.item.find(tagname)
+        return None if tag is None else int(tag.attrib['value'])
+
+```
+But these are semantically different types of data, so it would be easier to change if they didn't rely on the same method in the future.
+
+As a side note, by converting data to `int` for example instead of leaving it as string, we get the benefit that if there was some abnormality like on eof the numbers if a float, teh script will thorw an error, for better or for rowr.se. Did I do error ignoring? Alert the errors
+
+Similarly, we can do a bit of data cleaning by doing something like, where we round floats to 3 decimals.
+```python
+    def _extract_ratings_average(self) -> float | None:
+        """Return mean average rating to 3 decimals."""
+        out = self._extract_ratings_subtag_helper("average")
+        return None if out is None else round(float(out), 3)
+```
+
+For each `<item>` tag, an `ItemExtractor` instance's 
+Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
+
+
 This dict of dataframes is then further concatenated by each file by `flatten_xml_folder_to_dataframe()` resulting in a final dict of dataframes.
 
 
