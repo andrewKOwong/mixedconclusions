@@ -264,6 +264,7 @@ graph LR
 class padding1 emptypadding
 class background backgroundbox
 ```
+{{< n >}}
 
 `flatten_xml_file_to_dataframe()` gets the root element of each file (which is the `<items>` tag) and loads each `<item>` subtag (representing an individual board game) in an `ItemExtractor` instance for data extraction.
 
@@ -318,7 +319,7 @@ def flatten_xml_file_to_dataframes(
 
     return out
 ```
-
+{{< n >}}
 
 `ItemExtractor` has three public extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
 
@@ -349,6 +350,7 @@ extractor.extract_poll_data() -->
          ...
     ]
 ```
+{{< n >}}
 
 These extraction methods use a number of private methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large, and this allowed me to tweak individual extractor method behaviour without hard commitments.
 
@@ -398,6 +400,8 @@ Could be written as:
         return None if tag is None else int(tag.attrib['value'])
 
 ```
+{{< n >}}
+
 But these are semantically different types of data, so it would be easier to change if they didn't rely on the same method in the future.
 
 As a side note, by converting data to `int` for example instead of leaving it as string, we get the benefit that if there was some abnormality like on eof the numbers if a float, teh script will thorw an error, for better or for rowr.se. Did I do error ignoring? Alert the errors
@@ -465,23 +469,25 @@ Output directory is a script parameter, but I outputted the data into a subfolde
 ### Note: An Encoding Bug
 
 Consider the board game with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
+{{< n2 >}}
 
 While the first sentence of the description on the [BGG website](https://boardgamegeek.com/boardgame/292791/cubes-hashi-de-cubes) begins with: 
 
-```
+```html
 箸でCUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
 ``` 
 
 the description field in the raw xml is a doubly escaped string:
 
-```
+```html
 &amp;#231;&amp;#174;&amp;#184;&amp;#227;&amp;#129;&amp;#167;CUBEs (Hashi de CUBEs), roughly translated as &amp;quot;Cubes with chopsticks&amp;quot;
 ```
 
 that when unescaped twice becomes:
-```
+```html
 ç®¸ã§CUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
 ```
+{{< n2 >}}
 
 It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis much for now. 
 
