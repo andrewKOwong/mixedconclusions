@@ -104,7 +104,7 @@ Run testing with `pytest` something, verbose something. Temporary files. Monkeyp
 This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage and analysis.
 
 ### Structure of Input XML Data
-Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing many `<item>` tags. Each `<item>` has a number of subtags for attributes of the boardgame such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls users can vote on, and `<link>` tags contain information to types of data contained in other tables, such as types of boardgame mechanics the game uses, or the publisher of the game. Subtags of the `<statistics>` tag contain information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
+Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing hundreds of individual `<item>` tags. Each `<item>` tag has a number of subtags for board game attributes such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls that users vote on, whereas multiple `<link>` tags link to additional data about e.g. the types of boardgame mechanics the game uses or the publisher of the game. Subtags of the `<statistics>` tag contain information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -195,7 +195,7 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
-### Data Extractor - File Structure
+### File Structure
 ```
  📦boardgames
   ┣ 📂core
@@ -324,11 +324,11 @@ def flatten_xml_file_to_dataframes(
 `ItemExtractor` has three public extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
 
 ```python
-# A dict containing keys that will be pandas col headings
+# A dict containing keys that will become pandas col headings
 extractor.extract_general_data() --> 
     {'id': 348, 'name': 'Name of Game', ...}
 
-# list of dicts, as there are multiple links per each boardgame
+# list of dicts, as there are multiple links per boardgame
 extractor.extract_link_data() --> 
     [
         {'boardgame_id': 4, 'link_id': 394, 'type':'boardgamepublisher',... },
@@ -336,7 +336,7 @@ extractor.extract_link_data() -->
         ...
     ]
 
-# list of dicts, as there are multiple polls per each boardgame
+# list of dicts, as there are multiple polls per boardgame
 extractor.extract_poll_data() -->
     [
         {'boardgame_id': 101769
@@ -352,7 +352,7 @@ extractor.extract_poll_data() -->
 ```
 {{< n >}}
 
-These extraction methods use a number of private methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these could have been extracted using a generic method, but I wrote individual methods just to keep things decoupled, and as the the number of fields wasn't prohibitively large, and this allowed me to tweak individual extractor method behaviour without hard commitments.
+These extraction methods use a number of private methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these fields could have been extracted using a generic method, but since the number of fields wasn't prohibitively large, I wrote individual methods to keep things decoupled.
 
 For example, below is a series of methods that gets integer-like fields:
 
@@ -402,9 +402,9 @@ Could be written as:
 ```
 {{< n >}}
 
-But these are semantically different types of data, so it would be easier to change if they didn't rely on the same method in the future.
+But since these are semantically different types of data, it could be easier to change individual methods in the future by not using a generic method. Nonetheless, this is probably a good target for refactoring.
 
-As a side note, converting numerical data to `int` (for example) acts as a sort of soft check to ensure int-like data doesn't contain any decimals, as `int()` will throw an error if it encounters a `float`-like number. This is probably ok if we expect this to be very rare case, at which point we can catch the errors in the script and decide what to do.
+As a side note, converting numerical data to `int` (for example) acts as a sort of soft check to ensure int-like data doesn't contain any decimals, as `int()` will throw an error if it encounters a decimal-containing `str`. This is probably ok if we expect this to be a very rare case (or perhaps indicating a silent change in the BGG API), at which point we can catch the errors in the script and decide what to do.
 
 
 We can also do some data cleaning in these extraction methods, where for example, we round ratings averages to three decimals:
@@ -415,14 +415,13 @@ We can also do some data cleaning in these extraction methods, where for example
         return None if out is None else round(float(out), 3)
 ```
 
+While I had it in mind that this might make it easier to look at data in downstream analysis, it could be argued that it's better to leave data unadulterated at this stage and let changes like this happen downstream.
+
 ### Data Flow
 
-For each `<item>` tag, an `ItemExtractor` instance's 
-Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
+Data extracted from multiple board games by multiple `ItemExtractor` instances are converted into `pandas` dataframes by `flatten_xml_file_to_dataframe()` and packaged into a dictionary of three dataframes, one for general data, link data, and poll data. 
 
-
-This dict of dataframes is then further concatenated by each file by `flatten_xml_folder_to_dataframe()` resulting in a final dict of dataframes.
-
+`flatten_xml_folder_to_dataframe()` takes these `dict[pd.DataFrame]` from each `flatten_xml_file_to_dataframe()` call and concatenates them into larger dataframes, returning a final dict of three dataframes.
 
 
 ```mermaid
@@ -436,7 +435,7 @@ graph TD
  subgraph core/etl.py
  subgraph padding1 [ ]
     ItemExtractor["ItemExtractor<br>.extract_general_data() <br> .extract_link_data() <br> .extract_poll_data()"];
-    ItemExtractor --> |"dict[pd.DataFrame]"|file_func;
+    ItemExtractor --> |"dict/list[dict]"|file_func;
     file_func["flatten_xml_file_to_dataframes()"] --> |"dict[pd.DataFrame]"|folder_func;
  end
  end
@@ -448,9 +447,10 @@ class background backgroundbox
 
 
 ### Output Data Storage
-By default, `script_etl.py` calls `etl.write_dataframes_to_parquet()` to write the final dict of dataframes to disk for storage. 
+The final `dict[pd.DataFrame]` is written to disk by `script.etl.py`.
 
-I found uncompressed csv files would have been >300MB. Compressed csvs or parquet files were around ~70MB, but parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
+
+By default, `script_etl.py` does this by calling `etl.write_dataframes_to_parquet()`. I found uncompressed csv files would have been >300MB, whereas compressed csvs or parquet files were around ~70MB. However, parquet files loaded faster in a jupyter notebook during downstream analysis (~3-8 secs vs ~15-20 secs). Thus, I saved the data as parquet files, with the drawback that parquet files aren't human readable.
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
@@ -468,11 +468,12 @@ Output directory is a script parameter, but I outputted the data into a subfolde
   ┣ 📄script_etl.py
   ┗ 📄script_retrieve_all_boardgames.py
 ```
+{{< n >}}
 
 ### Note: An Encoding Bug
 
 Consider the board game with id `292791` and the name `箸でCUBEs (Hashi de CUBEs)`.
-{{< n2 >}}
+{{< n >}}
 
 While the first sentence of the description on the [BGG website](https://boardgamegeek.com/boardgame/292791/cubes-hashi-de-cubes) begins with: 
 
@@ -490,7 +491,7 @@ that when unescaped twice becomes:
 ```html
 ç®¸ã§CUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
 ```
-{{< n2 >}}
+{{< n >}}
 
 It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis much for now. 
 
