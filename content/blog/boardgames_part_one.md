@@ -241,7 +241,7 @@ options:
                         Omit gunzip compression of csv files.
 ```
 
-### Data Extractor - Function Flow
+### Function Flow
 
 `script_etl.py` primarily calls `etl.flatten_xml_folder_to_dataframe()`, which takes a folder of `xml` files and calls `etl.flatten_xml_file_to_dataframe()` on each file in a loop. 
 
@@ -319,7 +319,7 @@ def flatten_xml_file_to_dataframes(
 
     return out
 ```
-{{< n >}}
+### ItemExtractor
 
 `ItemExtractor` has three public extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
 
@@ -404,15 +404,18 @@ Could be written as:
 
 But these are semantically different types of data, so it would be easier to change if they didn't rely on the same method in the future.
 
-As a side note, by converting data to `int` for example instead of leaving it as string, we get the benefit that if there was some abnormality like on eof the numbers if a float, teh script will thorw an error, for better or for rowr.se. Did I do error ignoring? Alert the errors
+As a side note, converting numerical data to `int` (for example) acts as a sort of soft check to ensure int-like data doesn't contain any decimals, as `int()` will throw an error if it encounters a `float`-like number. This is probably ok if we expect this to be very rare case, at which point we can catch the errors in the script and decide what to do.
 
-Similarly, we can do a bit of data cleaning by doing something like, where we round floats to 3 decimals.
+
+We can also do some data cleaning in these extraction methods, where for example, we round ratings averages to three decimals:
 ```python
     def _extract_ratings_average(self) -> float | None:
         """Return mean average rating to 3 decimals."""
         out = self._extract_ratings_subtag_helper("average")
         return None if out is None else round(float(out), 3)
 ```
+
+### Data Flow
 
 For each `<item>` tag, an `ItemExtractor` instance's 
 Item extract returns dict of pd.DataFrames, up the chain back out. `pdconcat` each time.
