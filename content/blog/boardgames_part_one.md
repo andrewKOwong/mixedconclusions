@@ -499,7 +499,7 @@ Note: double unescaping is actually handled in two instances, as it is unescaped
 
 ## Summary and Discussion
 
-Turn into a package, how would I do that.
+Turn into a package, how would I do that. Probably single underscoring module imports too.
 Probably something like: I don't know.
 
 Further testing?
