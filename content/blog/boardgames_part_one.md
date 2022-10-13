@@ -14,7 +14,7 @@ TODO: link to part 2
 
 ## Introduction
 
-During an elevator ride years ago, an elderly neighbour remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about it being "the golden age of board games", which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
+During an elevator ride years ago, an elderly neighbour remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about it being "the golden age of board games", and the conversation ended with "Oh." before we parted ways. which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
 
 And while I do consider myself enthusiastic about board games, I was never enthusiastic enough to, say, make an account on [boardgamegeek.com](https://boardgamegeek.com/) and participate in that gaming community online.
 
@@ -42,11 +42,18 @@ where:
 - `stats=1` gets ratings and other statistics
 - `id=1,4,...` is a comma-delimited list of the boardgame ids.
 
-&nbsp;
+{{< n >}}
 
 The API is also capable of returning information about users, guilds, and much more.
 
-&nbsp;
+{{< n >}}
+
+### Server behaviour
+
+The server will throttle when requests are too often. Too large will be blocked out right, but there's also a size that isn't blocked but often causes errors.
+
+
+### File Structure
 
 ### Downloader Design
 After 
@@ -60,21 +67,22 @@ Project folder structure[^2]
  ┗ 📄script_retrieve_all_boardgames.py
 
  ```
+Retriever generate uri, api request, retrieve all
+
 Most of the 
 
 
 By default, ids are sampled randomly. This is incase something happened that prevented me from getting everything, I would still get a random sample across ids.
 
-The server will throttle when requests are too often. Too large will be blocked out right, but there's also a size that isn't blocked but often causes errors.
-
-I ran this on an AWS server, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
-
-Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
-
-Logging is both to stdout and a logging file.
 
 
- This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection.
+
+
+
+
+
+
+
 
 `Retriever` is initialized with a save path.
 Other description, used script as guide.
@@ -85,8 +93,22 @@ Other description, used script as guide.
 
 - Testing
 
-Test coverage isn't very high.
-Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
+### Downloader - Resumability
+Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
+
+
+### Logging
+Logging is both to stdout and a logging file.
+Time estimation.
+Logger methods.
+
+### Calling the script
+optional parameters
+deploying on AWS
+
+I ran this on an AWS server, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
+
+ This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection.
 
 ```
  📦boardgames
@@ -99,6 +121,16 @@ Run testing with `pytest` something, verbose something. Temporary files. Monkeyp
   ┗ 📄script_retrieve_all_boardgames.py
 
  ```
+
+
+### Testing
+
+Test coverage isn't very high.
+Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
+
+
+
+ 
 
 ## ETL
 This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage and analysis.
@@ -492,7 +524,7 @@ that when unescaped twice becomes:
 ç®¸ã§CUBEs (Hashi de CUBEs), roughly translated as "Cubes with chopsticks"
 ```
 {{< n >}}
-
+    
 It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis much for now. 
 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
@@ -501,6 +533,8 @@ Note: double unescaping is actually handled in two instances, as it is unescaped
 
 Turn into a package, how would I do that. Probably single underscoring module imports too.
 Probably something like: I don't know.
+
+Scope creeped myself too early, valuable lessons about working prototypes.
 
 Further testing?
 
