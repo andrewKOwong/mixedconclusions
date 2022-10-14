@@ -14,19 +14,34 @@ TODO: link to part 2
 
 ## Introduction
 
-During an elevator ride years ago, an elderly neighbour remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about it being "the golden age of board games", and the conversation ended with "Oh." before we parted ways. which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
+Years ago, an elderly neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about "the golden age of board games", and the conversation ended with "Oh...." before we parted ways.
+
+A term I had heard thrown around.
+
+But besides a vague feeling in the 2010s that I was coming across more complex and interesting board games than ever before, 
+
+Nor did I concern myself enough to, say, 
+
+
+which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
 
 And while I do consider myself enthusiastic about board games, I was never enthusiastic enough to, say, make an account on [boardgamegeek.com](https://boardgamegeek.com/) and participate in that gaming community online.
 
+IT is now 2022. That conversation has lingered in the back of my mind until this year and, perhaps, a scientist's concern of saying something without evidence.
 
 
 To acquire this evidence, 
 
 Some API things already exist. Since, primarily doing this for my own learning, I decided to write my own anyways for my own benefit, for bulk download, and since I only need part of the API.
 
-Some APIs written. Some partial data sets. Link and Link. So I wanted to download the whole thing. And analyze the data.
+Some APIs written.  [Link](https://github.com/lcosmin/boardgamegeek) and Link. So I wanted to download the whole thing. And analyze the data.
 
+Some partial data sets. 20,000 ranked games ignoring too few ranks [link](https://www.kaggle.com/datasets/andrewmvd/board-games).
 
+[Bigger Dataset after the fact](https://www.kaggle.com/datasets/seanthemalloy/board-game-geek-database)
+
+Some [analysis](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html)
+[analysis2](https://dvatvani.github.io/BGG-Analysis-Part-1.html)
 
 ## Data Download
 ### The BoardGameGeek XML API
@@ -50,15 +65,11 @@ The API is also capable of returning information about users, guilds, and much m
 
 ### Server behaviour
 
-The server will throttle when requests are too often. Too large will be blocked out right, but there's also a size that isn't blocked but often causes errors.
+During initial testing, I found requesting too large of a batch of games at once (e.g. 50k games in a single request) will be blocked by the API server. Request batch sizes on the scale of around 1K games are accepted by the server, but often also cause backend errors that do not appear to be throttling response, as the request can be immediately made again (sometimes successfully). Batch sizes of 250-500 seem to work well, and take about 10-30 seconds to complete. Too frequent requests are throttled.
 
 
 ### File Structure
-
-### Downloader Design
-After 
-
-Project folder structure[^2]
+To organize my code, I put functions and classes for downloading from the API under `core/bgg.py`, and wrote `script_retrieve_all_boardgames.py` as client code to retrieve all board game data from the API server.
 
 ```
 📦boardgames
@@ -67,6 +78,35 @@ Project folder structure[^2]
  ┗ 📄script_retrieve_all_boardgames.py
 
  ```
+
+ `script_retrieve_all_boardgames.py` runs with the following command line args:
+ ```text
+ $  python script_retrieve_all_boardgames.py -h
+ 
+usage: script_retrieve_all_boardgames.py [-h] [--save-dir] [--batch-size] [--batch-cooldown] [--server-cooldown]
+                                         [--max-id] [--no-shuffle] [--random-seed] [--clear-progress]
+
+Retrieves all boardgames from Board Game Geek via API.
+
+options:
+  -h, --help          show this help message and exit
+  --save-dir          Directory to save downloaded data, logs, and other files. (default: ./data)
+  --batch-size        Number of ids to sent per API request. (default: 500)
+  --batch-cooldown    Number of seconds to cooldown wait between batches. (default: 300)
+  --server-cooldown   Number of seconds to cooldown wait when encountering a server error. (default: 10800)
+  --max-id            Max 'thing' id to download up to. (default: None)
+  --no-shuffle        Flag to disable shuffling of 'thing' ids while downloading. (default: False)
+  --random-seed       Random seed for id shuffling. (default: None)
+  --clear-progress    Flag to clear progress file if already present in save directory. (default: False)
+
+ ```
+
+### Downloader Design
+After 
+
+Project folder structure[^2]
+
+
 Retriever generate uri, api request, retrieve all
 
 Most of the 
