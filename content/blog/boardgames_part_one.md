@@ -113,6 +113,111 @@ Generates batches of ids. Resumability is implemented via a JSON file. This JSON
 
 Retriever generate uri, api request, retrieve all.
 
+`Retriever.retrieve_all()` calls `Retriever.generate_uri()` with each batch of ids, then uses that uri with `Retriever.api_request()` to handle the actual server request. `.api_request()`. Depending on the result of the API request (i.e. the actual response code),
+
+By default, gets board games in randomized batches.
+As the BGG ids (from 1 to ~362383) are not evenly distributed
+in terms of actual board games vs board game accessories,
+randomization allows the user to have a representative sample
+of board game ids should they choose to terminate the operation early.
+
+Cooldown periods between batches help prevent server overloading.
+As well a longer cooldown period can be applied should the user
+encounter a server error. These errors could be a result of getting
+blocked by the server for too many requests, or the server being down
+due to maintenance. This generic strategy is used as the server error
+codes/reasons do not appear to be publicly documented.
+
+A batch request might get a 200 response, 202 response, or other
+responses. 200 response is a successful batch request. 202 indicates
+that the server has queued the request for later processing. Of the
+other responses, there is at least a 502 response that includes a
+message saying that there is a server error and that you can try again
+in 30 seconds. In this 502 case, the longer cooldown period is skipped,
+and the next batch is requested.
+
+200, 202, and other responses are marked in a 'progress.json' file as
+'complete', 'queued', and 'incomplete', respectively. The number of
+batches of each status (as well as retrieval run events) is logged to
+'retriever.log'. If the number of 'queued' and 'incomplete' statuses is
+not zero, running retrieve_all with a Retriever object instantiated
+with the same save_dir will load that 'progress.json' file and request
+only the unfinished batches.
+
+```python
+        # Loop progress object, ignoring already complete batches.
+        # Defensively deepcopy since we're mutating during iteration.
+        log.log_total_batches(progress)
+        for idx, batch in enumerate(deepcopy(progress)):
+            if batch[self.PROGRESS_KEY_STATUS] == \
+                    self.PROGRESS_STATUS_COMPLETE:
+                log.log_batch_already_complete(idx)
+                continue
+            else:
+                # Try the request, but pause if no internet
+                while True:
+                    try:
+                        log.log_batch_start(idx)
+                        uri = self.generate_game_uri(
+                            batch[self.PROGRESS_KEY_IDS]
+                            )
+                        r = self.api_request(uri)
+                        break
+                    except requests.ConnectionError:
+                        print(f"Unable to connect to internet, "
+                              f"pausing {self.PAUSE_TIME_NO_CONNECTION}"
+                              f" seconds.")
+                        self._countdown(self.PAUSE_TIME_NO_CONNECTION)
+                        continue
+                # First, no matter the result, save the access time
+                batch[self.PROGRESS_KEY_LAST_ACCESSED] = \
+                    datetime.now().strftime('%Y-%b-%d %H:%M:%S.%f')
+                # If its 200, save the file, change status to complete
+                # If it's 202, mark it as queued.
+                # Anything else, could mean server blocking or down,
+                # so wait a while, then try again.
+                if r.status_code == 200:
+                    batch[self.PROGRESS_KEY_STATUS] = \
+                        self.PROGRESS_STATUS_COMPLETE
+                    progress[idx] = batch
+                    self._write_response(r, self.xml_dir + f'/{idx}.xml')
+                    self._save_progress_file(progress)
+                    log.log_batch_downloaded(idx, r, batch_cooldown)
+                elif r.status_code == 202:
+                    batch[self.PROGRESS_KEY_STATUS] = \
+                        self.PROGRESS_STATUS_QUEUED
+                    progress[idx] = batch
+                    self._save_progress_file(progress)
+                    log.log_batch_queued(idx)
+                else:
+                    will_cooldown = True
+                    # There is a 502 condition where the server error
+                    # recommends trying again in 30 seconds.
+                    # In that case, skip long server cooldown,
+                    # but move onto the next batch.
+                    if (r.status_code == 502) and \
+                       (r.text.find("try again in 30 seconds") != 1):
+                        will_cooldown = False
+                    log.log_batch_error(idx, r)
+
+                    batch[self.PROGRESS_KEY_STATUS] = \
+                        self.PROGRESS_STATUS_INCOMPLETE
+                    progress[idx] = batch
+                    self._save_progress_file(progress)
+
+                    # For all other error codes,
+                    # cooldown a longer time in case it means
+                    # the server is doing some sort of blocking
+                    # without explicitly notifying us.
+                    if will_cooldown:
+                        log.log_cooldown_start(server_cooldown, 'server')
+                        self._countdown(server_cooldown)
+            # Cooldown between batches to not overload
+            # or get blocked by server.
+            log.log_cooldown_start(batch_cooldown, 'batch')
+            self._countdown(batch_cooldown)
+```
+
 `.retrieve_all()` has optional kwargs to change how long to wait between batches, how long to wait if you encounter a server problem, the batch size, whether to turn off id shuffling, the random seed for id shuffling, and the maximum id you want to retrieve up to .
 
 
@@ -144,10 +249,57 @@ Other description, used script as guide.
 
 
 ### Logging
+Logging is handled by a helper class `bgg.RetrieverLogger`, an instance of which is initialized with a file path string for the log file. `retriever.retrieve_all()` creates of instance of `RetrieverLogger` when it is called, and calls `RetrieverLogger` methods for logging different events in the download cycle. 
 
-Logging is both to stdout and a logging file.
-Time estimation.
-Logger methods.
+Logger methods.Time estimation.
+
+`RetrieverLogger` also logs to `stdout`.
+
+This is an example of the output
+```text
+2022-09-07 00:53:32,975 | INFO: ***STARTING RETRIEVER RUN***
+2022-09-07 00:53:32,976 | INFO: Creating new progress file.
+2022-09-07 00:53:33,497 | INFO: Starting run of 725 batches.
+2022-09-07 00:53:33,703 | INFO: - Attempting batch 1 of 725...
+2022-09-07 00:53:43,409 | INFO: --- Batch 1 of 725 downloaded 921.603 KB in 9.7 seconds.
+2022-09-07 00:53:43,409 | INFO: --- Elapsed: 00h 00m 10s | Remaining: 38h 09m 02s
+2022-09-07 00:53:43,409 | INFO: --- Cumulative data size: 0.9 MB.
+2022-09-07 00:53:43,410 | INFO: Starting batch cooldown of 180 seconds.
+2022-09-07 00:56:43,625 | INFO: - Attempting batch 2 of 725...
+2022-09-07 00:56:59,409 | INFO: --- Batch 2 of 725 downloaded 924.451 KB in 15.8 seconds.
+2022-09-07 00:56:59,410 | INFO: --- Elapsed: 00h 03m 26s | Remaining: 38h 42m 38s
+2022-09-07 00:56:59,410 | INFO: --- Cumulative data size: 1.8 MB.
+2022-09-07 00:56:59,410 | INFO: Starting batch cooldown of 180 seconds.outputoutput, copypaste log file?
+```
+
+Here's an example where a server error is encounter:
+```text
+2022-09-07 14:51:18,969 | INFO: - Attempting batch 260 of 725...
+2022-09-07 14:52:19,060 | WARNING: Response with error code 502.
+2022-09-07 14:52:19,060 | WARNING: Response text follows:
+2022-09-07 14:52:19,060 | WARNING: 
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>502 Server Error</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Server Error</h1>
+<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>
+<h2></h2>
+</body></html>
+
+2022-09-07 14:52:19,360 | INFO: Starting batch cooldown of 180 seconds.
+2022-09-07 14:55:19,575 | INFO: - Attempting batch 261 of 725...
+```
+
+
+For example.
+
+Because of this design, `RetrieverLogger` is tightly coupled to `Retriever`, which could impair reusability and refactoring.
+
+
+
+
 
 ### Calling the script
 optional parameters
