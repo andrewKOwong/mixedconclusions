@@ -82,7 +82,7 @@ To organize my code, I put functions and classes for downloading from the API un
  `script_retrieve_all_boardgames.py` runs with the following command line args:
  ```text
  $  python script_retrieve_all_boardgames.py -h
- 
+
 usage: script_retrieve_all_boardgames.py [-h] [--save-dir] [--batch-size] [--batch-cooldown] [--server-cooldown]
                                          [--max-id] [--no-shuffle] [--random-seed] [--clear-progress]
 
@@ -101,18 +101,25 @@ options:
 
  ```
 
-### Downloader Design
-After 
+### Downloader Basic Design
 
-Project folder structure[^2]
+The workhorse class is `bgg.Retriever`, which is initialized with a directory string for where the downloaded data will be stored.
+
+The `Retriever` method `retriever.retrieve_all()` will start a download of all board games (but not expansions) on BGG. These will get (otherwise it uses a class constant of 362383) ids up to NNN, by default in a random order.
+
+I designed it to retrieve games randomly be default, in case something happensThis is incase something happened that prevented me from getting everything, I would still get a random sample across ids.
+
+Generates batches of ids. Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
+
+Retriever generate uri, api request, retrieve all.
+
+`.retrieve_all()` has optional kwargs to change how long to wait between batches, how long to wait if you encounter a server problem, the batch size, whether to turn off id shuffling, the random seed for id shuffling, and the maximum id you want to retrieve up to .
 
 
-Retriever generate uri, api request, retrieve all
-
-Most of the 
 
 
-By default, ids are sampled randomly. This is incase something happened that prevented me from getting everything, I would still get a random sample across ids.
+
+
 
 
 
@@ -128,16 +135,16 @@ By default, ids are sampled randomly. This is incase something happened that pre
 Other description, used script as guide.
 
 - Resumability
-- Server behaviour
+
 - Functions
 
-- Testing
 
 ### Downloader - Resumability
-Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
+
 
 
 ### Logging
+
 Logging is both to stdout and a logging file.
 Time estimation.
 Logger methods.
