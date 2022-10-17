@@ -8,8 +8,11 @@ draft: true
 ---
 
 # Exploring Boardgames Part One: Data Download and ETL
-TODO: link to part 2
+*[Github Repo for this Project](https://github.com/andrewKOwong/boardgames)*
 
+*[Link to Part 2: Data Analysis](https://mixedconclusions.com/blog/boardgames_part_two/)*
+
+{{< n >}}
 {{< toc >}}
 
 ## Introduction
@@ -43,6 +46,9 @@ Some partial data sets. 20,000 ranked games ignoring too few ranks [link](https:
 Some [analysis](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html)
 [analysis2](https://dvatvani.github.io/BGG-Analysis-Part-1.html)
 
+Questions: answer this question and other related questions is handled in a [second post](https://mixedconclusions.com/blog/boardgames_part_two/). The content of this post deals with code to download the data and to prepare it for analysis.
+
+
 ## Data Download
 ### The BoardGameGeek XML API
 All board games on BoardGameGeek (BGG) have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames specifically is somewhere around `362383`.
@@ -63,7 +69,7 @@ The API is also capable of returning information about users, guilds, and much m
 
 {{< n >}}
 
-### Server behaviour
+### Server Behaviour
 
 During initial testing, I found requesting too large of a batch of games at once (e.g. 50k games in a single request) will be blocked by the API server. Request batch sizes on the scale of around 1K games are accepted by the server, but often also cause backend errors that do not appear to be throttling response, as the request can be immediately made again (sometimes successfully). Batch sizes of 250-500 seem to work well, and take about 10-30 seconds to complete. Too frequent requests are throttled.
 
@@ -101,7 +107,7 @@ options:
 
  ```
 
-### Downloader Basic Design
+### Downloader - Basic Design
 
 The workhorse class is `bgg.Retriever`, which is initialized with a directory string for where the downloaded data will be stored.
 
@@ -118,7 +124,55 @@ def retrieve_all(
             max_id: int = None) -> None:
         """Retrieve all board games from Board Game Geek.
 
-        Rest of docstring omitted here, see source code.
+        By default, gets board games in randomized batches.
+        As the BGG ids (from 1 to ~362383) are not evenly distributed
+        in terms of actual board games vs board game accessories,
+        randomization allows the user to have a representative sample
+        of board game ids should they choose to terminate the operation early.
+
+        Cooldown periods between batches help prevent server overloading.
+        As well a longer cooldown period can be applied should the user
+        encounter a server error. These errors could be a result of getting
+        blocked by the server for too many requests, or the server being down
+        due to maintenance. This generic strategy is used as the server error
+        codes/reasons do not appear to be publicly documented.
+
+        A batch request might get a 200 response, 202 response, or other
+        responses. 200 response is a successful batch request. 202 indicates
+        that the server has queued the request for later processing. Of the
+        other responses, there is at least a 502 response that includes a
+        message saying that there is a server error and that you can try again
+        in 30 seconds. In this 502 case, the longer cooldown period is skipped,
+        and the next batch is requested.
+
+        200, 202, and other responses are marked in a 'progress.json' file as
+        'complete', 'queued', and 'incomplete', respectively. The number of
+        batches of each status (as well as retrieval run events) is logged to
+        'retriever.log'. If the number of 'queued' and 'incomplete' statuses is
+        not zero, running retrieve_all with a Retriever object instantiated
+        with the same save_dir will load that 'progress.json' file and request
+        only the unfinished batches.
+
+        References:
+        1) https://boardgamegeek.com/wiki/page/BGG_XML_API2
+
+        Args:
+            batch_cooldown (int, optional): Seconds to cooldown between
+                batches. Defaults to 10*60, i.e. 10 min.
+            server_cooldown (int, optional): Seconds to cooldown on
+                encountering a server response error code. Defaults to
+                12*60*60, i.e. 12 hours.
+            batch_size (int, optional): Number of 'thing' ids to request in one
+                batch. Defaults to 5000. Note: 500 seems to be a good size to
+                avoid server errors and server blocking, when requesting board
+                games only (i.e. not expansions and accessories). Board games
+                comprise only about a third of all ids.
+            shuffle (bool, optional): Whether ids should be requested in a
+                randomized order. Defaults to True.
+            random_seed (int, optional): Seed for randomizing order, supplied
+                to random.seed(). Defaults to None.
+            max_id (int, optional): Provide a max_id to download up to,
+                otherwise uses preset self.MAX_ID.
         """
         # Set max_id if not provided
         if max_id is None:
@@ -227,11 +281,22 @@ def retrieve_all(
 
 #### Arguments for `.retrieve_all()`
 
+`.retrieve_all()` has several optional kwargs.
+
+- `batch_cooldown` specifies to change how long to wait between batches
+- `server_cooldown` specifies how long to wait if you encounter a server problem. This is a defensive tactic, as I could not find documentation defining exactly what error codes and messages would get returned in what instance, so I thought it might be better to just wait a while.
+- `batch_size` controls how many board games to request at once
+- `shuffle` specifies that games should be be retrieved in random order. This is default behaviour, 
+- `random_seed` for reproducible shuffling. 
+- `max_id` if you want to set a different maximum id other than `362383`, which is coded as a class constant.
+
+, the batch size, whether to turn off id shuffling, the random seed for id shuffling, and the maximum id you want to retrieve up to .
+
 #### Logging
 
 #### Batching and Resumability
 
-`.retrieve_all()` has optional kwargs to change how long to wait between batches, how long to wait if you encounter a server problem, the batch size, whether to turn off id shuffling, the random seed for id shuffling, and the maximum id you want to retrieve up to .
+
 
 #### Response Handling
 
@@ -359,7 +424,7 @@ Because of this design, `RetrieverLogger` is tightly coupled to `Retriever`, whi
 
 
 
-### Calling the script
+### Calling the Script
 optional parameters
 deploying on AWS
 
