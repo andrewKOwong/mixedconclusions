@@ -17,36 +17,14 @@ draft: true
 
 ## Introduction
 
-Years ago, an elderly neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually replied something about "the golden age of board games", and the conversation ended with "Oh...." before we parted ways.
+Years ago, an elderly neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually said something about "the golden age of board games", and the reply was a confused "Oh...." before we parted ways. And I too was confused afterwards, for though I had heard the words "golden age of board games" thrown around, I hadn't really thought about it, except to note that board games were getting more interesting, complex, and fun personally for me over the years.
 
-A term I had heard thrown around.
+However, people that do really care about board games congregate at [boardgamegeek.com](https://boardgamegeek.com/) (abbreviated as BGG), where the world's collection of board board games are described, discussed, and rated discuss, thus collectively contributing to a large combined dataset about them, data is available for download via the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). Thus, this data is potentially useful for trying to get an answer to "What is the golden age of board games?" and other related question
 
-But besides a vague feeling in the 2010s that I was coming across more complex and interesting board games than ever before, 
-
-Nor did I concern myself enough to, say, 
+However, the API does not directly support bulk download of the entire collection of board games in one go. Some BGG datasets have been made available by others online. For example, [this](https://www.kaggle.com/datasets/andrewmvd/board-games) is a small dataset of only 20K games that have received at least 30 ratings by users, [this](https://www.kaggle.com/datasets/seanthemalloy/board-game-geek-database) is a larger dataset of >100K games. Note that these datasets represent a snapshot in time, as data changes as users add ratings. There is at least [one python API wrapper available](https://github.com/lcosmin/boardgamegeek), although this one seems no longer maintained. As well, there's a number of existing BGG data analysis, for example [here](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html) and [here](https://dvatvani.github.io/BGG-Analysis-Part-1.html)
 
 
-which is certainly something I personally felt during the 2010s, when it seemed that I was constantly discovering the existence of new board games with interesting mechanics that were much more complex than the games I played when I was a child. However, this little snippet of conversation occasionally resurfaces from the back of my mind over the years, for the simple reason that I, a scientist, did not like saying things without evidence.
-
-And while I do consider myself enthusiastic about board games, I was never enthusiastic enough to, say, make an account on [boardgamegeek.com](https://boardgamegeek.com/) and participate in that gaming community online.
-
-IT is now 2022. That conversation has lingered in the back of my mind until this year and, perhaps, a scientist's concern of saying something without evidence.
-
-
-To acquire this evidence, 
-
-Some API things already exist. Since, primarily doing this for my own learning, I decided to write my own anyways for my own benefit, for bulk download, and since I only need part of the API.
-
-Some APIs written.  [Link](https://github.com/lcosmin/boardgamegeek) and Link. So I wanted to download the whole thing. And analyze the data.
-
-Some partial data sets. 20,000 ranked games ignoring too few ranks [link](https://www.kaggle.com/datasets/andrewmvd/board-games).
-
-[Bigger Dataset after the fact](https://www.kaggle.com/datasets/seanthemalloy/board-game-geek-database)
-
-Some [analysis](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html)
-[analysis2](https://dvatvani.github.io/BGG-Analysis-Part-1.html)
-
-Questions: answer this question and other related questions is handled in a [second post](https://mixedconclusions.com/blog/boardgames_part_two/). The content of this post deals with code to download the data and to prepare it for analysis.
+Since I'm primarily doing this project for my own learning and to improve my programming skill, I decided to write my own code to handle downloading the data and analyze it myself. The content of the current post deals with code I wrote to download the data and prepare it for [analysis that is describe in a second blog post](https://mixedconclusions.com/blog/boardgames_part_two/).
 
 
 ## Data Download
