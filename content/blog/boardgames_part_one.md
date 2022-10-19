@@ -352,16 +352,58 @@ Because my internet connection was unstable when I was writing this code, I ran 
 
 ### Testing
 
-Pytest 
-Test coverage isn't very high.
-Run testing with `pytest` something, verbose something. Temporary files. 
+I used [pytest](https://docs.pytest.org/en/7.1.x) as a testing framework, although I only tested a small portion of my code.
 
-Monkeypatched. Mock response 
+I found it helpful to write tests for `Retriever.generate_game_uri()` before I wrote the method itself, as it was easier to start knowing the string I had in mind, and then writing the string arithemetic logic in the method.
 
-teardown folder
+I also wrote tests to see how `Retriever.retrieve_all()` handled different response codes. I did this by [monkeypatching](https://docs.pytest.org/en/7.1.x/how-to/monkeypatch.html?highlight=monkeypatch) out the `get` method of the `requests` library to instead call the `.get_response()` method of a `MockServer` class that returns `MockResponse` objects mimicking `requests.Response` objects with `.status_code` and `.text`, and `.content` attributes:
 
-Run tests with `pytest`, or `pytest -s -v` if you want to see the logger output in `stdout`. 
+```python
+class MockResponse:
+    """Mock of requests.Response"""
+    def __init__(self, status_code: int, text: str):
+        """Init MockResponse with desired values.
 
+        Args:
+            status_code (int): mocking requests.Response.status_code.
+            text (str): mocking requests.Response.text. Will also be
+                converted to a bytes object mocking requests.Response.content.
+        """
+        self.status_code = status_code
+        self.text = text
+        self.content = bytes(text, encoding='utf-8')
+
+
+class MockServer:
+    """Use MockServer.get_response as monkeypatch for requests.get"""
+    def __init__(self) -> None:
+        # This is a cyclic iterator that will
+        # yield items in a loop when calling next() on it
+        self.response_cycle = cycle([
+            (200, 'DOWNLOADED'),
+            (202, 'QUEUED'),
+            (429, 'RATE_LIMITED'),
+            (502, 'try again in 30 seconds'),
+            (502, 'OTHER ERROR'),
+            (503, 'SERVICE UNAVAILABLE')
+            ])
+
+    def get_response(self, uri) -> MockResponse:
+        """Get the next MockReponse in the cycle.
+
+        Returns:
+            MockResponse: mocking request.Response, with .status_code,
+                .text, and .content.
+        """
+        code, text = next(self.response_cycle)
+        return MockResponse(code, text)
+
+```
+The test then runs `retriever.retrieve_all()`, writing a `progress.json` to a temporary folder that pytest generates (which on linux/WSL is located at `/tmp/pytest-of-<user>/pytest-current`). The test then loads a `progress` object from `progress.json`, and checks that the statuses and contents are as expected.
+
+Tests can be run in the shell while in the root folder with `pytest`, or `pytest -sv` if you want to see the logger output in `stdout` as it's happening, or `pytest -rA` for better formatting after it happens. 
+
+Test files are located in `boardgames/test`.
  
 
 ## ETL
@@ -760,6 +802,8 @@ that when unescaped twice becomes:
 It's likely that these Japanese characters are encoded differently than `utf-8` somehow, but I decided not to pursue this further because I don't think it would affect my downstream analysis much for now. 
 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
+
+### TODO testing
 
 ## Summary and Discussion
 
