@@ -29,9 +29,9 @@ TODO change this to sound less noob. Since I'm primarily doing this project for 
 
 ## Data Download
 ### The BoardGameGeek XML API
-All board games on BoardGameGeek (BGG) have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames specifically is somewhere around `362383`.
+All board games on BGG have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames somewhere around `362383`.
 
-Board game data can be downloaded for the [BoardGameGeek API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) by URI of the form:
+Board game data can be downloaded for the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) by URI of the form:
 
 ```HTTP
 https://boardgamegeek.com/xmlapi2/thing?type=boardgame,&stats=1&id=1,4
@@ -89,7 +89,9 @@ options:
 
 The workhorse class is `bgg.Retriever`, which is initialized with a directory string for where the downloaded data will be stored.
 
-The `Retriever` method `retriever.retrieve_all()` will start a download of all board games (but not expansions) on BGG. The full code is reproduced below and bears several points of discussion:
+TODO for example.
+
+The `Retriever` method `retriever.retrieve_all()` will start a download of all board games (but not expansions) on BGG. The full code of `retrieve_all()` is reproduced below and is discussed in the next subsections.
 
 ```python
 def retrieve_all(
@@ -264,99 +266,34 @@ def retrieve_all(
 - `batch_cooldown` specifies to change how long to wait between batches
 - `server_cooldown` specifies how long to wait if you encounter a server problem. This is a defensive tactic, as I could not find documentation defining exactly what error codes and messages would get returned in what instance, so I thought it might be better to just wait a while.
 - `batch_size` controls how many board games to request at once
-- `shuffle` specifies that games should be be retrieved in random order. This is default behaviour, 
+- `shuffle` specifies that games should be be retrieved in random order. This is default behaviour, so that if the user chooses to terminate early they'll still have a random sample of boardgames.
 - `random_seed` for reproducible shuffling. 
 - `max_id` if you want to set a different maximum id other than `362383`, which is coded as a class constant.
 
-, the batch size, whether to turn off id shuffling, the random seed for id shuffling, and the maximum id you want to retrieve up to .
+#### Batching, Resumability, and Response Handling
+At the start of a run, `.retrieve_all()` looks to see if the if the save directory loaded into its `Retriever` object already contains a file called `progress.json`. If it doesn't, a list of randomized board game ids is created and split into batches, and a `progress` object and a new `progress.json` is created.
 
-#### Logging
+This `progress` object is a `list[dict]` with each `dict` containing an `ids` key containing a list of board game ids in that batch, a `status` key for whether a batch is `incomplete`, `complete`, or `queued`, and a `last_accessed` key that contains a timestamp of when the batch was last attempted for a download.
 
-#### Batching and Resumability
+`.retrieve_all()` then loops through the `progress` object, taking each batch and calling `self.generate_uri()` and `self.api_request()` to attempt to download the batch of board games. If there is a connection error (e.g. from no internet connection), a sixty second pause is started, before reattempting the batch download.
 
+Each response from each request comes with an HTTP response code. `200` indicates a successful request and includes board game data, whereas `202` indicates that the server has queued that request for processing, and it can be retrieved at a later time by using the same request URI. Of the other responses, there is at least a `502` response that includes a message saying that there is a server error and that you can try again in 30 seconds. There are also other `502`, `503`, and possibly `429` responses, but I didn't fully probe the server to see what I would get.
 
-
-#### Response Handling
-
-These will get (otherwise it uses a class constant of 362383) ids up to NNN, by default in a random order.
-
-I designed it to retrieve games randomly be default, in case something happensThis is incase something happened that prevented me from getting everything, I would still get a random sample across ids.
-
-Generates batches of ids. Resumability is implemented via a JSON file. This JSON file keeps track of . By default it's unoptimally formatted, which actually makes it unnecessarily large, (TODO confirm size and compacting size), but this could compacted by exporting JSON as optimal.
-
-Retriever generate uri, api request, retrieve all.
-
-`Retriever.retrieve_all()` calls `Retriever.generate_uri()` with each batch of ids, then uses that uri with `Retriever.api_request()` to handle the actual server request. `.api_request()`. Depending on the result of the API request (i.e. the actual response code),
-
-By default, gets board games in randomized batches.
-As the BGG ids (from 1 to ~362383) are not evenly distributed
-in terms of actual board games vs board game accessories,
-randomization allows the user to have a representative sample
-of board game ids should they choose to terminate the operation early.
-
-Cooldown periods between batches help prevent server overloading.
-As well a longer cooldown period can be applied should the user
-encounter a server error. These errors could be a result of getting
-blocked by the server for too many requests, or the server being down
-due to maintenance. This generic strategy is used as the server error
-codes/reasons do not appear to be publicly documented.
-
-A batch request might get a 200 response, 202 response, or other
-responses. 200 response is a successful batch request. 202 indicates
-that the server has queued the request for later processing. Of the
-other responses, there is at least a 502 response that includes a
-message saying that there is a server error and that you can try again
-in 30 seconds. In this 502 case, the longer cooldown period is skipped,
-and the next batch is requested.
-
-200, 202, and other responses are marked in a 'progress.json' file as
-'complete', 'queued', and 'incomplete', respectively. The number of
+200, 202, and other responses are marked in the `progress.json` file as
+`complete`, `queued`, and `incomplete`, respectively. The number of
 batches of each status (as well as retrieval run events) is logged to
-'retriever.log'. If the number of 'queued' and 'incomplete' statuses is
-not zero, running retrieve_all with a Retriever object instantiated
-with the same save_dir will load that 'progress.json' file and request
-only the unfinished batches.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-`Retriever` is initialized with a save path.
-Other description, used script as guide.
-
-- Resumability
-
-- Functions
-
-
-### Downloader - Resumability
-
+`retriever.log` at the end of each run. If any batches were `queued` or `incomplete`, running `.retrieve_all()` with a Retriever object instantiated
+with the same `save_dir` will load the same `progress.json` file in that save directory and request only the unfinished batches.
 
 
 ### Logging
 Logging is handled by a helper class `bgg.RetrieverLogger`, an instance of which is initialized with a file path string for the log file. `retriever.retrieve_all()` creates of instance of `RetrieverLogger` when it is called, and calls `RetrieverLogger` methods for logging different events in the download cycle. 
 
-Logger methods.Time estimation.
+For example, `retriever` calls `log.log_run_start()` at the start of the run, `log.log_new_progress_file()` when a new progress file is created, `log.batch_start()` when a new batch is started.
 
-`RetrieverLogger` also logs to `stdout`.
+Because of this design, `RetrieverLogger` is tightly coupled to `Retriever`, which could impair reusability and refactoring.
 
-This is an example of the output
+This is an example of the logging output, which is both logged to file and to `stdout`:
 ```text
 2022-09-07 00:53:32,975 | INFO: ***STARTING RETRIEVER RUN***
 2022-09-07 00:53:32,976 | INFO: Creating new progress file.
@@ -394,19 +331,12 @@ Here's an example where a server error is encounter:
 ```
 
 
-For example.
-
-Because of this design, `RetrieverLogger` is tightly coupled to `Retriever`, which could impair reusability and refactoring.
-
-
-
-
 
 ### Calling the Script
 optional parameters
 deploying on AWS
 
-I ran this on an AWS server, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
+I ran this on an AWS EC2 instance, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
 
  This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection.
 
