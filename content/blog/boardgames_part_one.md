@@ -55,7 +55,7 @@ During initial testing, I found requesting too large of a batch of games at once
 ### File Structure
 To organize my code, I put functions and classes for downloading from the API under `core/bgg.py`, and wrote `script_retrieve_all_boardgames.py` as client code to retrieve all board game data from the API server.
 
-```
+```text
 📦boardgames
  ┣ 📂core
  ┃ ┗ 📄bgg.py
@@ -63,27 +63,7 @@ To organize my code, I put functions and classes for downloading from the API un
 
  ```
 
- `script_retrieve_all_boardgames.py` runs with the following command line args:
- ```text
- $  python script_retrieve_all_boardgames.py -h
 
-usage: script_retrieve_all_boardgames.py [-h] [--save-dir] [--batch-size] [--batch-cooldown] [--server-cooldown]
-                                         [--max-id] [--no-shuffle] [--random-seed] [--clear-progress]
-
-Retrieves all boardgames from Board Game Geek via API.
-
-options:
-  -h, --help          show this help message and exit
-  --save-dir          Directory to save downloaded data, logs, and other files. (default: ./data)
-  --batch-size        Number of ids to sent per API request. (default: 500)
-  --batch-cooldown    Number of seconds to cooldown wait between batches. (default: 300)
-  --server-cooldown   Number of seconds to cooldown wait when encountering a server error. (default: 10800)
-  --max-id            Max 'thing' id to download up to. (default: None)
-  --no-shuffle        Flag to disable shuffling of 'thing' ids while downloading. (default: False)
-  --random-seed       Random seed for id shuffling. (default: None)
-  --clear-progress    Flag to clear progress file if already present in save directory. (default: False)
-
- ```
 
 ### Downloader - Basic Design
 
@@ -331,16 +311,33 @@ Here's an example where a server error is encounter:
 ```
 
 
-
 ### Calling the Script
-optional parameters
-deploying on AWS
 
-I ran this on an AWS EC2 instance, batch size, cooldown, yadayada. This is probably very conservative, and took ~30 hours. 
+ `script_retrieve_all_boardgames.py` runs with the following command line args:
+ ```text
+ $  python script_retrieve_all_boardgames.py -h
 
- This is probably overly conservative. But this may I could spend less than 20% of time actively maintaining a connection.
+usage: script_retrieve_all_boardgames.py [-h] [--save-dir] [--batch-size] [--batch-cooldown] [--server-cooldown]
+                                         [--max-id] [--no-shuffle] [--random-seed] [--clear-progress]
 
-```
+Retrieves all boardgames from Board Game Geek via API.
+
+options:
+  -h, --help          show this help message and exit
+  --save-dir          Directory to save downloaded data, logs, and other files. (default: ./data)
+  --batch-size        Number of ids to sent per API request. (default: 500)
+  --batch-cooldown    Number of seconds to cooldown wait between batches. (default: 300)
+  --server-cooldown   Number of seconds to cooldown wait when encountering a server error. (default: 10800)
+  --max-id            Max 'thing' id to download up to. (default: None)
+  --no-shuffle        Flag to disable shuffling of 'thing' ids while downloading. (default: False)
+  --random-seed       Random seed for id shuffling. (default: None)
+  --clear-progress    Flag to clear progress file if already present in save directory. (default: False)
+
+ ```
+
+Because my internet connection was unstable when I was writing this code, I ran this on an AWS EC2 `t2.micro` instance. I used the default batch size of 500 ids per batch, but decreased the batch cooldown from the default of 300 seconds to 180 seconds. This is probably overly very conservative in terms of how much cool down time to use and the download took in total ~30 hours. Each batch takes 10-15 seconds to transfer. 
+
+```text
  📦boardgames
   ┣ 📂core
   ┃ ┗ 📄bgg.py
@@ -458,7 +455,7 @@ Below is an example of a retrieved XML file, formatted for readability (with ell
 Given this structure, I decided to separate the data into three segments containing a game's main attributes and statistics, its links, and polling data.
 
 ### File Structure
-```
+```text
  📦boardgames
   ┣ 📂core
   ┃ ┣ 📄bgg.py
@@ -716,7 +713,7 @@ By default, `script_etl.py` does this by calling `etl.write_dataframes_to_parque
 
 Output directory is a script parameter, but I outputted the data into a subfolder in `data/`:
 
-```
+```text
  📦boardgames
   ┣ 📂core
   ┃ ┣ 📄bgg.py
