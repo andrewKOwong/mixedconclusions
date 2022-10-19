@@ -352,10 +352,15 @@ Because my internet connection was unstable when I was writing this code, I ran 
 
 ### Testing
 
+Pytest 
 Test coverage isn't very high.
-Run testing with `pytest` something, verbose something. Temporary files. Monkeypatched. 
+Run testing with `pytest` something, verbose something. Temporary files. 
 
+Monkeypatched. Mock response 
 
+teardown folder
+
+Run tests with `pytest`, or `pytest -s -v` if you want to see the logger output in `stdout`. 
 
  
 
@@ -764,6 +769,8 @@ Probably something like: I don't know.
 Scope creeped myself too early, valuable lessons about working prototypes.
 
 Further testing?
+
+Writing the test first helped when I was doing generate game uri, but didn't do that for others.
 
 TODO link to next blog post
 
