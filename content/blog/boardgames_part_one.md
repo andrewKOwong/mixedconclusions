@@ -15,7 +15,7 @@ draft: true
 {{< n >}}
 {{< toc >}}
 
-## Introduction
+## TODO Introduction
 
 Years ago, an elderly neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually said something about "the golden age of board games", and the reply was a confused "oh...." as we parted ways. And I too was confused afterwards, for despite hearing the words "golden age of board games" thrown around often, I hadn't put much thought on it, except to note that board games were getting more interesting, complex, and fun for me over the years.
 
@@ -29,11 +29,11 @@ TODO change this to sound less noob. Since I'm primarily doing this project for 
 
 ## Data Download
 ### The BoardGameGeek XML API
-All board games on BGG have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames somewhere around `362383`.
+All board games on BGG have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames is somewhere around `362383`.
 
-Board game data can be downloaded for the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) by URI of the form:
+Board game data can be downloaded from the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) by URI of the form:
 
-```HTTP
+```text
 https://boardgamegeek.com/xmlapi2/thing?type=boardgame,&stats=1&id=1,4
 ``` 
 where:
@@ -804,6 +804,8 @@ It's likely that these Japanese characters are encoded differently than `utf-8` 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
 ### TODO testing
+
+For testing, I only test `ItemExtractor`'s three extraction methods (`.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`) on a single `<item>` tag that I get from a test `.xml` file located in the test direcotry.
 
 ## Summary and Discussion
 
