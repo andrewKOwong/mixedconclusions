@@ -627,7 +627,7 @@ def flatten_xml_file_to_dataframes(
 ```
 ### ItemExtractor
 
-`ItemExtractor` has three public extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
+`ItemExtractor` has three extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
 
 ```python
 # A dict containing keys that will become pandas col headings
@@ -658,7 +658,7 @@ extractor.extract_poll_data() -->
 ```
 {{< n >}}
 
-These extraction methods use a number of private methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these fields could have been extracted using a generic method, but since the number of fields wasn't prohibitively large, I wrote individual methods to keep things decoupled.
+These extraction methods use a number of internal methods to extract each data field from the various subtags of each `<item>`. Potentially, some of these fields could have been extracted using a generic method, but since the number of fields wasn't prohibitively large, I wrote individual methods to keep things decoupled.
 
 For example, below is a series of methods that gets integer-like fields:
 
