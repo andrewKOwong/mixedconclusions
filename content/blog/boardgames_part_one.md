@@ -10,7 +10,7 @@ draft: true
 # Exploring Boardgames Part One: Data Download and ETL
 *[Github Repo for this Project](https://github.com/andrewKOwong/boardgames)*
 
-*[Link to Part 2: Data Analysis](https://mixedconclusions.com/blog/boardgames_part_two/)*
+*[Link to Part 2: Data Analysis]({{< ref "/blog/boardgames_part_two.md" >}})*
 
 {{< n >}}
 {{< toc >}}
@@ -67,11 +67,14 @@ To organize my code, I put functions and classes for downloading from the API un
 
 ### Downloader - Basic Design
 
-The workhorse class is `bgg.Retriever`, which is initialized with a directory string for where the downloaded data will be stored.
+`bgg.py` contains a `Retriever` class, which is initialized with a directory string for where the downloaded data will be stored. For example:
 
-TODO for example.
+```python
+from core.bgg import Retriever
+retriever = Retriever('./data')
+```
 
-The `Retriever` method `retriever.retrieve_all()` will start a download of all board games (but not expansions) on BGG. The full code of `retrieve_all()` is reproduced below and is discussed in the next subsections.
+The `Retriever` method `retriever.retrieve_all()` will start a download of all board games (but not expansions) on BGG. The full code of `retrieve_all()` is reproduced below and is discussed in the following subsections.
 
 ```python
 def retrieve_all(
@@ -809,21 +812,21 @@ For testing, I only test `ItemExtractor`'s three extraction methods (`.extract_g
 
 ## Summary and Discussion
 
-Turn into a package, how would I do that. Probably single underscoring module imports too.
-Probably something like: I don't know.
+In summary, this part covers code to download all boardgames from BGG, as well as code to extract the downloaded data from `xml` format to `parquet` files suitable for downstream analysis.
 
-Scope creeped myself too early, valuable lessons about working prototypes.
+I felt when I started this project I went off on too many early tangents, and it would have been better to aim for a working prototype sooner. For example, I initially tried to implement a bunch of ways to control how random sampling works, but then I realized it wasn't necessary if I could just get the whole data set.
 
-Further testing?
+Some possible improvements:
+- I used a bunch of `print()` calls for debug while writing the code. In the future, I'd rather try using [logging at the `DEBUG` level](https://docs.python.org/3/library/logging.html#logging.debug) that I can turn on and off as needed.
+- [As mentioned above]({{< ref "boardgames_part_one.md#logging" >}}) `RetrieverLogger` is tightly coupled with `Retreiver`. Writing it this way helped me conceptually separate the logic of retrieval vs the logging itself. But this feels easy to break if one had to rewrite `Retriever.retrieve_all()` or wanted to reuse `RetrieverLogger` for a new `Retreiver` method. I'm not entirely sure how to address this.
+- Looking back, I could probably refactor [extraction methods]({{< ref "boardgames_part_one.md#itemextractor" >}}) for individual XML data fields around "groups" of data. For example, a single method could handle a bunch of tags with differnet names but all containing integer values inside a `value` attribute. Similarly, a single method could handle float values, with a parameter to control rounding if necessary.
+- `Retreiver` objects are instantiated with a directory path for saving retrieved data, before the `.retrieve_all()` method is called. The reason for this is that I had made an assumption that I might need to call a bunch of different methods on the same directory, but this didn't turn out to be the case, and it probably would have been simpler to have `.retreive_all()` be a top-level function that has a directory path as a parameter. I think if I scoped out more clearly what functionality I needed I might have gone with that design instead.
 
-Writing the test first helped when I was doing generate game uri, but didn't do that for others.
+An additional thing I learned about during this project is [structural pattern matching](https://peps.python.org/pep-0635/) that was implemented in python 3.10. I ended up using it in `etl._write_dataframes()`, but it could have replaced the `if...elif...else` statements in response code matching for `Retriever.retrieve_all()`. 
 
-TODO link to next blog post
 
-Improvements: 
-Converting all print statements to logger methods.
+*[Click here for my post on exploratory analysis of this dataset.]({{< ref "/blog/boardgames_part_two.md" >}})*
 
-Structural pattern matching improvement in batch download. Available in python 3.10?? used it in writing funcs, but not batch download.
 
 
 [^1]: [Dominion](https://boardgamegeek.com/boardgame/36218/dominion) is a card-based board game. A copious number of [expansions](https://www.riograndegames.com/games/dominion/) are available, each of which add new cards to the game. This results in players having to carry multiple boxes around to their friends' house, unless they pursue [alternate](https://imgur.com/a/oH2yj) [solutions](https://www.google.com/search?q=dominion+storage+box), or perhaps [play online](https://dominion.games/).
