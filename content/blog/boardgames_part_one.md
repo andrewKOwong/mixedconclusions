@@ -555,23 +555,32 @@ options:
 `script_etl.py` primarily calls `etl.flatten_xml_folder_to_dataframe()`, which takes a folder of `xml` files and calls `etl.flatten_xml_file_to_dataframe()` on each file in a loop. 
 
 ```mermaid
-%%{init: {'theme':'forest'}}%%
 graph LR
+    classDef empty fill:None, stroke:None;
+    classDef etl_box stroke:#00478F, stroke-width:3px, fill:#70B8FF, color:black;
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef nodes stroke:#00478F, stroke-width:2px, fill:#FFE45C, color:black;
+    linkStyle default stroke-width:3px;
+    
+    script("📄 script_etl.py")
+    folder("flatten_xml_folder_to_dataframe()")
+    file("flatten_xml_file_to_dataframes()")
+    item(ItemExtractor)
+    
 
-    classDef no_link_fill fill:None;
-
-    subgraph background [ ]
-        script["📄 script_etl.py"] --> folder_func["flatten_xml_folder_to_dataframe()"];
+    subgraph bg [ ]
+        script --> folder;
 
         subgraph core/etl.py
-            folder_func --> file_func["flatten_xml_file_to_dataframes()"];
-            file_func --> ItemExtractor;
-
+            folder --> file;
+            file --> item;
         end
+
     end
 
-class padding1 emptypadding
-class background backgroundbox
+class script,folder,file,item nodes
+class core/etl.py etl_box
+class bg bg_box
 ```
 {{< n >}}
 
@@ -734,23 +743,38 @@ Data extracted from multiple board games by multiple `ItemExtractor` instances a
 
 
 ```mermaid
-%%{init: {'theme':'forest'}}%%
 graph TD
+    classDef empty fill:None, stroke:None;
+    classDef etl_box stroke:#00478F, stroke-width:3px, fill:#70B8FF, color:black;
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef nodes stroke:#00478F, stroke-width:2px, fill:#FFE45C, color:black;
+    classDef data_nodes stroke:#00478F, stroke-width:2px, fill:#97E576;
     classDef emptypadding fill:None, stroke:None;
     classDef backgroundbox stroke:None;
 
- subgraph background [ ]
-    folder_func["flatten_xml_folder_to_dataframe()"] -->|"dict[pd.DataFrame]"|script["📄 script_etl.py"];
- subgraph core/etl.py
- subgraph padding1 [ ]
-    ItemExtractor["ItemExtractor<br>.extract_general_data() <br> .extract_link_data() <br> .extract_poll_data()"];
-    ItemExtractor --> |"dict/list[dict]"|file_func;
-    file_func["flatten_xml_file_to_dataframes()"] --> |"dict[pd.DataFrame]"|folder_func;
- end
- end
- end
-class padding1 emptypadding
-class background backgroundbox
+    script("📄 script_etl.py")
+    folder("flatten_xml_folder_to_dataframe()")
+    file("flatten_xml_file_to_dataframes()")
+    item("ItemExtractor<br>.extract_general_data() <br> .extract_link_data() <br> .extract_poll_data()")
+    dld{{"dict/list[dict]"}}
+    dpd1{{"dict[pd.DataFrame]"}}
+    dpd2{{"dict[pd.DataFrame]"}}
+
+    subgraph bg [ ]
+        folder --> dpd2 --> script;
+        subgraph core/etl.py
+            subgraph padding [ ]
+                item --> dld --> file
+                file --> dpd1 --> folder
+            end
+        end
+    end
+
+class script,folder,file,item nodes
+class dld,dpd1,dpd2 data_nodes
+class core/etl.py etl_box
+class padding empty
+class bg bg_box
 
 ```
 
