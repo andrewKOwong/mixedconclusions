@@ -1,3 +1,6 @@
+# "zest" files are experimental or disposable files
+zest*
+
 # vscode
 .vscode
 
