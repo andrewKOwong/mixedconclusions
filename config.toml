@@ -16,7 +16,7 @@ Title = "Bonjour"
 Content = "Test"
 
 [params.author]
-name = "andrewKOwong"
+name = "Andrew Wong"
 thumbnail = "/images/andrew.jpeg"
 description = "Creator of this blog."
 
