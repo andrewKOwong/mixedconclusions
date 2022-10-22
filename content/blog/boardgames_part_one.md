@@ -1,10 +1,10 @@
 ---
-title: "Exploring Boardgames Part One: Data Download and ETL"
+title: "(Draft) Exploring Boardgames Part One: Data Download and ETL"
 date: 2022-10-15
 publishdate: 2022-10-15
 tags: [boardgames]
 comments: true
-draft: true
+draft: false
 ---
 
 # Exploring Boardgames Part One: Data Download and ETL
@@ -15,16 +15,17 @@ draft: true
 {{< n >}}
 {{< toc >}}
 
-## TODO Introduction
+## Introduction
 
-Years ago, an elderly neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually said something about "the golden age of board games", and the reply was a confused "oh...." as we parted ways. And I too was confused afterwards, for despite hearing the words "golden age of board games" thrown around often, I hadn't put much thought on it, except to note that board games were getting more interesting, complex, and fun for me over the years.
+Years ago, a neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually said something about "the golden age of board games", and the reply was a confused "oh...." as we parted ways. And I too was confused afterwards, for even though I had heard the words "golden age of board games" thrown around, I hadn't really thought about it, except to note that board games were getting more interesting, complex, and fun for me over the years.
 
-However, people that do really care about board games congregate at [boardgamegeek.com](https://boardgamegeek.com/) (abbreviated as BGG), where the world's collection of board games are described, discussed, and rated, thus collectively contributing to a large dataset that can be accessed via the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). Therefore, this data is potentially useful for trying to figure out what the golden age of board games really means, and other related questions.
+People that do really care about board games congregate at [boardgamegeek.com](https://boardgamegeek.com/) (abbreviated as BGG), where the world's collection of board games are described, discussed, and rated, thus collectively contributing to a large dataset that can be accessed via the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2). Therefore, this data is potentially useful for trying to figure out what the golden age of board games really means, and other related questions.
 
 However, the API does not support bulk download of the entire collection of board games in one go. Some BGG datasets have been made available by others online. For example, [this](https://www.kaggle.com/datasets/andrewmvd/board-games) is a smaller dataset of 20K games that have received at least 30 ratings by users, while [this](https://www.kaggle.com/datasets/seanthemalloy/board-game-geek-database) is a larger dataset of >100K games. Note that these datasets represent a snapshot in time, as data changes as users add ratings. As well, there is at least [one python API wrapper available](https://github.com/lcosmin/boardgamegeek) (although it is no longer maintained), and a number of other analyses about board games have been written previously, e.g. [here](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html) and [here](https://dvatvani.github.io/BGG-Analysis-Part-1.html).
 
+I wanted to get more experience writing code that interacts with HTTP servers,  I decided to write my own code to handle downloading the data and to analyze it myself. As I side benefit, I wanted to try out the `pytest` library for testing.
 
-TODO change this to sound less noob. Since I'm primarily doing this project for my own learning and to improve my programming skill, I decided to write my own code to handle downloading the data and to analyze it myself. The content of the current post deals with code I wrote to download the data and prepare the data; the analysis is [described in a second blog post](https://mixedconclusions.com/blog/boardgames_part_two/).
+The content of the current post deals with code I wrote to download the data and prepare the data; the analysis is [described in a second blog post](https://mixedconclusions.com/blog/boardgames_part_two/).
 
 
 ## Data Download
@@ -37,8 +38,8 @@ Board game data can be downloaded from the [BGG API](https://boardgamegeek.com/w
 https://boardgamegeek.com/xmlapi2/thing?type=boardgame,&stats=1&id=1,4
 ``` 
 where:
-- `type=<boardgame|boardgameexpansion|etc.>` is a filter for that `type` and can be a comma-delimited list to get multiple types, or omitted to get everything
-- `stats=1` gets ratings and other statistics
+- `type=boardgame,boardgameexpansion,boardgameaccessory,videogame,rpgitem,rpgissue>` is a filter for that `type` and can be a comma-delimited list to get multiple selected types, or omitted to get everything. The non-boardgame types are because boardgamegeek.com shares an id system with videogamegeek.com and rpggeek.com.
+- `stats=1` including this gets ratings and other statistics
 - `id=1,4,...` is a comma-delimited list of the boardgame ids.
 
 {{< n >}}
@@ -49,7 +50,7 @@ The API is also capable of returning information about users, guilds, and much m
 
 ### Server Behaviour
 
-During initial testing, I found requesting too large of a batch of games at once (e.g. 50k games in a single request) will be blocked by the API server. Request batch sizes on the scale of around 1K games are accepted by the server, but often also cause backend errors that do not appear to be throttling response, as the request can be immediately made again (sometimes successfully). Batch sizes of 250-500 seem to work well, and take about 10-30 seconds to complete. Too frequent requests are throttled.
+During initial testing, I found requesting too large of a batch of games at once (e.g. 50K games in a single request) will be blocked by the API server. Request batch sizes on the scale of around 1K games are accepted by the server, but often also cause backend errors that do not appear to be throttling response, as the request can be immediately made again (sometimes successfully). Batch sizes of 250-500 seem to work well, and take about 10-30 seconds to complete. Too frequent requests are throttled.
 
 
 ### File Structure
