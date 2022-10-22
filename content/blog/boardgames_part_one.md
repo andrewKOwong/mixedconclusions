@@ -7,7 +7,6 @@ comments: true
 draft: false
 ---
 
-# Exploring Boardgames Part One: Data Download and ETL
 *[Github Repo for this Project](https://github.com/andrewKOwong/boardgames)*
 
 *[Link to Part 2: Data Analysis]({{< ref "/blog/boardgames_part_two.md" >}})*
@@ -23,14 +22,14 @@ People that do really care about board games congregate at [boardgamegeek.com](h
 
 However, the API does not support bulk download of the entire collection of board games in one go. Some BGG datasets have been made available by others online. For example, [this](https://www.kaggle.com/datasets/andrewmvd/board-games) is a smaller dataset of 20K games that have received at least 30 ratings by users, while [this](https://www.kaggle.com/datasets/seanthemalloy/board-game-geek-database) is a larger dataset of >100K games. Note that these datasets represent a snapshot in time, as data changes as users add ratings. As well, there is at least [one python API wrapper available](https://github.com/lcosmin/boardgamegeek) (although it is no longer maintained), and a number of other analyses about board games have been written previously, e.g. [here](https://jvanelteren.github.io/blog/2022/01/19/boardgames.html) and [here](https://dvatvani.github.io/BGG-Analysis-Part-1.html).
 
-I wanted to get more experience writing code that interacts with HTTP servers,  I decided to write my own code to handle downloading the data and to analyze it myself. As I side benefit, I wanted to try out the `pytest` library for testing.
+I wanted to get more experience writing code that interacts with HTTP servers,  so I decided to write my own code to handle downloading the data and to analyze it myself. As a side benefit, I wanted to try out the `pytest` library for testing.
 
 The content of the current post deals with code I wrote to download the data and prepare the data; the analysis is [described in a second blog post](https://mixedconclusions.com/blog/boardgames_part_two/).
 
 
 ## Data Download
 ### The BoardGameGeek XML API
-All board games on BGG have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/catan`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames is somewhere around `362383`.
+All board games on BGG have a id assigned to them. For example, [Settlers of Catan](https://boardgamegeek.com/boardgame/13/catan) is located at `https://boardgamegeek.com/boardgame/13/`, with an id of `13`. From manual probing of the URLs, it appears the current maximum id for boardgames is somewhere around `362383`.
 
 Board game data can be downloaded from the [BGG API](https://boardgamegeek.com/wiki/page/BGG_XML_API2) by URI of the form:
 
@@ -38,15 +37,15 @@ Board game data can be downloaded from the [BGG API](https://boardgamegeek.com/w
 https://boardgamegeek.com/xmlapi2/thing?type=boardgame,&stats=1&id=1,4
 ``` 
 where:
-- `type=boardgame,boardgameexpansion,boardgameaccessory,videogame,rpgitem,rpgissue>` is a filter for that `type` and can be a comma-delimited list to get multiple selected types, or omitted to get everything. The non-boardgame types are because boardgamegeek.com shares an id system with videogamegeek.com and rpggeek.com.
+- `type=boardgame,boardgameexpansion,boardgameaccessory,videogame,rpgitem,rpgissue` is a filter for that `type` and can be a comma-delimited list to get multiple selected types, or omitted to get everything. The non-boardgame types exist because boardgamegeek.com shares an id system with videogamegeek.com and rpggeek.com.
 - `stats=1` including this gets ratings and other statistics
 - `id=1,4,...` is a comma-delimited list of the boardgame ids.
 
-{{< n >}}
+
 
 The API is also capable of returning information about users, guilds, and much more.
 
-{{< n >}}
+
 
 ### Server Behaviour
 
@@ -249,7 +248,7 @@ def retrieve_all(
 
 - `batch_cooldown` specifies to change how long to wait between batches
 - `server_cooldown` specifies how long to wait if you encounter a server problem. This is a defensive tactic, as I could not find documentation defining exactly what error codes and messages would get returned in what instance, so I thought it might be better to just wait a while.
-- `batch_size` controls how many board games to request at once
+- `batch_size` controls how many board games to request at once.
 - `shuffle` specifies that games should be be retrieved in random order. This is default behaviour, so that if the user chooses to terminate early they'll still have a random sample of boardgames.
 - `random_seed` for reproducible shuffling. 
 - `max_id` if you want to set a different maximum id other than `362383`, which is coded as a class constant.
@@ -263,7 +262,7 @@ This `progress` object is a `list[dict]` with each `dict` containing an `ids` ke
 
 Each response from each request comes with an HTTP response code. `200` indicates a successful request and includes board game data, whereas `202` indicates that the server has queued that request for processing, and it can be retrieved at a later time by using the same request URI. Of the other responses, there is at least a `502` response that includes a message saying that there is a server error and that you can try again in 30 seconds. There are also other `502`, `503`, and possibly `429` responses, but I didn't fully probe the server to see what I would get.
 
-200, 202, and other responses are marked in the `progress.json` file as
+`200`, `202`, and other responses are marked in the `progress.json` file as
 `complete`, `queued`, and `incomplete`, respectively. The number of
 batches of each status (as well as retrieval run events) is logged to
 `retriever.log` at the end of each run. If any batches were `queued` or `incomplete`, running `.retrieve_all()` with a Retriever object instantiated
@@ -403,7 +402,7 @@ class MockServer:
         return MockResponse(code, text)
 
 ```
-The test then runs `retriever.retrieve_all()`, writing a `progress.json` to a temporary folder that pytest generates (which on linux/WSL is located at `/tmp/pytest-of-<user>/pytest-current`). The test then loads a `progress` object from `progress.json`, and checks that the statuses and contents are as expected.
+The test then runs `retriever.retrieve_all()`, writing a `progress.json` to a temporary folder that pytest generates (which on linux is located at `/tmp/pytest-of-<user>/pytest-current`). The test then loads a `progress` object from `progress.json`, and checks that the statuses and contents are as expected.
 
 Tests can be run in the shell while in the root folder with `pytest`, or `pytest -sv` if you want to see the logger output in `stdout` as it's happening, or `pytest -rA` for better formatting after it happens. 
 
@@ -414,7 +413,7 @@ Test files are located in `boardgames/test`.
 This section deals with the conversion of XML data returned from the BGG API into an appropriate format for storage and analysis.
 
 ### Structure of Input XML Data
-Below is an example of a retrieved XML file, formatted for readability (with ellipses indicating abbreviated chunks). The root is an `<items>` tag containing hundreds of individual `<item>` tags. Each `<item>` tag has a number of subtags for board game attributes such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls that users vote on, whereas multiple `<link>` tags link to additional data about e.g. the types of boardgame mechanics the game uses or the publisher of the game. Subtags of the `<statistics>` tag contain information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
+Below is an example of a retrieved XML file, formatted for readability (with ellipses `...` indicating abbreviated chunks). The root is an `<items>` tag containing hundreds of individual `<item>` tags. Each `<item>` tag has a number of subtags for board game attributes such as `<name>`, `<yearpublished>`, `<playtime>`, etc. As well, several `<poll>` tags contain data about polls that users vote on, whereas multiple `<link>` tags link to additional data about e.g. the types of boardgame mechanics the game uses or the publisher of the game. Subtags of the `<statistics>` tag contain information about BGG user ratings and how many users own the game, have it on their wishlist, etc.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -629,9 +628,9 @@ def flatten_xml_file_to_dataframes(
 
     return out
 ```
-### ItemExtractor
+### Item Extractor
 
-`ItemExtractor` has three extraction methods: `.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`. These three methods return the following data structures:
+`ItemExtractor` has three extraction methods: `.extract_general_data()`, `.extract_link_data()`, and `.extract_poll_data()`. These three methods return the following data structures:
 
 ```python
 # A dict containing keys that will become pandas col headings
@@ -807,9 +806,6 @@ It's likely that these Japanese characters are encoded differently than `utf-8` 
 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
-### TODO testing
-
-For testing, I only test `ItemExtractor`'s three extraction methods (`.extract_general_data()`, `.extract_link_data()`, `.extract_poll_data()`) on a single `<item>` tag that I get from a test `.xml` file located in the test direcotry.
 
 ## Summary and Discussion
 
@@ -818,9 +814,9 @@ In summary, this part covers code to download all boardgames from BGG, as well a
 I felt when I started this project I went off on too many early tangents, and it would have been better to aim for a working prototype sooner. For example, I initially tried to implement a bunch of ways to control how random sampling works, but then I realized it wasn't necessary if I could just get the whole data set.
 
 Some possible improvements:
-- I used a bunch of `print()` calls for debug while writing the code. In the future, I'd rather try using [logging at the `DEBUG` level](https://docs.python.org/3/library/logging.html#logging.debug) that I can turn on and off as needed.
-- [As mentioned above]({{< ref "boardgames_part_one.md#logging" >}}) `RetrieverLogger` is tightly coupled with `Retreiver`. Writing it this way helped me conceptually separate the logic of retrieval vs the logging itself. But this feels easy to break if one had to rewrite `Retriever.retrieve_all()` or wanted to reuse `RetrieverLogger` for a new `Retreiver` method. I'm not entirely sure how to address this.
-- Looking back, I could probably refactor [extraction methods]({{< ref "boardgames_part_one.md#itemextractor" >}}) for individual XML data fields around "groups" of data. For example, a single method could handle a bunch of tags with differnet names but all containing integer values inside a `value` attribute. Similarly, a single method could handle float values, with a parameter to control rounding if necessary.
+- I used a bunch of `print()` calls for debugging while writing the code. In the future, I'd rather try using [logging at the `DEBUG` level](https://docs.python.org/3/library/logging.html#logging.debug) that I can turn on and off as needed.
+- [As mentioned above]({{< ref "boardgames_part_one.md#logging" >}}) `RetrieverLogger` is tightly coupled with `Retreiver`. Writing it this way helped me conceptually separate the logic of retrieval vs the logging itself. But this feels easy to break if one had to rewrite `Retriever.retrieve_all()` or wanted to reuse `RetrieverLogger` for a new `Retreiver` method.
+- Looking back, I could probably refactor [extraction methods]({{< ref "boardgames_part_one.md#itemextractor" >}}) for individual XML data fields around "groups" of data. For example, a single method could handle a bunch of tags with different names but all containing integer values inside a `value` attribute. Similarly, a single method could handle float values, with a parameter to control rounding if necessary.
 - `Retreiver` objects are instantiated with a directory path for saving retrieved data, before the `.retrieve_all()` method is called. The reason for this is that I had made an assumption that I might need to call a bunch of different methods on the same directory, but this didn't turn out to be the case, and it probably would have been simpler to have `.retreive_all()` be a top-level function that has a directory path as a parameter. I think if I scoped out more clearly what functionality I needed I might have gone with that design instead.
 
 An additional thing I learned about during this project is [structural pattern matching](https://peps.python.org/pep-0635/) that was implemented in python 3.10. I ended up using it in `etl._write_dataframes()`, but it could have replaced the `if...elif...else` statements in response code matching for `Retriever.retrieve_all()`. 
