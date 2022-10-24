@@ -4,18 +4,14 @@ title: "(Draft) Exploring Boardgames Part One: Data Download and ETL"
 date: 2022-10-15
 publishdate: 2022-10-15
 tags: [boardgames]
+ShowToc: true
+TocOpen: true
 comments: true
 draft: false
 ---
-
-*[Github Repo for this Project](https://github.com/andrewKOwong/boardgames)*
-
-*[Link to Part 2: Data Analysis]({{< ref "/blog/boardgames_part_two.md" >}})*
-
-{{< n >}}
-{{< toc >}}
-
 ## Introduction
+- *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
+- *[Link to part 2: Data Analysis]({{< ref "/blog/boardgames_part_two.md" >}})*
 
 Years ago, a neighbour in the elevator remarked on the fresh stack of Dominion[^1] boxes I was carrying. I casually said something about "the golden age of board games", and the reply was a confused "oh...." as we parted ways. And I too was confused afterwards, for even though I had heard the words "golden age of board games" thrown around, I hadn't really thought about it, except to note that board games were getting more interesting, complex, and fun for me over the years.
 
@@ -852,4 +848,3 @@ An additional thing I learned about during this project is [structural pattern m
 
 
 [^1]: [Dominion](https://boardgamegeek.com/boardgame/36218/dominion) is a card-based board game. A copious number of [expansions](https://www.riograndegames.com/games/dominion/) are available, each of which add new cards to the game. This results in players having to carry multiple boxes around to their friends' house, unless they pursue [alternate](https://imgur.com/a/oH2yj) [solutions](https://www.google.com/search?q=dominion+storage+box), or perhaps [play online](https://dominion.games/).
-[^2]: See this [StackOverflow post](https://stackoverflow.com/questions/19699059/representing-directory-file-structure-in-markdown-syntax) for this format of folder tree.
