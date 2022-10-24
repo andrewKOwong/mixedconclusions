@@ -514,38 +514,7 @@ Given this structure, I decided to separate the data into three segments contain
  ```
 
 
-Classes and functions for extracting the data from the xml and transforming it into a storage format are located in `core/etl.py`.
-
-`script.etl.py` calls functions in `etl.py`, and runs with command line args.
-```text
-$ python script_etl.py -h
-
-usage: script_etl.py [-h] [--omit-general-data] [--omit-link-data]
-                     [--omit-poll-data] [--output-csv]
-                     [--omit-csv-compression]
-                     read_xml_dir output_dir output_prefix
-
-Extract a folder of xml files containing boardgame data and save them as
-parquet (default) or csv files. Saved files will have format:
-<output_dir>/<output_prefix>_<data_type>.<parquet|csv|csv.gz> where
-<data_type> indicates whetherthe file contains general data, link data, or
-poll data.
-
-positional arguments:
-  read_xml_dir          Directory of xml files downloaded from BGG.
-  output_dir            Directory to save output parquet (default) or csv
-                        files.
-  output_prefix         Prefix for naming output files.
-
-options:
-  -h, --help            show this help message and exit
-  --omit-general-data   Flag to omit general data extraction.
-  --omit-link-data      Flag to omit link data extraction.
-  --omit-poll-data      Flag to omit poll data extraction.
-  --output-csv          Output files as csv instead of parquet.
-  --omit-csv-compression
-                        Omit gunzip compression of csv files.
-```
+Classes and functions for extracting the data from the xml and transforming it into a storage format are located in `core/etl.py`. `script_etl.py` is client code that calls functions in `etl.py`.
 
 ### Function Flow
 
@@ -827,6 +796,38 @@ It's likely that these Japanese characters are encoded differently than `utf-8` 
 
 Note: double unescaping is actually handled in two instances, as it is unescaped once by the `lxml` xml parser, and once by `ItemExtractor._extract_description()` when extracting the description field.
 
+### Running the Script
+
+`script_etl.py` runs with the following command line args:
+```text
+$ python script_etl.py -h
+
+usage: script_etl.py [-h] [--omit-general-data] [--omit-link-data]
+                     [--omit-poll-data] [--output-csv]
+                     [--omit-csv-compression]
+                     read_xml_dir output_dir output_prefix
+
+Extract a folder of xml files containing boardgame data and save them as
+parquet (default) or csv files. Saved files will have format:
+<output_dir>/<output_prefix>_<data_type>.<parquet|csv|csv.gz> where
+<data_type> indicates whetherthe file contains general data, link data, or
+poll data.
+
+positional arguments:
+  read_xml_dir          Directory of xml files downloaded from BGG.
+  output_dir            Directory to save output parquet (default) or csv
+                        files.
+  output_prefix         Prefix for naming output files.
+
+options:
+  -h, --help            show this help message and exit
+  --omit-general-data   Flag to omit general data extraction.
+  --omit-link-data      Flag to omit link data extraction.
+  --omit-poll-data      Flag to omit poll data extraction.
+  --output-csv          Output files as csv instead of parquet.
+  --omit-csv-compression
+                        Omit gunzip compression of csv files.
+```
 
 ## Summary and Discussion
 
