@@ -401,7 +401,7 @@ class MockServer:
 ```
 The test then runs `retriever.retrieve_all()`, writing a `progress.json` to a temporary folder that pytest generates (which on linux is located at `/tmp/pytest-of-<user>/pytest-current`). The test then loads a `progress` object from `progress.json`, and checks that the statuses and contents are as expected.
 
-Tests can be run in the shell while in the root folder with `pytest`, or `pytest -sv` if you want to see the logger output in `stdout` as it's happening, or `pytest -rA` for better formatting after it happens. 
+Tests can be run in the shell while in the root folder with `pytest`, or `pytest -sv` if you want to see the logger output in `stdout` as it's happening, or `pytest -rA` for better formatted output after tests have finished. 
 
 Test files are located in `boardgames/test`.
  
