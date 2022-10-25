@@ -1,6 +1,6 @@
 ---
 author: Andrew Wong
-title: "(Draft) Exploring Boardgames Part One: Data Download and ETL"
+title: "Exploring Boardgames Part One: Data Download and ETL"
 date: 2022-10-15
 publishdate: 2022-10-15
 tags: [boardgames]
