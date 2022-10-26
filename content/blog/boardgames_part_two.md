@@ -4,10 +4,8 @@ date: 2022-10-15
 publishdate: 2022-10-15
 tags: [boardgames]
 comments: true
-draft: true
+draft: false
 ---
 
-# (Draft) Exploring Boardgames Part Two: Data Download and ETL
-TODO: link to part 1
-## Introduction
-
+# Exploring Boardgames Part Two: Data Analysis (coming soon)
+[Link to part one]{{< ref "/blog/boardgames_part_one.md" >}}()
