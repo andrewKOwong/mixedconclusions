@@ -6,6 +6,7 @@ tags: []
 comments: true
 draft: true
 ---
+- Cover image word cloud
 
 
 - Copy paragraph from notebook about ratings and dummy values
@@ -24,10 +25,11 @@ draft: true
 - Set up definition of golden age of board games.
     - Average rating for board games + avg number of ratings by year.
 - Is complexity related to quality?
-    - no, correlation small
+    - maybe, correlation small
+    - but need to plot
 - Is there a surplus of medium complexity games or higher?
     - What are some games I like
-- Fit a linear model to predict quality
+- Fit a linear model to discover quality
 
 
 ## Discussion
@@ -36,3 +38,14 @@ draft: true
     - API has user ratings, get those
     - build a recommender system using..
         - list some SVM or something
+
+
+# TODO Boardgames
+## Introduction
+
+## Rated vs Unrated Games
+
+![Ratings](/boardgames/ratings.png)
+
+![Test](/boardgames/test.png)
+![Test2](/images/test_icon.png)
