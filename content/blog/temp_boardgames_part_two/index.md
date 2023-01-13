@@ -45,7 +45,6 @@ draft: true
 
 ## Rated vs Unrated Games
 
-![Ratings](/boardgames/ratings.png)
+![Ratings](images/test.png)
 
-![Test](/boardgames/test.png)
-![Test2](/images/test_icon.png)
+
