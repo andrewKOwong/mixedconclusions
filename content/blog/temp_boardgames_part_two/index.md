@@ -108,7 +108,46 @@ information about users.
 
 First let's set up functions for computing the Bayesian average and RMSD.
 ```python
-# RMSD etc code block
+def compute_bayesian_average(
+    game_df: pd.DataFrame,
+    dummy_rating: float,
+    num_dummies: int,
+    ratings_mean_key: str='ratings_mean',
+    ratings_n_key: str='ratings_n'
+    ) -> pd.Series:
+    """Compute a Bayesian average using vectorized ops.
+    
+    Args:
+        game_df: game dataframe with ratings info.
+        dummy_rating: the mean rating for dummy values.
+        num_dummies: number of dummy ratings to use.
+        ratings_mean_key: col key for ratings mean.
+        ratings_n_key: col key for number of ratings.
+    
+    Returns:
+        pd.Series with computed Bayesian averages.
+    """
+    return (
+        ((game_df[ratings_mean_key] * game_df[ratings_n_key]) 
+            + (dummy_rating * num_dummies))
+        /(game_df[ratings_n_key] + num_dummies)
+        )
+
+def compute_rmsd(
+        y_trues: pd.Series|np.ndarray,
+        y_preds: pd.Series|np.ndarray) -> float:
+    """Compute the root mean squared deviation.
+    
+    Args:
+        y_trues: 1D vector of .
+        y_preds (np.ndarray or pd.Series): A 1D vector.
+    Returns:
+        RMSD as a scalar float.
+    """
+    # Check both are 1D vectors of same length.
+    assert len(y_trues.shape) == 1
+    assert y_trues.shape == y_preds.shape
+    return np.sqrt(((y_trues - y_preds)**2).sum() / y_trues.shape[0])
 ```
 
 Next, let's compute the RMSD assuming that the Bayesian averages are generated
@@ -128,7 +167,33 @@ This function will used as one of the parameters
 for `minimize`.
 
 ```python
-# wraper block
+def error_wrapper(
+    dummy_args: tuple[float, int],
+    game_df: pd.DataFrame,
+    bayes_average_key: str='ratings_bayes_average'
+    ) -> float:
+    """Objective function to minimize Bayes dummy parameters.
+
+    This function is meant to be used in by `scipy.optimize.minimize` as
+    the objective function to be minimized. The `game_df` param will be
+    supplied in the `args` parameter for `minimize`.
+    
+    Args:
+        dummy_args: a tuple of (dummy_rating, num_dummies)
+            i.e. args for compute_bayesian_average().
+        game_df: game dataframe from which y_true bayes average ratings
+            are taken.
+        bayes_average_key: col key for bayes average ratings. 
+    
+    Returns:
+        Float for RMSD error.
+    """
+    (dummy_rating, num_dummies) = dummy_args
+
+    y_true = game_df[bayes_average_key] 
+    y_pred = compute_bayesian_average(game_df, dummy_rating, num_dummies) 
+    error = compute_rmsd(y_true, y_pred)
+    return error 
 ```
 Let's run the optimization procedure.
 
@@ -136,6 +201,7 @@ The cell below calls `minimize`, then prints info about the process and the resu
 
 ```python
 #opt block
+op_res = minimize(error_wrapper, (0, 0), args=(rated), options={'disp': True})
 ```
 The closest we can get to reproducing the real Bayes rating values
 seems to be when the number of dummy ratings is around 1972
