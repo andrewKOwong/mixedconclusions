@@ -251,6 +251,11 @@ although there are a small number of strong outliers.
 ## IDs
 ## Players
 ## Playtime
+
+This is a heatmap showing the annotated minimum and maximum suggested playtimes for games. 0 and 0 are missing values. The biggest category is for games at 30 minimum predicted playtime.
+
+
+[![](images/playtime_heatmap.png)](images/playtime_heatmap.png)
 ## Ratings
 
 
