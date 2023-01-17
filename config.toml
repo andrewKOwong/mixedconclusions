@@ -10,6 +10,7 @@ description = "test description"
 #mailchimp =
 #mailprotect = 
 #customCSS = "css/test.css"
+defaultTheme = "dark" # Dark mode by default
 
 [params.homeInfoParams]
 Title = "Bonjour"
