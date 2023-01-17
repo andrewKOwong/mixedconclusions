@@ -58,9 +58,10 @@ I'm gonna look at the
 Restricting the data set below.
 Then cut off data by rated games etc.
 
-## Rated vs Unrated Games
+## The Bayesian Average Rating: Rated vs Unrated Games
+### The Geek Rating: Rated vs Unrated Games
 
-Games on BGG may be rated by users out of 10. Games that receive 30+ user ratings are assigned a ["geek rating"](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ#toc13). This geek rating is used to rank board games against each other, and is necessary to prevent games with a few high rankings from appearing higher than games with a large number of rankings. For example, one may not want a game with five ratings of 10 to be considered a 'better' board game than a game with a ratings mean at 4.8 but 100K ratings. Games that don't meet the 30+ user rating threshold receive a geek rating of 0, and I'll refer to these games as "unrated" games.
+Games on BGG may be rated by users out of 10. Games that receive 30+ user ratings are assigned a ["geek rating"](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ#toc13). This geek rating is used to rank board games against each other, and is necessary to prevent games with a few high rankings from appearing higher than games with a large number of rankings. For example, one may not want a game with five ratings of 10 to be considered a "better" board game than a game with a ratings mean of 4.8 but with 100K ratings. Games that don't meet the 30+ user rating threshold receive a geek rating of 0, and I'll refer to these games as "unrated" games.
 
 The exact calculation method for the geek rating is not published by BGG, but it is apparently mostly a [Bayesian average](https://en.wikipedia.org/wiki/Bayesian_average).
 Indeed, in the original XML data this field is called `bayesaverage`,
@@ -70,7 +71,7 @@ and adding in something like [100](https://boardgamegeek.com/wiki/page/BoardGame
 or [1500-1600](https://boardgamegeek.com/blogpost/109537/reverse-engineering-boardgamegeek-ranking) 
 dummy ratings at a value of 5.5.
 
-Of the entire dataset, about 85K games are unrated, 
+Of the entire dataset, about 85K games are unrated 
 vs 23K games with geeks ratings.
 
 ### Visualizing the Effect of Dummy Ratings
@@ -102,11 +103,10 @@ where Bayes average rating \\(r\\) is constructed from the sum of all user ratin
 \\(x_i\\) and \\(m\\) dummy ratings of value \\(R\\), divided by the total of user ratings + dummy ratings,
 then we can try to discover what values of \\(R\\) and \\(m\\) fits our data here.
 
-A caveat here is that this doesn't take into account parameters
-that BGG might be using, such as weighting certain user ratings based on 
-information about users.
+A caveat here is that this doesn't take into account other parameters
+that BGG might be using, such as weighting ratings based on information about certain users.
 
-First let's set up functions for computing the Bayesian average and RMSD.
+I first translated the equation into a function that computes a Bayesian average with an arbitrary number of dummy ratings and average dummy rating value:
 ```python
 def compute_bayesian_average(
     game_df: pd.DataFrame,
@@ -130,9 +130,11 @@ def compute_bayesian_average(
     return (
         ((game_df[ratings_mean_key] * game_df[ratings_n_key]) 
             + (dummy_rating * num_dummies))
-        /(game_df[ratings_n_key] + num_dummies)
-        )
+        /(game_df[ratings_n_key] + num_dummies))
+```
+We can then evaluate how far the generated Bayesian ratings are from the actual Bayesian ratings from BGG by calculating the [RMSD](https://en.wikipedia.org/wiki/Root-mean-square_deviation):
 
+```python
 def compute_rmsd(
         y_trues: pd.Series|np.ndarray,
         y_preds: pd.Series|np.ndarray) -> float:
@@ -147,22 +149,15 @@ def compute_rmsd(
     # Check both are 1D vectors of same length.
     assert len(y_trues.shape) == 1
     assert y_trues.shape == y_preds.shape
-    return np.sqrt(((y_trues - y_preds)**2).sum() / y_trues.shape[0])
+    return np.sqrt(((y_trues - y_preds)**2).mean())
 ```
 
-Next, let's compute the RMSD assuming that the Bayesian averages are generated
-using either 100 or 1500 dummy ratings at a value of 5.5.
-
-```python
-# actual rmsds
-```
-
-Now we'll use the `minimize` function from `scipy.optimize` to find
-the values of $R$ and $m$ that minimizes the RMSD error of the
+Next, we'll use the [`minimize` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html) from `scipy.optimize` to find
+the values of $R$ and $m$ that minimizes the RMSD of the
 computed Bayesian averages.
 
 We'll need to write a wrapper function that takes in $R$ and $m$ as an argument,
-while outputting the RMSD error.
+while outputting the RMSD.
 This function will used as one of the parameters
 for `minimize`.
 
@@ -186,7 +181,7 @@ def error_wrapper(
         bayes_average_key: col key for bayes average ratings. 
     
     Returns:
-        Float for RMSD error.
+        Float for RMSD.
     """
     (dummy_rating, num_dummies) = dummy_args
 
@@ -195,37 +190,61 @@ def error_wrapper(
     error = compute_rmsd(y_true, y_pred)
     return error 
 ```
-Let's run the optimization procedure.
-
-The cell below calls `minimize`, then prints info about the process and the result.
+Now we can run the optimization like so:
 
 ```python
-#opt block
-op_res = minimize(error_wrapper, (0, 0), args=(rated), options={'disp': True})
+# i.e. scipy.optimize.minimize
+op_res = minimize(error_wrapper, (0, 0), args=(rated))
 ```
+Here are the results:
+```
+Optimization terminated successfully.
+        Current function value: 0.019480
+        Iterations: 29
+        Function evaluations: 120
+        Gradient evaluations: 40
+=============================================
+Optimization Result
+-------------------
+Mean Dummy Rating: 5.495617489008271
+Number of Dummy Ratings: 1972.456740224388
+Final RMSD: 0.019480321333741443
+```
+
 The closest we can get to reproducing the real Bayes rating values
 seems to be when the number of dummy ratings is around 1972
 with a rating value of 5.5.
 
-In the following plot, the x axis plots the real Bayes rating values,
-whereas the y axis plots the mean user rating,
-Bayes rating values when using 100 dummy values,
-1500 dummy values,
-and the number of dummy we got from our optimization (~1972).
+For comparison, here are the RMSDs for 0 dummies (i.e. the real user ratings), 100, 1500, and 1972 dummies at a rating value of 5.5:
+
+|                   | RMSD |
+|-------------------|------|
+| Real User Ratings             | 1.1244 
+| Computed Bayesian (100 x 5.5) | 0.6033 
+| Computed Bayesian (1500 x 5.5)| 0.0520 
+| Computed Bayesian (1972 x 5.5)| 0.0194
+
+We can visualize this trend. In the following plot, the x axis plots the real Bayes rating values,
+whereas the y axis plots the mean real user rating (panel A),
+Bayes rating values when using 100 dummy values (B),
+1500 dummy values (C),
+and the number of dummy we got from our optimization i.e. ~1972 (D).
 As we increase the number of dummy values, the generated Bayes rating
-approached the real Bayes rating from BGG.
+approached the real Bayes rating from BGG. The step from 1500 to 1972 ratings lowers the RMSD by a relatively small amount, suggesting that the 1500 estimate was fairly accurate.
 
 
-[![](images/optimizing_bayes_model.png)](images/optimizing_bayes_model.png)
+[![A four panel figure showing that computed ratings drift towards the y=x diagonal as the number of dummies is increased.](images/optimizing_bayes_model.png)](images/optimizing_bayes_model.png)
 
-This plot visualizes the remaining difference between real Bayes ratings
-and the Bayes ratings we computed, with the y axis plotting the difference,
-and the x axis plotting the number of ratings on a log scale.
+We can look at the remaining difference between real Bayes ratings
+and the computed Bayes ratings. 
+In the plot below, 
+the x axis plots the number of ratings on a log scale,
+while the y axis plots the differences.
 
 The residual differences are less than 0.1 for almost all games,
 although there are a small number of strong outliers.
 
-[![](images/bayes_residuals.png)](images/bayes_residuals.png)
+[![A plot showing residual differences between values computed using 1972 dummies and the actual Bayes values.](images/bayes_residuals.png)](images/bayes_residuals.png)
 
 ## What is the Golden Age of Board Games
 ![Ratings](images/test.png)
