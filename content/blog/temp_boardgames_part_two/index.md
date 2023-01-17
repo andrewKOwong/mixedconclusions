@@ -246,8 +246,22 @@ although there are a small number of strong outliers.
 
 [![A plot showing residual differences between values computed using 1972 dummies and the actual Bayes values.](images/bayes_residuals.png)](images/bayes_residuals.png)
 
+## Data Overview
+## Shape Missing Values, Dupes
+## IDs
+## Players
+## Playtime
+## Ratings
+
+
+
+
 ## What is the Golden Age of Board Games
 ![Ratings](images/test.png)
+
+## Discussion
+
+- Would've downloaded the entire dataset. Would've been easier.
 
 
 
