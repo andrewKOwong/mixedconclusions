@@ -249,6 +249,16 @@ although there are a small number of strong outliers.
 ## Data Overview
 ## Shape Missing Values, Dupes
 ## IDs
+
+## Name and Description
+
+For fun, this is a [word cloud](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html) of common words in the name field:
+
+[![Wordcloud from boardgame names](images/name_wordcloud.png)](images/name_wordcloud.png)
+
+Similarly, this is a word cloud of the description field:
+[![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
+
 ## Players
 
 
