@@ -259,6 +259,20 @@ For fun, this is a [word cloud](https://amueller.github.io/word_cloud/generated/
 Similarly, this is a word cloud of the description field:
 [![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
 
+## Year Published
+
+It's a reasonable assumption that most of the games not from the modern era are approximations. 0's also are a placeholder value.
+
+[![Histogram of all rated games](images/year_histo_all.png)](images/year_histo_all.png)
+
+
+Almost all the games are recent.
+
+Some diminishing as you get to 2023. New games probably take time to get added on?
+
+[![Histogram of games published after 2000](images/year_histo_modern.png)](images/year_histo_modern.png)
+
+
 ## Players
 
 
