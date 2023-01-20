@@ -274,7 +274,12 @@ Some diminishing as you get to 2023. New games probably take time to get added o
 
 
 ## Players
+Redundant player columns
 
+Player max It gets quite high. If we ignore those
+then here's a heat map for it.
+
+[![Heatmap of boardgame player requirements for player max less than 24](images/players_heatmap.png)](images/players_heatmap.png)
 
 ## Playtime
 
