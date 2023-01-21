@@ -326,8 +326,35 @@ Some observations:
 
 
 
-## What is the Golden Age of Board Games
+## What is the Golden Age of Board Games?
+
+### Ratings of games over time
+
+I'm starting the plot arbitrarily at 1960, it captures the vast majority of the games. 
+
 ![Ratings](images/test.png)
+
+Bar chart for all the rated games. Also for top 5% by number of ratings. Why? Just to see if it behaves different.
+In blue and orange.
+The shadow things are Q1 and Q3 quartiles for each.
+
+Something about
+- ratings go higher in the recent time
+- same with orange
+
+
+Some form of recency bias?
+
+### Complexity vs Ratings?
+Plot of complexity of games over time.
+
+Plot of complexity vs ratings over time.
+
+
+### Big publishers vs small publishers? Indie games?
+
+### Overly Reach goal (pricing information easily available from somewhere?)
+
 
 ## Discussion
 
