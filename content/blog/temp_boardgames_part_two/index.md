@@ -295,7 +295,34 @@ Most of the minimum ages are 8, 10, 12. 0 is a missing value placeholder.
 [![](images/age_histogram.png)](images/age_histogram.png)
 
 ## Ratings
+There are a number of data columns related to user ratings of the boardgames,
+which I've prefixed with `rating_`. Here's a description each column:
 
+ - `ratings_n`: the number of ratings users have given
+ - `ratings_mean`: the average of user ratings
+ - `ratings_bayes_average`: the Bayesian average 'geek rating' as discussed above
+ - `ratings_stddev`: standard deviation of user ratings
+ - `ratings_median`: an unused data column
+ - `ratings_owned`: how many users that have marked the game as being owned
+ - `ratings_trading`: how many users are looking to trade away the game
+ - `ratings_wanting`: users marked the game as wanted
+ - `ratings_wishing`: users placed onto their wishlist
+ - `ratings_comments_n`: how many times users have commented on the game
+ - `ratings_weights_n`: times users have given a weight rating. This is supposed to how complex a user thinks a game is, from 1 (light complexity) to 5 (heavily complex).
+ - `ratings_weights_average`: the mean of the weight rating. 
+
+For a simplified look at these ratings columns, 
+To simplify looking at the ratings, below is 1) a heatmap of the correlation coefficients between the columns and 2) the heatmap after clustering.
+
+Some observations:
+- the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are highly to fairly correlated with each other.
+- number of regular or weight ratings isn't correlated with the average regular or weight rating.
+- average rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher
+
+[![Heatmap of rating columns correlations](images/ratings_heatmap.png)](images/ratings_heatmap.png)
+
+
+[![Clustermap of rating column correlations](images/ratings_clustermap.png)](images/ratings_clustermap.png)
 
 
 
