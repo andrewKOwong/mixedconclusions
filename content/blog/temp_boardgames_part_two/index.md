@@ -327,23 +327,39 @@ Some observations:
 
 
 ## What is the Golden Age of Board Games?
-
 ### Ratings of games over time
 
-I'm starting the plot arbitrarily at 1960, it captures the vast majority of the games. 
+Let's take a look at the median rating of games by year.
+
+Below, we can plot the median rating of games by year (the blue line, with the shaded area indicating Q1 and Q3) as well as the number of games published each year (the blue bars). 
+I've arbitrarily limited the data to 1960 onwards, 
+as this captures the vast majority of games, 
+with the number of games published continuing to diminish before 1960.
+For the latter half of the twentieth century, 
+the median rating hovers around 6, 
+but takes a turn upward starting around 2010 and reaching above 7 in 2020. 
+For comparison I've also plotted the top 5% of games by number of ratings in orange in a similar fashion; the ratings for these games are generally higher, but we see the same trend as before.
+
+Note that the number of games increases as we approach the present.
+
+This suggests that the quality of games has increased in this past decade, perhaps as game design improves over time and so forth.
+However, there could be some form of [recency bias](https://en.wikipedia.org/wiki/Recency_bias).
+For example, since there are more games published recently, 
+one could imagine a boardgame enthusiast might be more interested in purchasing, playing, and/or rating a game published in the last ten years, compared to a "classic" boardgame from a decade or two ago that they haven't played in a while.
+As well, very new games might have a higher proportion of [early adopter](https://en.wikipedia.org/wiki/Early_adopter)-style users that are more willingly enthusiastic than an average user.
+This could be a contributor to the sharper uptick post-2020.
+
+While I don't have this data now, 
+If we had to further investigate, we'd probably need to take a look at the actually ratings of individual users.
+Specifically
+
+To see if 
+For the early adopter effect, we could look at user ratings as they accummulate for a game over time.
+We could look at what users over time as a game ages.
+We could figure this out by looking at the distribution of ratings of games over time, for which I would need to gather data from user accounts.
+Specifically, we could look at the ratings of games over time, and also whether each user would rate 
 
 ![Ratings](images/test.png)
-
-Bar chart for all the rated games. Also for top 5% by number of ratings. Why? Just to see if it behaves different.
-In blue and orange.
-The shadow things are Q1 and Q3 quartiles for each.
-
-Something about
-- ratings go higher in the recent time
-- same with orange
-
-
-Some form of recency bias?
 
 ### Complexity vs Ratings?
 Plot of complexity of games over time.
@@ -362,3 +378,4 @@ Plot of complexity vs ratings over time.
 
 
 
+Boardgamegeek was [founded](https://boardgamegeek.com/geeklist/236374/short-history-boardgamegeek) [in](https://en.wikipedia.org/wiki/BoardGameGeek) the year 2000.
