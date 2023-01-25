@@ -370,7 +370,6 @@ Plot of complexity vs ratings over time.
 
 
 
-### Overly Reach goal (pricing information easily available from somewhere?)
 
 
 ## Discussion
