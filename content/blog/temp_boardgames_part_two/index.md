@@ -359,6 +359,9 @@ Plot of complexity of games over time.
 
 Plot of complexity vs ratings over time.
 
+[![](images/rating_v_complexity_hist2d.png)](images/rating_v_complexity_hist2d.png)
+
+[![](images/rating_v_complexity_top5per.png)](images/rating_v_complexity_top5per.png)
 
 ### Big publishers vs small publishers? Indie games?
 
