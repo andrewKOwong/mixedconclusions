@@ -363,7 +363,12 @@ Plot of complexity vs ratings over time.
 
 [![](images/rating_v_complexity_top5per.png)](images/rating_v_complexity_top5per.png)
 
+[![](images/rating_v_complexity_top5per_hist2d.png)](images/rating_v_complexity_top5per_hist2d.png)
+
 ### Big publishers vs small publishers? Indie games?
+
+
+
 
 ### Overly Reach goal (pricing information easily available from somewhere?)
 
