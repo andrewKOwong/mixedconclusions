@@ -6,6 +6,11 @@ tags: []
 EnableMathJax: true
 comments: true
 draft: true
+
+cover:
+    image: "images/cover_option2.jpg"
+    caption: "A solo (loss) game of Terraforming Mars."
+
 ---
 - Cover image word cloud
 
@@ -361,12 +366,14 @@ Plot of complexity vs ratings over time.
 
 [![](images/rating_v_complexity_hist2d.png)](images/rating_v_complexity_hist2d.png)
 
-[![](images/rating_v_complexity_top5per.png)](images/rating_v_complexity_top5per.png)
-
+Top 5%.
 [![](images/rating_v_complexity_top5per_hist2d.png)](images/rating_v_complexity_top5per_hist2d.png)
 
-### Big publishers vs small publishers? Indie games?
+Plot regression of the complexity scatter.
 
+Plot complexity over time.
+
+Something about last two years of it. just being noise.
 
 
 
