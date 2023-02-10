@@ -12,8 +12,6 @@ cover:
     caption: "A solo (loss) game of Terraforming Mars."
 
 ---
-
-# Are we in the golden age of board games?
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
 - *[Link to part one]({{< ref "/blog/boardgames_part_one.md" >}})*
 
