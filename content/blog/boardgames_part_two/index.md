@@ -10,7 +10,7 @@ comments: true
 draft: true
 cover:
     image: "images/cover_option2.jpg"
-    caption: "A solo (loss 😔) game of Terraforming Mars 🔥🔥"
+    caption: "🔥🔥 A solo mode game of Terraforming Mars 🔥🔥"
 
 ---
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
@@ -256,10 +256,9 @@ although there are a small number of strong outliers.
 [![A plot showing residual differences between values computed using 1972 dummies and the actual Bayes values.](images/bayes_residuals.png)](images/bayes_residuals.png)
 
 ## Data Overview
-## Shape Missing Values, Dupes
-## IDs
+### Shape Missing Values, Dupes ## IDs
 
-## Name and Description
+### Name and Description
 
 For fun, this is a [word cloud](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html) of common words in the name field:
 
@@ -268,12 +267,9 @@ For fun, this is a [word cloud](https://amueller.github.io/word_cloud/generated/
 Similarly, this is a word cloud of the description field:
 [![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
 
-## Year Published
-
-It's a reasonable assumption that most of the games not from the modern era are approximations. 0's also are a placeholder value.
+### Year Published
 
 [![Histogram of all rated games](images/year_histo_all.png)](images/year_histo_all.png)
-
 
 Almost all the games are recent.
 
@@ -282,7 +278,7 @@ Some diminishing as you get to 2023. New games probably take time to get added o
 [![Histogram of games published after 2000](images/year_histo_modern.png)](images/year_histo_modern.png)
 
 
-## Players
+### Players
 Redundant player columns
 
 Player max It gets quite high. If we ignore those
@@ -290,20 +286,20 @@ then here's a heat map for it.
 
 [![Heatmap of boardgame player requirements for player max less than 24](images/players_heatmap.png)](images/players_heatmap.png)
 
-## Playtime
+### Playtime
 
 This is a heatmap showing the annotated minimum and maximum suggested playtimes for games. 0 and 0 are missing values. The biggest category is for games at 30 minimum predicted playtime.
 
 
 [![](images/playtime_heatmap.png)](images/playtime_heatmap.png)
 
-## Age
+### Age
 
 Most of the minimum ages are 8, 10, 12. 0 is a missing value placeholder.
 
 [![](images/age_histogram.png)](images/age_histogram.png)
 
-## Ratings
+### Ratings
 There are a number of data columns related to user ratings of the boardgames,
 which I've prefixed with `rating_`. Here's a description each column:
 
