@@ -34,6 +34,12 @@ The third is user polling data about aspects of the board game,
 e.g. what the optimal playtime users think the board game should have,
 but I'll be ignoring this data in this analysis for simplicity.
 
+The general data set consists of X game and Y data fields.
+That's a lot of games, but a lot of games are very obscure and rare.
+
+To narrow the scope of discussion,
+I'm gonna narrow the scope of analysis a bit by discussing
+only games that have a "geek rating" which I describe below.
 
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
@@ -348,6 +354,7 @@ Plot complexity over time.
 Something about last two years of it. just being noise.
 
 
+### Somehow plot some high rating on mechanics or other linkage data
 
 
 
