@@ -256,7 +256,19 @@ although there are a small number of strong outliers.
 [![A plot showing residual differences between values computed using 1972 dummies and the actual Bayes values.](images/bayes_residuals.png)](images/bayes_residuals.png)
 
 ## Data Overview
-### Shape Missing Values, Dupes ## IDs
+### Shape, Missing Values, and Duplicate Values
+If we remove all the unrated games, we are left with 23318 game entries.
+These contain 23 data columns,
+of which the first 11 deal with properties of the game itself,
+while the last 12 deal with user ratings of the game.
+
+There are no duplicate game entries in this data set.
+
+There is one instance of an empty data field present in the `description` column.
+However, missing values are encoded as `0` in numerical columns.
+There are no empty string values in text columns.
+
+Let's take a brief look at each of these data columns.
 
 ### Name and Description
 
