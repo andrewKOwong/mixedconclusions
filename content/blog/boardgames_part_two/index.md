@@ -2,14 +2,15 @@
 title: "Exploring Boardgames Part Two: Exploratory Data Analysis"
 date: 2022-10-15
 publishdate: 2022-10-15
-tags: []
+tags: [boardgames]
+ShowToc: true
+TocOpen: true
 EnableMathJax: true
 comments: true
 draft: true
-
 cover:
     image: "images/cover_option2.jpg"
-    caption: "A solo (loss) game of Terraforming Mars."
+    caption: "A solo (loss 😔) game of Terraforming Mars 🔥🔥"
 
 ---
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
