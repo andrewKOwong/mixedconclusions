@@ -283,14 +283,36 @@ Similarly, this is a word cloud of the board game descriptions:
 [![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
 
 ### Year Published
+The following plot shows a histogram of games by publication year.
+The publication year for games ranges from -3500 to 2023 
+(although one should probably consider anything before the modern era to be approximately annotations).
+The spike in games at year 0 is from 0 being used to encode missing values.
+Note the log scale in the frequency axis.
 
 [![Histogram of all rated games](images/year_histo_all.png)](images/year_histo_all.png)
 
-Almost all the games are recent.
 
-Some diminishing as you get to 2023. New games probably take time to get added on?
+Zooming into a more recent time scale,
+we see that the vast majority of games are published in the last 70 years.
+
+[![Histogram of games published after 1500](images/year_histo_1500.png)](images/year_histo_1500.png)
+
+If we look at games published 2000,
+we see that the number of games published per year continues
+to increase until 2020, with a strong dropoff after.
 
 [![Histogram of games published after 2000](images/year_histo_modern.png)](images/year_histo_modern.png)
+
+This dropoff does not appear to be explained
+by the time it takes for a game to reach thirty ratings,
+as this dropoff appears for unrated games as well.
+While the COVID-19 pandemic may be a factor,
+the dropoff also seems too strong to be fully attributable to it.
+Thus, I would guess that this reflects the time it takes
+for games to be added to BGG,
+but I would find this cause surprising as well,
+as I would assume board game creators would add their games to BGG
+as part of their marketing efforts.
 
 
 ### Players
