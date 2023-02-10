@@ -15,20 +15,25 @@ cover:
 
 # TODO Boardgames
 ## Introduction
-This is an analysis of boardgame data downloaded from boardgamegeek.com
-on (DATE)
+In a [previous post]({{< ref "/blog/boardgames_part_one.md" >}})
+I described a data download from [boardgamegeek.com](https://boardgamegeek.com/)
+on Sep 19, 2022.
 
-Described in part one (LINK).
+In this post, I'll describe an exploratory data analysis on this data set.
 
-Describe what I will look at.
 
 ## Overview of Data
-The data consists of blah blah.
-I'm gonna look at the 
+The data set consists of three parquet files.
 
+From each board game entry, I split the information into three separate files.
+One is general information about the board games.
+The second is data linking to other meta information, such as
+publishers of the boardgames,
+or what categories of games and game mechanics the board game has.
+The third is user polling data about aspects of the board game,
+e.g. what the optimal playtime users think the board game should have,
+but I'll be ignoring this data in this analysis for simplicity.
 
-Restricting the data set below.
-Then cut off data by rated games etc.
 
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
