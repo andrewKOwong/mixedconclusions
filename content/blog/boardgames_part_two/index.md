@@ -17,7 +17,7 @@ cover:
 
 ## Introduction
 In a [previous post]({{< ref "/blog/boardgames_part_one.md" >}})
-I described a data download from [boardgamegeek.com](https://boardgamegeek.com/)
+I described a data download from [boardgamegeek.com](https://boardgamegeek.com/) (BGG)
 on Sep 19, 2022.
 
 In this post, I'll describe an exploratory data analysis on this data set.
@@ -31,27 +31,40 @@ Third, I'll try to answer the question "Are we in a golden age of boardgames?"
 by looking at how boardgame ratings have changed over time.
 
 ## Overview of Data
-During the data download, I split boardgame data into three parts.
-The first contains general information about the boardgame.
-The second contains data about other meta information for that boardgame,
+During the data download, I split boardgame data into three parts:
+- The first part contains general information about the boardgame.
+- The second contains data about other meta information for that boardgame,
 such as what categories each game belongs to, the mechanics it contains,
 or what publishers have published that boardgame.
-The third is user polling data about aspects of the boardgame,
+- The third is user polling data about aspects of the boardgame,
 such as the optimal playtime that users think the boardgame will take to play,
 but I'll be ignoring this data in this analysis for simplicity.
 
-The general data set consists of X game and Y data fields.
-That's a lot of games, but a lot of games are very obscure and rare.
+### General Data
+The general data set consists of 108015 game entries and 23 data fields.
+A lot of these games are obscure or rare, I'll narrow this down to a smaller dataset before further investigation,
+as described below.
 
-To narrow the scope of discussion,
-I'm gonna narrow the scope of analysis a bit by discussing
-only games that have a "geek rating" which I describe below.
+### Link Data
+The XML data returned from the BGG API contains a number of `<link>` tags for each game.
+These link out to ten types of other metadata about a game:
+- Artists that have worked on the game.
+- Designers that have worked on the game.
+- Publishers that have published the game.
+- Mechanics that the game uses (e.g. dice rolling, hand management)
+- Expansions of the game.
+- Compilations that the boardgame belongs to.
+- Games that reimplement the mechanics of the boardgame.
+- Games that can be integrated (i.e. combined with) the game. 
+- Categories of games that a game belongs to 
+(e.g. card game, war game, fantasy, party game)
+- Board game families that the game belongs to.
+This seems to be a more abstract type of categorization
+(e.g. "Players: Two Player Only Games", "Crowdfunding: Kickstarter", "Components: Miniatures")
 
-Then I'll give an overview of the general information.
+The raw data contains 1053398 links. Some of these links are "inbound" links.
+This happens when e.g. a boardgame is technically an expansion of another game, but is also a stand alone boardgame itself.
 
-Finally, I'll take a look at ratings of the board games
-to see if we can answer the question
-"Are we in the golden age of board games?"
 
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
