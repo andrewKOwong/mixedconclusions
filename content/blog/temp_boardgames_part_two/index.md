@@ -41,6 +41,12 @@ To narrow the scope of discussion,
 I'm gonna narrow the scope of analysis a bit by discussing
 only games that have a "geek rating" which I describe below.
 
+Then I'll give an overview of the general information.
+
+Finally, I'll take a look at ratings of the board games
+to see if we can answer the question
+"Are we in the golden age of board games?"
+
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
 
