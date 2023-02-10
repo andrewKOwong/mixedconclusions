@@ -271,12 +271,15 @@ There are no empty string values in text columns.
 Let's take a brief look at each of these data columns.
 
 ### Name and Description
+As a quick qualitative look at word frequencies in these text fields,
+let's construct some [word clouds](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html)
+that approximately display frequency of common words by size of the word,
+while omitting [stop words](https://en.wikipedia.org/wiki/Stop_word) like "and", "the", etc.:
 
-For fun, this is a [word cloud](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html) of common words in the name field:
-
+This is a word cloud from board game names:
 [![Wordcloud from boardgame names](images/name_wordcloud.png)](images/name_wordcloud.png)
 
-Similarly, this is a word cloud of the description field:
+Similarly, this is a word cloud of the board game descriptions:
 [![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
 
 ### Year Published
