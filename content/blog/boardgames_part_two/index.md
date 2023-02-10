@@ -22,17 +22,22 @@ on Sep 19, 2022.
 
 In this post, I'll describe an exploratory data analysis on this data set.
 
+First, I'll describe an investigation into the "geek rating" of a boardgame.
+I'll use this geek rating to narrow the scope of boardgames we look at.
+
+Second, I'll give an overview of general characteristics of this boardgame dataset.
+
+Third, I'll try to answer the question "Are we in a golden age of boardgames?"
+by looking at how boardgame ratings have changed over time.
 
 ## Overview of Data
-The data set consists of three parquet files.
-
-From each board game entry, I split the information into three separate files.
-One is general information about the board games.
-The second is data linking to other meta information, such as
-publishers of the boardgames,
-or what categories of games and game mechanics the board game has.
-The third is user polling data about aspects of the board game,
-e.g. what the optimal playtime users think the board game should have,
+During the data download, I split boardgame data into three parts.
+The first contains general information about the boardgame.
+The second contains data about other meta information for that boardgame,
+such as what categories each game belongs to, the mechanics it contains,
+or what publishers have published that boardgame.
+The third is user polling data about aspects of the boardgame,
+such as the optimal playtime that users think the boardgame will take to play,
 but I'll be ignoring this data in this analysis for simplicity.
 
 The general data set consists of X game and Y data fields.
