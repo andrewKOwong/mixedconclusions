@@ -369,18 +369,18 @@ which I've prefixed with `rating_`. Here's a description each column:
  - `ratings_weights_average`: the mean of the weight rating. 
 
 For a simplified look at these ratings columns, 
-To simplify looking at the ratings, below is 1) a heatmap of the correlation coefficients between the columns and 2) the heatmap after clustering.
+below is 1) a heatmap of the correlation coefficients between the columns and 2) the heatmap after clustering.
+
+Heatmap:
+[![Heatmap of rating columns correlations](images/ratings_heatmap.png)](images/ratings_heatmap.png)
+
+Clustermap:
+[![Clustermap of rating column correlations](images/ratings_clustermap.png)](images/ratings_clustermap.png)
 
 Some observations:
 - the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are highly to fairly correlated with each other.
-- number of regular or weight ratings isn't correlated with the average regular or weight rating.
-- average rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher
-
-[![Heatmap of rating columns correlations](images/ratings_heatmap.png)](images/ratings_heatmap.png)
-
-
-[![Clustermap of rating column correlations](images/ratings_clustermap.png)](images/ratings_clustermap.png)
-
+- number of regular or weight ratings isn't correlated with the average score of the ratings.
+- average rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher.
 
 
 ## What is the Golden Age of Board Games?
