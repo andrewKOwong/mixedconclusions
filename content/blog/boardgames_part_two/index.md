@@ -332,11 +332,17 @@ most likely indicate the use of 0's as a missing value placeholder.
 [![Heatmap of boardgame player requirements for player max less than 24](images/players_heatmap.png)](images/players_heatmap.png)
 
 ### Playtime
+Board games have value for minimum playtime, playtime, and maximum playtime,
+but the maximum playtime column is actually redundant with the playtime column.
 
-This is a heatmap showing the annotated minimum and maximum suggested playtimes for games. 0 and 0 are missing values. The biggest category is for games at 30 minimum predicted playtime.
+Below is a heatmap showing the number of games in various
+minimum and maximum playtime bins.
+Games with 0 for both minimum and maximum playtimes are using
+0 as as a missing value placeholder.
+The biggest bin is for games with a 30 minute value for both
+maximum and minimum playtime.
 
-
-[![](images/playtime_heatmap.png)](images/playtime_heatmap.png)
+[![Heatmap of boardgame play times](images/playtime_heatmap.png)](images/playtime_heatmap.png)
 
 ### Age
 
