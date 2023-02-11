@@ -316,10 +316,18 @@ as part of their marketing efforts.
 
 
 ### Players
-Redundant player columns
+Board games have a value for minimum and maximum number of players. 
+For about 19% of games these values are the same.
 
-Player max It gets quite high. If we ignore those
-then here's a heat map for it.
+The largest minimum number of players is 10,
+while the largest maximum number of players goes up to 999.
+
+If we ignore the games with a player max larger than 24,
+we can construct a heatmap between minimum and maximum player numbers.
+Most games are 2 players or 2-4 players.
+Note that in cases where both the minimum and maximum are 0,
+or where the maximum is 0 but the minimum is not,
+most likely indicate the use of 0's as a missing value placeholder.
 
 [![Heatmap of boardgame player requirements for player max less than 24](images/players_heatmap.png)](images/players_heatmap.png)
 
