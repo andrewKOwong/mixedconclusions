@@ -84,3 +84,15 @@ These are the most negative and positive coefficients in the linear model:
 ![The most positive coefficients](images/coefs_bottom.png "The most positive coefficients")
 
 Once again, the most strongly correlated/anti-correlated features to price are related to listing size (bedrooms etc.). As well, some neighbourhoods seem to be predictive of pricing. Bizarrely, some amenities such as the presence wifi are negatively correlated with price. However, some amenities categories including wifi are very unbalanced between groups (e.g. >50 fold difference between having the amenity and not), and so should be interpreted with caution, as it’s likely not statiscally meaningful.
+
+## Conclusion
+To summarize:
+
+- Most Vancouver AirBnb listings were located in Downtown.
+- The median nightly price of a listing is 115 CAD, although the distribution of prices was right skewed.
+- Of the quantitative variables, the price of a listing was most correlated with how many bedrooms/the size of an listing.
+- Some listings appear to be mispriced, where the listed nightly price likely is intended as a monthly price for a longer term rental.
+
+While I was able to fit a moderately predictive linear model, this model needs to be tested on data such as listings outside the month of April 2021. Indeed, it would be desireable to fit (probably more complex) models on a larger data set from a longer time period, and use it to predict prices going forward.
+
+Since the data is taken during the COVID-19 pandemic and associated travel restrictions, it is unclear if this model is generalizable to listings during non-pandemic time.
