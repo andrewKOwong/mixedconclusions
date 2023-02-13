@@ -27,8 +27,16 @@ Can we fit a model to predict a listing’s price based on its features?
 To get data on Airbnb listings, I accessed webscraped data from [Inside Airbnb](http://insideairbnb.com/), a website that documents the impact of Airbnb on housing availability.
 As a free service, it provides [twelve months of data](http://insideairbnb.com/get-the-data.html) on listings in many cities. For simplicity, I decided to limit my analysis to a single month (April 2021). These data consists of 4299 listings that were scraped over 2 days in mid-April.
 
-## Test section
+## Where are the Airbnb listings and how are they priced?
 
-![bedrooms](images/bedrooms.png "test title")
+Here’s a map of the listings, with yellow dots indicating listing, and white outlines for the neighbourhoods of Vancouver:
 
-test test
+![Map of the neighbourhoods of Vancouver, with dots indicating Airbnb listings](images/map.png "Map of the neighbourhoods of Vancouver, with dots indicating Airbnb listings")
+
+Downtown is the busiest neighbourhood of listings. I then checked to see what the prices of listings were in the different neighbourhoods. There were large spreads of prices in a lot of neighbourhoods, with Kitsilano having the highest median price:
+
+![Boxplots of nightly prices of listings by neighbourhood (in CAD). Note the log scale for price.](images/price_v_neighbourhood.png "Boxplots of nightly prices of listings by neighbourhood (in CAD). Note the log scale for price.")
+
+Overall, prices follow a right-skewed distribution:
+
+![Price Distribution Histogram](images/price_hist.png)
