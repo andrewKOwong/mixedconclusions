@@ -67,3 +67,20 @@ Looking closer at the one bedroom listings, there’s are several listings that 
 ![Boxplot of one bedroom listings and their prices.](images/one_bedroom.png "Boxplot of one bedroom listings and their prices.")
 
 There are 5 listings here that are above $1000 a night. Inspecting the listings, they appear to be fairly average one bedroom apartments. Based on their descriptions and that some of them have 6 month minimum stays, I believe these prices are actually intended to be monthly prices that have been mispriced as daily prices.
+
+## Can we fit a model to predict a listing’s price based on its features?
+Finally, I used a linear model to see if a simple model would allow me to predict prices. I used most of the features, but dropped features related to the hosts of the listings, such as how long a host has been a host and whether they have a profile pic, as these features were often missing and not very correlated to price according to my exploratory analysis.
+
+Splitting the data 70:30 for training/testing, I ended up with a model with an R² of 0.41.
+
+Examining the predictions, I found that the model was underpredicting expensive listings. As well, some predictions were negative for the lower priced listings:
+
+![Histogram of test set prices (orange) and predictions (blue). Top and bottom are linear and log scale for count, respectively.](images/predictions_histogram.png "Histogram of test set prices (orange) and predictions (blue). Top and bottom are linear and log scale for count, respectively.")
+
+These are the most negative and positive coefficients in the linear model:
+
+![The most negative coefficients](images/coefs_top.png "The most negative coefficients")
+
+![The most positive coefficients](images/coefs_bottom.png "The most positive coefficients")
+
+Once again, the most strongly correlated/anti-correlated features to price are related to listing size (bedrooms etc.). As well, some neighbourhoods seem to be predictive of pricing. Bizarrely, some amenities such as the presence wifi are negatively correlated with price. However, some amenities categories including wifi are very unbalanced between groups (e.g. >50 fold difference between having the amenity and not), and so should be interpreted with caution, as it’s likely not statiscally meaningful.
