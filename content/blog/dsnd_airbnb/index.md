@@ -20,9 +20,9 @@ How would a potential Airbnb host price their listing? They might want to find o
 
 Thus, I was curious about the following questions find out about Airbnbs in my city (Vancouver, Canada):
 
-Where are the Airbnb listings in Vancouver, and how are they priced?
-What features affect the price of an Airbnb listing?
-Can we fit a model to predict a listing’s price based on its features?
+- Where are the Airbnb listings in Vancouver, and how are they priced?
+- What features affect the price of an Airbnb listing?
+- Can we fit a model to predict a listing’s price based on its features?
 
 To get data on Airbnb listings, I accessed webscraped data from [Inside Airbnb](http://insideairbnb.com/), a website that documents the impact of Airbnb on housing availability.
 As a free service, it provides [twelve months of data](http://insideairbnb.com/get-the-data.html) on listings in many cities. For simplicity, I decided to limit my analysis to a single month (April 2021). These data consists of 4299 listings that were scraped over 2 days in mid-April.
