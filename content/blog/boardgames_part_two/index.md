@@ -421,12 +421,12 @@ Plot of complexity vs ratings over time.
 Top 5%.
 [![](images/rating_v_complexity_top5per_hist2d.png)](images/rating_v_complexity_top5per_hist2d.png)
 
-Plot regression of the complexity scatter.
 
 Plot complexity over time.
 
 Something about last two years of it. just being noise.
 
+What happened in 2010 to complexity? And why is complexity so flat
 
 ### Somehow plot some high rating on mechanics or other linkage data
 
