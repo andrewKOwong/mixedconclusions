@@ -7,7 +7,7 @@ tags: [boardgames]
 ShowToc: true
 TocOpen: true
 comments: true
-draft: false
+draft: true 
 ---
 ## Introduction
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
