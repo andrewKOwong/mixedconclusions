@@ -40,3 +40,30 @@ Downtown is the busiest neighbourhood of listings. I then checked to see what th
 Overall, prices follow a right-skewed distribution:
 
 ![Price Distribution Histogram](images/price_hist.png)
+
+## What features affect the price of an Airbnb listing?
+Listings have 73 features (including the price). These features range from information about the host, the rooms/location itself, and reviews about the listing.
+
+I initially investigated the relationship between categorical variables and the price, including the presence/absence of a shortened list of amenities. Most individual features were not strongly associated with price. Notably however, whether the listing was an entire unit as opposed to a private/shared room is correlated with a price increase:
+
+![Boxplots of price vs. the type of listing.](images/listing_type_correlation.png "Boxplots of price vs. the type of listing.")
+
+Next, I looked at the correlation of quantitative features by plotting a matrix of scatter plots and their Pearson correlation coefficients:
+
+TODO INSERT IMAGE
+
+There’s a few hotspots here in the Pearson R-values. The number of reviews, reviews in the last twelve months (ltm), in the last 30 days (l30d), and per month are very correlated with each other, as one might expect. Similarly, the number of people of listing accommodates, the number of bathrooms, bedrooms, and beds a listing has are all correlated with each other, as these all indicate the size of a listing. Notably, the price of a listing is moderately correlated with these size variables as well.
+
+I took a closer look at the correlation between the number of bedrooms a listing has and its price:
+
+![Boxplot of price vs the number of bedrooms a listing has.](images/bedrooms.png "Boxplot of price vs the number of bedrooms a listing has.")
+
+The general trend is that as the number of bedrooms increases, the price of a listing goes up. An anomaly is the 13 bedroom listing that is priced below $50. This turns out to be a joke listing for a haunted house:
+
+![Picture of a haunted house listing](images/haunted_house.png "A spooky stay.")
+
+Looking closer at the one bedroom listings, there’s are several listings that are surprisingly expensive:
+
+![Boxplot of one bedroom listings and their prices.](images/one_bedroom.png "Boxplot of one bedroom listings and their prices.")
+
+There are 5 listings here that are above $1000 a night. Inspecting the listings, they appear to be fairly average one bedroom apartments. Based on their descriptions and that some of them have 6 month minimum stays, I believe these prices are actually intended to be monthly prices that have been mispriced as daily prices.
