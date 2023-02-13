@@ -4,7 +4,14 @@
         <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}"
         style="display: block; margin-left: auto; margin-right: auto">
     </a>
-    <figcaption style="text-align:center;">{{ .Title }}</figcaption>
+    <figcaption 
+        style="
+            text-align: center;
+            font-style: italic;
+            font-weight: normal;
+        ">
+        {{ .Title }}
+    </figcaption>
 </figure>
 {{ else }}
     <a href="{{ .Destination | safeURL }}" target="_blank">
