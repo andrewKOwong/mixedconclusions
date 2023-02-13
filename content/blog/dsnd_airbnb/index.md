@@ -39,7 +39,7 @@ Downtown is the busiest neighbourhood of listings. I then checked to see what th
 
 Overall, prices follow a right-skewed distribution:
 
-![Price Distribution Histogram](images/price_hist.png)
+![Price Distribution Histogram](images/price_hist.png "Distribution of listing prices.")
 
 ## What features affect the price of an Airbnb listing?
 Listings have 73 features (including the price). These features range from information about the host, the rooms/location itself, and reviews about the listing.
