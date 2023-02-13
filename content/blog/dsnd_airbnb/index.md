@@ -12,3 +12,9 @@ cover:
     image: "images/cover.jpg"
     caption: ""
 ---
+
+## Test section
+
+![bedrooms](images/bedrooms.png "test title")
+
+test test
