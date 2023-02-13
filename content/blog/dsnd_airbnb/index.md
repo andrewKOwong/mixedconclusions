@@ -50,7 +50,7 @@ I initially investigated the relationship between categorical variables and the 
 
 Next, I looked at the correlation of quantitative features by plotting a matrix of scatter plots and their Pearson correlation coefficients:
 
-TODO INSERT IMAGE
+![Matrix of scatterplots of quantitative variables and their Pearson correlation coefficients. Diagonal contains histograms.](images/quant_var_corr.png "Matrix of scatterplots of quantitative variables and their Pearson correlation coefficients. Diagonal contains histograms.")
 
 There’s a few hotspots here in the Pearson R-values. The number of reviews, reviews in the last twelve months (ltm), in the last 30 days (l30d), and per month are very correlated with each other, as one might expect. Similarly, the number of people of listing accommodates, the number of bathrooms, bedrooms, and beds a listing has are all correlated with each other, as these all indicate the size of a listing. Notably, the price of a listing is moderately correlated with these size variables as well.
 
