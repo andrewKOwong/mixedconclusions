@@ -17,7 +17,7 @@ cover:
 ### Project Overview
 (Note: The code accompanying this post is available in [this GitHub repository](https://github.com/andrewKOwong/dsnd-starbucks)).
 
-Starbucks is a well-known coffee company [operating ~32,000 stores](https://s22.q4cdn.com/869488222/files/doc_financials/2020/ar/2020-Starbucks-Annual-Report.pdf) with net revenues of 23B USD as of 2020. Starbucks customers can choose to participate in the Starbucks Rewards programs, allowing them to earn discounts on purchases as well as receive special offers from time to time. Knowing how customers react to specific offers could be valuable information, as sending the right offer to the right customer at the right time could favorably influence how much customers spend.
+Starbucks is a well-known coffee company [operating ~32,000 stores with net revenues of 23B USD as of 2020](https://s22.q4cdn.com/869488222/files/doc_financials/2020/ar/2020-Starbucks-Annual-Report.pdf). Starbucks customers can choose to participate in the Starbucks Rewards programs, allowing them to earn discounts on purchases as well as receive special offers from time to time. Knowing how customers react to specific offers could be valuable information, as sending the right offer to the right customer at the right time could favorably influence how much customers spend.
 
 As part of the Data Scientist Nanodegree, Udacity provided a simulated dataset of 17000 rewards program customers. This dataset contains customer transactions over a period of around one month, including when these customers received, viewed, and completed reward offers.
 
