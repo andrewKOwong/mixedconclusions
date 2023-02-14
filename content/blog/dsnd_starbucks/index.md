@@ -195,3 +195,12 @@ Indeed, this could potentially lower the apparently high response rates of some 
 
 An interesting future direction would be to build a combined model based on offer type. For example, one could build a model for bogo offers and factor in the difficulty and reward amounts. However, since there’s probably only a limited number of offer configurations (e.g. bogos are probably being offered in “round” increments of 5/10 etc.), this may not be worth extra effort.
 
+## References
+- [Github Repository](https://github.com/andrewKOwong/dsnd-starbucks)
+- [Starbucks FY2020 Annual Report](https://s22.q4cdn.com/869488222/files/doc_financials/2020/ar/2020-Starbucks-Annual-Report.pdf)
+- [Statista US Median Age](https://www.statista.com/statistics/241494/median-age-of-the-us-population/)
+- [Statista US Age Distribution](https://www.statista.com/statistics/241488/population-of-the-us-by-sex-and-age/)
+- [Statistia US Median Income](https://www.statista.com/statistics/236765/median-annual-family-income-in-the-united-states-from-1990/)
+- [Towards Data Science on Random Forest Hyperparameter tuning](https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74)
+- [Chicco and Jurman on Matthews Correlation Coefficient](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6941312/)
+- [Scikit Learn Matthew Correlation Coefficient](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.matthews_corrcoef.html)
