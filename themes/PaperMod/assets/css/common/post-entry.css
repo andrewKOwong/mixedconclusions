@@ -64,7 +64,9 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    /* CHANGED: used to be 2, removed so could show more summary lines 
+    in front page cards */
+    -webkit-line-clamp: none;
 }
 
 .entry-footer {
