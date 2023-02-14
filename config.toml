@@ -1,4 +1,4 @@
-baseURL = 'https://mixedconclusions.com/'
+baseURL = 'https://mixedconclusions.com'
 languageCode = 'en-ca'
 title = 'Mixed Conclusions'
 theme = 'PaperMod'
