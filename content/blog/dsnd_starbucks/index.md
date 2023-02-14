@@ -167,3 +167,10 @@ Let’s take a look at accuracy vs proportion to get a more intuitive feel of th
 ![Model accuracy scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.](images/model_accuracy.png "Model accuracy scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.")
 
 We see a similar trend in accuracy as to the F1 scores. For offers with proportions around 0.5, we’re getting surplus accuracy of around 0.2 better than random. However, this surplus decreases as the proportions get higher, with offer 8 being 90% viewed only getting 0.05 surplus accuracy.
+
+### Model Recommendation and Justification
+Although the KNN and RF models achieved around the same test scores, I found the KNN models to be much faster to train on my machine. Thus, I’d probably pick the KNN models for use as it’ll be faster to retrain and readjust with new data if necessary.
+
+For more imbalanced offers such as offers 6, 7, and 8 where customers have high rates of response, it may be better to send the offer to everyone anyways.
+
+However, I feel significant improvements can be made, as discussed below.
