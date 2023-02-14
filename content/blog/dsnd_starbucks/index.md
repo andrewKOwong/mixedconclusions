@@ -53,3 +53,29 @@ All customers had at least a date associated with when they signed up for member
 As well, 87% of customers had gender, age, and income data, with the remaining 13% not having any of these data. There were three gender categories. Surprisingly, age is centered around age 60 (US [median age](https://www.statista.com/statistics/241494/median-age-of-the-us-population/) is 38 years, see [distribution](https://www.statista.com/statistics/241488/population-of-the-us-by-sex-and-age/)). Income is centered around $75000 (US [median house hold income](https://www.statista.com/statistics/236765/median-annual-family-income-in-the-united-states-from-1990/) is ~$84000, although we don’t know if this income is individual or household.
 
 ![Gender, age, and income distributions for customers with demographic data.](images/customer_demo.png "Gender, age, and income distributions for customers with demographic data.")
+
+### Customer Transcript
+The transcript spans a time period of 714 hours (~30 days) and contains both transaction events (where customers spend money), and events related to the offers.
+
+![Transcript entries by event category.](images/transcript_breakdown.png "Transcript entries by event category.")
+
+Transaction amounts are highly skewed, with a small number of very large transactions. A thousand dollars spent in a single Starbucks order may seem like a lot, but those could be group or corporate orders (e.g. ten 12-coffee carafes without food could already be $250, and I’ve personally spent $300 on gift cards once to put in gift baskets for an event).
+
+![Distribution of transaction amounts. Top is linear scale, middle is log scale of counts showing the small number of large transactions, bottom is a zoom of transaction amounts from 0 to $40 (99% quantile).](images/transaction_distributions.png "Distribution of transaction amounts. Top is linear scale, middle is log scale of counts showing the small number of large transactions, bottom is a zoom of transaction amounts from 0 to $40 (99% quantile).")
+
+
+The distribution of total transactions per customer is also highly right skewed, and the number of transactions per customer is slightly skewed.
+
+![Total transaction spend per customer.](images/transaction%20total%20spend%20per%20customer.png "Total transaction spend per customer.")
+
+![Number of transactions per customer](images/number%20of%20transactions%20per%20customer.png "Number of transactions per customer.")
+
+![Scatter plot of number of transactions versus total spend per customer.](images/transaction%20spend%20vs%20number%20of%20transactions.png "Scatter plot of number of transactions versus total spend per customer.")
+
+Offers were sent to customers at six not-quite evenly spaced time points. At each timepoint, all 10 offers were made to ~1200 customers each, with ~4000 customers not receiving a new offer at each time point. Customers must receive offers before being able to complete them. However, customers do not actually have to view the offers first.
+
+Offers have overlapping durations, so customers may have more than one offer active at one time.
+
+![Histogram of total number of offers and the number of unique offers that customers receive.](images/offers_unique_v_total.png "Histogram of total number of offers and the number of unique offers that customers receive.")
+
+![Scatterplot of total offers vs unique offers per customer. Some customers have number of unique offers less than the number of total offers, indicating that they get the same offer more than once.](images/offers_unique_v_total_scatter.png "Scatterplot of total offers vs unique offers per customer. Some customers have number of unique offers less than the number of total offers, indicating that they get the same offer more than once.")
