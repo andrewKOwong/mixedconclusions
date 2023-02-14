@@ -119,3 +119,27 @@ Customers first registered in 2015 and 2016 have the highest completion rates.
 ![Offer view and completion rates by customer signup date. Offers 3 and 8 have no completion rates as they are informational offers (view only).](images/offer_date.png "Offer view and completion rates by customer signup date. Offers 3 and 8 have no completion rates as they are informational offers (view only).")
 
 Now that we’ve done some exploratory data analysis, let’s take a look to see if we can fit a model to predict for whether a customer will view/complete an offer.
+
+## Model Building Methodology
+I elected to build models to predict whether a customer (based on their age, income, age, and how long they’ve been a member for) would respond to a particular offer. Knowing whether a customer will complete an offer could help us figure out which offer to target to which customers. Potentially, this could drive engagement in a marketing campaign, and over the long run increase customer spending.
+
+### Data Preprocessing
+I compiled the data by again collecting whether — given each offer — a customer would respond or not in the time period of the data set, regardless of number of exposures or exposure to other offers. Each offer thus had its own dataset composed of a number of customer ids along with 0’s or 1’s for non-response and response to an offer. Feature information of age, income, gender, and duration of their rewards membership was also attached. For offers 3 and 8 (which are informational offers), I used viewing as the target customer response, whereas for all other offers I used offer completion as the target.
+
+These ten datasets were then each split into a 70% training set and a 30% test set, such that the training set contains none of customer ids in the test set and vice versa.
+
+Features data was also standardized to zero mean and unit variance.
+
+### Implementation and Refinement
+As this is a classification task (i.e. predicting whether a customer is in a “complete or not” category, or in the case of offers 3 and 8, whether a customer is in a “view or not” category), I initially tested a K nearest neighbours (KNN) model for this problem, as it was easy to implement and quick to train.
+
+I used `GridSearchCV` to tune the `n_neighbors` hyperparameter in a search space of `[1, 5, 10, 20, 40, 80, 160, 320, 640, 1000]` neighbors. Given that in the training set there are at most 17000 * 0.7 = 11900 customers, I wasn’t sure if pushing k > 1000 and using more than 10% of the data to classify a point made sense.
+
+For comparison, I then added random forest (RF) models. For these, the hyperparameter search space was (inspired by this [post](https://towardsdatascience.com/hyperparameter-tuning-the-random-forest-in-python-using-scikit-learn-28d2aa77dd74)):
+
+- `n_estimators`: 10, 100
+- `max_depth`: 100, None
+- `min_samples_split`: 2, 5, 10, 20
+- `min_samples_leaf`: 1, 2, 4, 8
+
+Both the KNN and RF models were then trained on the same training set with 5-fold cross validation. F1 scoring was used to balance precision and recall.
