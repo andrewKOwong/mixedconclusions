@@ -79,3 +79,14 @@ Offers have overlapping durations, so customers may have more than one offer act
 ![Histogram of total number of offers and the number of unique offers that customers receive.](images/offers_unique_v_total.png "Histogram of total number of offers and the number of unique offers that customers receive.")
 
 ![Scatterplot of total offers vs unique offers per customer. Some customers have number of unique offers less than the number of total offers, indicating that they get the same offer more than once.](images/offers_unique_v_total_scatter.png "Scatterplot of total offers vs unique offers per customer. Some customers have number of unique offers less than the number of total offers, indicating that they get the same offer more than once.")
+
+### What is the relationship between transactions and other variables?
+Of the four pieces of information we know about each customer, I found that there were more obvious differences between customers when considering gender and income.
+
+For gender, people identifying as female seemed to have the highest total transaction spend (i.e. the sum of all the transactions of that customer).
+
+![Average of the total of transaction spend per customer, grouped by gender.](images/transaction%20mean%20total%20spend%20per%20customer.png "Average of the total of transaction spend per customer, grouped by gender.")
+
+Higher income appears to be associated with higher total transactions. Note there are two apparent distributions.
+
+![Total transaction spend per customer versus customer income. Customers without demographic information are coded as income -1.](images/transaction%20total%20spend%20per%20customer%20vs%20income.png "Total transaction spend per customer versus customer income. Customers without demographic information are coded as income -1.")
