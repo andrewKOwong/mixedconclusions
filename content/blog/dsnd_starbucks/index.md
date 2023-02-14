@@ -143,3 +143,27 @@ For comparison, I then added random forest (RF) models. For these, the hyperpara
 - `min_samples_leaf`: 1, 2, 4, 8
 
 Both the KNN and RF models were then trained on the same training set with 5-fold cross validation. F1 scoring was used to balance precision and recall.
+
+## Results
+### Model Evaluation and Validation
+The best hyperparameters found by `GridSearchCV` for each offer are shown below. Scores are F1 scores for the training set.
+
+![Best hyperparameters found by GridSearchCV for KNN models per offer. List is in ascending order from offer 1 to 10.](images/hyperparameters_KNN.png "Best hyperparameters found by GridSearchCV for KNN models per offer. List is in ascending order from offer 1 to 10.")
+
+![Best hyperparameters found by GridSearchCV for random forest models per offer. List is in ascending order from offer 1 to 10.](images/hyperparameters_rfc.png "Best hyperparameters found by GridSearchCV for random forest models per offer. List is in ascending order from offer 1 to 10.")
+
+I used F1 scores here to balance precision and recall. Below is a plot of all the F1 scores for training vs test data for each offer.
+
+![F1 scores for K nearest neighbours (knn) and random forest (rfc) classifiers for each of 10 offers.](images/model_scores.png "F1 scores for K nearest neighbours (knn) and random forest (rfc) classifiers for each of 10 offers.")
+
+Why do some offers have much higher F1 scores than others? It turns out this is actually due to class imbalance. Below is a plot of the same test scores but against the proportion of customers that responded (i.e. completed/viewed) an offer.
+
+![Model F1 scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.](images/model_proportion_v_F1.png "Model F1 scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.")
+
+Offers with high response rates generally have higher test scores. Given what we saw in exploratory data analysis, it is likely that the features are discriminatory for response when most customers are responding to an offer. Nonetheless, when the classes are approximately equal, the KNN and RF models reach an F1 score of around 0.70.
+
+Let’s take a look at accuracy vs proportion to get a more intuitive feel of the results.
+
+![Model accuracy scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.](images/model_accuracy.png "Model accuracy scores vs proportion of customers responding to an offer (i.e. complete or view an offer) on test set data.")
+
+We see a similar trend in accuracy as to the F1 scores. For offers with proportions around 0.5, we’re getting surplus accuracy of around 0.2 better than random. However, this surplus decreases as the proportions get higher, with offer 8 being 90% viewed only getting 0.05 surplus accuracy.
