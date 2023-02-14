@@ -90,3 +90,32 @@ For gender, people identifying as female seemed to have the highest total transa
 Higher income appears to be associated with higher total transactions. Note there are two apparent distributions.
 
 ![Total transaction spend per customer versus customer income. Customers without demographic information are coded as income -1.](images/transaction%20total%20spend%20per%20customer%20vs%20income.png "Total transaction spend per customer versus customer income. Customers without demographic information are coded as income -1.")
+
+### Which offers are completed/viewed?
+Since customers can receive the same offer more than once and have more than one offer active at one time, a customer may potentially be responding to an offer based on repeated exposure to an offer, or be influenced by exposure to other offers.
+
+To simplify this situation, we can measure if a customer responds at any time to a specific offer in the time frame of this data. That is: if a customer receives an offer at least once, do they view or complete the offer at least once?
+
+Additionally, are there trends between customer demographics and offer view/completion rates?
+
+To answer these questions, I filtered the data for customers with demographic information (87% of the customers). I then plotted view/completion rates for individual offers for these customers.
+
+Below are the data split between customer gender, age, income, and sign up date. As a general note, offers 1, 2, 6, 7, 8, and 9 have high view rates across the board.
+
+For offers 4, 5, 9, and 10, males have the lowest view and completion rate.
+
+![Offer view and completion rates by customer gender. Offers 3 and 8 have no completion rates as they are informational offers (view only).](images/offer_gender.png "Offer view and completion rates by customer gender. Offers 3 and 8 have no completion rates as they are informational offers (view only).")
+
+For age demographics, the youngest age groups have the lowest view/completion rates for several offers. Note the 100–105 age category is much smaller than most age categories, and hence might have high rates due to the small number of customers.
+
+![Offer view and completion rates by customer age. Offers 3 and 8 have no completion rates as they are informational offers (view only).](images/offer_age.png "Offer view and completion rates by customer age. Offers 3 and 8 have no completion rates as they are informational offers (view only).")
+
+Offer completion generally increases among higher income customer groups.
+
+![Offer view and completion rates by customer income. Offers 3 and 8 have no completion rates as they are informational offers (view only).](images/offer_income.png "Offer view and completion rates by customer income. Offers 3 and 8 have no completion rates as they are informational offers (view only).")
+
+Customers first registered in 2015 and 2016 have the highest completion rates.
+
+![Offer view and completion rates by customer signup date. Offers 3 and 8 have no completion rates as they are informational offers (view only).](images/offer_date.png "Offer view and completion rates by customer signup date. Offers 3 and 8 have no completion rates as they are informational offers (view only).")
+
+Now that we’ve done some exploratory data analysis, let’s take a look to see if we can fit a model to predict for whether a customer will view/complete an offer.
