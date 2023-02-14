@@ -174,3 +174,24 @@ Although the KNN and RF models achieved around the same test scores, I found the
 For more imbalanced offers such as offers 6, 7, and 8 where customers have high rates of response, it may be better to send the offer to everyone anyways.
 
 However, I feel significant improvements can be made, as discussed below.
+
+## Conclusions, Reflection, and Improvement
+Here I built models that predict if a customer would respond to an offer, based on their demographic information (age, income, gender) and how long they’ve been a member. From the exploratory data analysis, these features did not seem to be strongly predictive individually. However, the models reached at least an F1 score of ~0.70.
+
+### Scoring and Class Imbalances
+I scored the models using F1 scoring as a generic first attempt. However, it would be worth testing something that takes into account true negatives such as [Matthews correlation coefficient](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6941312/) ([sklearn func](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.matthews_corrcoef.html)) which may help with class imbalances.
+
+### Additional Sources of Data
+I only tried two types of classification models as they were easy to implement. However, while I could’ve tested more model types, I suspect that the limiting factor here is data about the customers. Presumably, a customer’s spending patterns could tell us something about the offers they prefer, so incorporating transaction data into the models could be a good step forward. As well, if the business case for offers was to directly increase customer spend in the short term (as opposed to long term initiatives like building customer habituation or brand awareness etc.), the transactions themselves could be a prediction target.
+
+Additionally, if we had more detailed data about what actual items customers purchase, or how they use the mobile rewards app, we probably could build a more detailed profile for each customer with more features for prediction.
+
+### Alternative Experimental Setups
+For these models, I defined targets as whether a customer responds to an offer over the entire course of the time period of the data set. I did this solely as a simplification to avoid dealing with overlapping and repeated offers.
+
+An alternative would be asking whether an offer is responded to strictly within its duration window. This would be more pertinent if your business question was whether the customer would respond in the short term to any planned offer campaigns. Another way would be to run experiments with more standardized offer durations and timepoints.
+
+Indeed, this could potentially lower the apparently high response rates of some of the offers. With careful consideration, the lag time between when a customer receives an offer to when they view it, or when they view it to when they complete the offer may also be useful.
+
+An interesting future direction would be to build a combined model based on offer type. For example, one could build a model for bogo offers and factor in the difficulty and reward amounts. However, since there’s probably only a limited number of offer configurations (e.g. bogos are probably being offered in “round” increments of 5/10 etc.), this may not be worth extra effort.
+
