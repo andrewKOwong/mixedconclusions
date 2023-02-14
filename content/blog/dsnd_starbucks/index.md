@@ -179,7 +179,8 @@ However, I feel significant improvements can be made, as discussed below.
 Here I built models that predict if a customer would respond to an offer, based on their demographic information (age, income, gender) and how long they’ve been a member. From the exploratory data analysis, these features did not seem to be strongly predictive individually. However, the models reached at least an F1 score of ~0.70.
 
 ### Scoring and Class Imbalances
-I scored the models using F1 scoring as a generic first attempt. However, it would be worth testing something that takes into account true negatives such as [Matthews correlation coefficient](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6941312/) ([sklearn func](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.matthews_corrcoef.html)) which may help with class imbalances.
+I scored the models using F1 scoring as a generic first attempt. However, it would be worth testing something that takes into account true negatives such as [Matthews correlation coefficient](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6941312/)
+(see [sklearn function](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.matthews_corrcoef.html)) which may help with class imbalances.
 
 ### Additional Sources of Data
 I only tried two types of classification models as they were easy to implement. However, while I could’ve tested more model types, I suspect that the limiting factor here is data about the customers. Presumably, a customer’s spending patterns could tell us something about the offers they prefer, so incorporating transaction data into the models could be a good step forward. As well, if the business case for offers was to directly increase customer spend in the short term (as opposed to long term initiatives like building customer habituation or brand awareness etc.), the transactions themselves could be a prediction target.
