@@ -8,6 +8,11 @@ ShowToc: true
 TocOpen: true
 comments: true
 draft: true 
+summary: "
+What is the golden age of board games?
+In this blog post, I describe code to obtain a dataset of board games
+via the BoardGameGeek.com XML API.
+"
 ---
 ## Introduction
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
