@@ -4,6 +4,10 @@ zest*
 # vscode
 .vscode
 
+# Hugo resources directory currently only has generated files
+# Modify in future if using resources for other purposes.
+resources/
+
 # Hugo output directory
 /public
 
