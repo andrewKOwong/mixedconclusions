@@ -8,8 +8,13 @@ params:
   description: test description
   defaultTheme: dark
   homeInfoParams:
-    Title: Hello!
-    Content: Test
+    Title: Hello! 😃
+    Content: "My name is Andrew K.O. Wong.
+    I'm a cell biologist by training,
+    but these days I'm much more interested in data science.
+    Below are posts about some of my personal data analysis/data science projects.
+    Happy reading!
+    "
   author:
     name: Andrew Wong
     thumbnail: /images/andrew.jpeg
