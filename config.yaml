@@ -15,10 +15,10 @@ params:
     Below are posts about some of my personal data analysis/data science projects.
     Happy reading!
     "
-  author:
-    name: Andrew Wong
-    thumbnail: /images/andrew.jpeg
-    description: Creator of this blog.
+  author: Andrew Wong
+  #  name: Andrew Wong
+  #  thumbnail: /images/andrew.jpeg
+  #  description: Creator of this blog.
   index:
     picture: /images/andrew.jpeg
     title: Bonjour
