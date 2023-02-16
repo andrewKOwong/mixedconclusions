@@ -18,12 +18,6 @@ params:
   author: Andrew Wong
   ShowReadingTime: true
   ShowWordCount: true
-  index:
-    picture: /images/andrew.jpeg
-    title: Bonjour
-    subtitle: Place holder subtitle.
-    mdtext: More placeholder markdown.
-    alertbar: true
   social:
     github: andrewKOwong
     linkedin: akowong
