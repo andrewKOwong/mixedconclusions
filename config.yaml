@@ -16,9 +16,8 @@ params:
     Happy reading!
     "
   author: Andrew Wong
-  #  name: Andrew Wong
-  #  thumbnail: /images/andrew.jpeg
-  #  description: Creator of this blog.
+  ShowReadingTime: true
+  ShowWordCount: true
   index:
     picture: /images/andrew.jpeg
     title: Bonjour
