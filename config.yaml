@@ -1,0 +1,35 @@
+baseURL: 'https://mixedconclusions.com'
+languageCode: en-ca
+title: Mixed Conclusions
+theme: PaperMod
+copyright: Andrew Wong - All Rights Reserved.
+params:
+  logo: /images/test_icon.png
+  description: test description
+  defaultTheme: dark
+  homeInfoParams:
+    Title: Hello!
+    Content: Test
+  author:
+    name: Andrew Wong
+    thumbnail: /images/andrew.jpeg
+    description: Creator of this blog.
+  index:
+    picture: /images/andrew.jpeg
+    title: Bonjour
+    subtitle: Place holder subtitle.
+    mdtext: More placeholder markdown.
+    alertbar: true
+  social:
+    github: andrewKOwong
+    linkedin: akowong
+menu:
+  main:
+    - name: Blog
+      weight: 100
+      identifier: blog
+      url: /blog
+    - name: About Me
+      identifier: about
+      weight: 100
+      url: /
