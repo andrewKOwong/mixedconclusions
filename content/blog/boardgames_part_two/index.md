@@ -428,6 +428,11 @@ Something about last two years of it. just being noise.
 
 What happened in 2010 to complexity? And why is complexity so flat
 
+![](images/complexity_rating_vs_time.png)
+
+
+![](images/complexity_n_per_year.png)
+
 ### Somehow plot some high rating on mechanics or other linkage data
 
 
