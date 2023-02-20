@@ -412,9 +412,17 @@ If we had to further investigate the reasons behind this uptick, we could gather
 
 
 ### Complexity vs Ratings?
-Plot of complexity of games over time.
 
-Plot of complexity vs ratings over time.
+- Since there is a correlation between ratings and xx
+- One of the most correlationed
+- with yada yada correlation
+- Let's take a look
+
+There is a slight trend.
+Maybe I could plot some sort of line, and get the slope.
+
+Below I have the all the rated games,
+as well as the top 5% by number of standard ratings.
 
 [![](images/rating_v_complexity_hist2d.png)](images/rating_v_complexity_hist2d.png)
 
@@ -422,23 +430,31 @@ Top 5%.
 [![](images/rating_v_complexity_top5per_hist2d.png)](images/rating_v_complexity_top5per_hist2d.png)
 
 
-Plot complexity over time.
+Is there a trend of complexity over time?
+It's hard to tell, because it's not obvious.
+First of all, the median number of complexity ratings is small.
+Though this increases for the top 5% of games (by number of standard ratings).
 
-Something about last two years of it. just being noise.
-
-What happened in 2010 to complexity? And why is complexity so flat
+There is not an obvious trend in the top 5%.
+All games the median rating is being drawn from like
+5 ratings, so somewhat wary, since it's discrete values.
 
 ![](images/complexity_rating_vs_time.png)
 
 
 ![](images/complexity_n_per_year.png)
 
-### Somehow plot some high rating on mechanics or other linkage data
-
 
 
 ## Discussion
-
+- We are probably in the golden age of board games
+in the sheer amount, and there appears to be an increase in quality.
+    - although the increase in ratings in unknown.
+- For further work we can look at some into
+    - board game mechanics
+- BGG also has user information
+- How do the other link categories fit into the ratings
+- e.g. can we discover something about the ratings?
 - Would've downloaded the entire dataset. Would've been easier.
 - linear model to discover quality
 
