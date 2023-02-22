@@ -351,7 +351,7 @@ Minimum ages of 0 are probably of mix of real values and missing value placehold
 
 [![Histogram of minimum ages for boardgames.](images/age_histogram.png)](images/age_histogram.png)
 
-### Ratings
+### Ratings {#ratings}
 There are a number of data columns related to user ratings of the boardgames,
 which I've prefixed with `rating_`. Here's a description each column:
 
@@ -411,42 +411,39 @@ This could be a contributor to the sharper uptick post-2020.
 If we had to further investigate the reasons behind this uptick, we could gather data on individual reviews per game. For example, if we wanted to see if early adopters of a game tend to rate a game higher, we could see how the ratings for a game changes over time.
 
 
-### Complexity vs Ratings?
+### Are higher ratings a result of increased complexity?
+As we saw [above](#ratings), standard ratings (`ratings_mean`) is moderately correlated with the complexity ratings (`ratings_weights_average`) with a Pearson's correlation coefficient of 0.48.
 
-- Since there is a correlation between ratings and xx
-- One of the most correlationed
-- with yada yada correlation
-- Let's take a look
+Let's take a look at what this looks like
+by plotting a 2D histogram of 
+standard ratings vs complexity ratings.
 
-There is a slight trend.
-Maybe I could plot some sort of line, and get the slope.
+![](images/rating_v_complexity_hist2d.png "Histogram of standard ratings vs complexity ratings. Colour scale represents the count of games in each bin. Note: complexity ratings of 0 indicate that the game has no complexity rating, and these games comprise about 2.5% of all games.")
 
-Below I have the all the rated games,
-as well as the top 5% by number of standard ratings.
-
-[![](images/rating_v_complexity_hist2d.png)](images/rating_v_complexity_hist2d.png)
-
-Top 5%.
-[![](images/rating_v_complexity_top5per_hist2d.png)](images/rating_v_complexity_top5per_hist2d.png)
+There appears to indeed be a slight positive association between the two sets of ratings.
 
 
-Is there a trend of complexity over time?
-It's hard to tell, because it's not obvious.
-First of all, the median number of complexity ratings is small.
-Though this increases for the top 5% of games (by number of standard ratings).
+This trend also holds when only considering the top 5% of games by number of standard ratings.
 
-There is not an obvious trend in the top 5%.
-All games the median rating is being drawn from like
-5 ratings, so somewhat wary, since it's discrete values.
-
-![](images/complexity_rating_vs_time.png)
+![](images/rating_v_complexity_top5per_hist2d.png "Histogram of standard ratings vs complexity ratings, for top 5% of games by number of standard ratings.")
 
 
-![](images/complexity_n_per_year.png)
+Given that standard ratings have increased in the 2010s,
+we can also see if complexity ratings have increased concurrently.
 
 
+![](images/complexity_rating_vs_time.png "Median complexity ratings by year. Bars indicate number of games with complexity ratings.")
 
+It appears that an increasing in the 2010s is not obvious in either the top 5% or in all games. The spike in 2022/2023 is again probably some sort of bias from the smaller number of very recent games.
+
+However, note that the median rating is actually generated from a small number of individual ratings (often <10):
+
+![](images/complexity_n_per_year.png "Median number of complexity ratings per game, by year.")
+
+
+### Quick look at ratings vs other factors.
 ## Discussion
+
 - We are probably in the golden age of board games
 in the sheer amount, and there appears to be an increase in quality.
     - although the increase in ratings in unknown.
