@@ -444,21 +444,28 @@ However, note that the median rating is actually generated from a small number o
 ### Quick look at ratings vs other factors.
 ## Discussion
 
-- We are probably in the golden age of board games
-in the sheer amount, and there appears to be an increase in quality.
-    - although the increase in ratings in unknown.
-- For further work we can look at some into
-    - board game mechanics
-- BGG also has user information
-- How do the other link categories fit into the ratings
-- e.g. can we discover something about the ratings?
-- Would've downloaded the entire dataset. Would've been easier.
-- linear model to discover quality
+Given that the number of boardgames published and the overall rating of boardgames has kept increasing in the last decade,
+one could interpret this
+to mean we have increasingly more and better choices of games to play (assuming one has similar taste to the aggregate tastes of BGG users).
+Thus, it does seem reasonable to declare that we are in a golden age of boardgames.
 
-- As of this writing, one of the recommend.games website is down.
-- What data do I require?
-    - API has user ratings, get those
-    - build a recommender system using..
-        - list some SVM or something
+While I found that higher complexity was moderately associated 
+with increasing ratings of games,
+for further work we could dig deeper into what types of mechanics, themes, or other attributes
+are associated with ratings increases.
+If we then integrated these as features in the main data set,
+we start thinking about building models
+to figure out which features contribute most to higher ratings.
 
-Boardgamegeek was [founded](https://boardgamegeek.com/geeklist/236374/short-history-boardgamegeek) [in](https://en.wikipedia.org/wiki/BoardGameGeek) the year 2000.
+On a minor technical note, my analysis would probably have been easier
+if I had downloaded all boardgame ids instead of only boardgames alone
+(e.g. without expansions etc.),
+as this would have saved me some confusion and wrangling of missing
+board game ids. 
+
+As of this writing, [recommend.games](https://recommend.games/),
+a website for recommending board games to play, is [on hiatus](https://blog.recommend.games/posts/announcement-hiatus/),
+although a similar website [trythesegames.com](https://trythesegames.com/) is available. Looking at the [BGG XML API](https://boardgamegeek.com/wiki/page/BGG_XML_API2),
+it appears one can download more detailed information about user ratings and collections.
+It would be interesting to get this data and try to build a recommendation engine using it.
+
