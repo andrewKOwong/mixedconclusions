@@ -40,7 +40,7 @@ by looking at how boardgame ratings have changed over time.
 During the data download, I split boardgame data into three parts:
 - The first part contains general information about the boardgame.
 This consists of 108,015 game entries with 23 data fields.
-- The second contains data about other meta information for that boardgame,
+- The second part contains data about other meta information for that boardgame,
 which in the original XML data was contained in `<link>` tags for each game.
     This consists of ten types of metadata:
     - Artists that have worked on the game.
@@ -62,7 +62,7 @@ which in the original XML data was contained in `<link>` tags for each game.
     which happens when e.g. a boardgame is technically an expansion of another game,
     but is also a stand alone boardgame itself.
 
-- The third is user polling data about aspects of the boardgame,
+- The third part contains user polling data about aspects of the boardgame,
 such as the optimal playtime that users think the boardgame will take to play.
 
 For this analysis, I will only discuss the general data,
