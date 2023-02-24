@@ -9,8 +9,9 @@ comments: true
 draft: false 
 summary: "
 What is the golden age of board games?
-In this blog post, I describe code to obtain a dataset of board games
-via the BoardGameGeek.com XML API.
+In this blog post, I describe code to fetch and clean data about
+100,000 board games via the BoardGameGeek.com XML API,
+in preparation for analysis in part two.
 "
 cover:
     image: "images/cover_terraforming_mars.jpg"
