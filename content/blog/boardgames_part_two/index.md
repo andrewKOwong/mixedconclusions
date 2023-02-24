@@ -162,10 +162,10 @@ def compute_rmsd(
 ```
 
 Next, we'll use the [`minimize` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html) from `scipy.optimize` to find
-the values of $R$ and $m$ that minimizes the RMSD of the
+the values of \\(R\\) and \\(m\\) that minimizes the RMSD of the
 computed Bayesian averages.
 
-We'll need to write a wrapper function that takes in $R$ and $m$ as an argument,
+We'll need to write a wrapper function that takes in \\(R\\) and \\(m\\) as an argument,
 while outputting the RMSD.
 This function will used as one of the parameters
 for `minimize`.
