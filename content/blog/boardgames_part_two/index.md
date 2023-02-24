@@ -276,11 +276,9 @@ let's construct some [word clouds](https://amueller.github.io/word_cloud/generat
 that approximately display frequency of common words by size of the word,
 while omitting [stop words](https://en.wikipedia.org/wiki/Stop_word) like "and", "the", etc.:
 
-This is a word cloud from board game names:
-[![Wordcloud from boardgame names](images/name_wordcloud.png)](images/name_wordcloud.png)
+![Wordcloud from boardgame names](images/name_wordcloud.png "Word cloud from boardgame names.")
 
-Similarly, this is a word cloud of the board game descriptions:
-[![Wordcloud from boardgame descriptions](images/description_wordcloud.png)](images/description_wordcloud.png)
+![Wordcloud from boardgame descriptions](images/description_wordcloud.png "Word cloud from boardgame names.")
 
 ### Year Published
 The following plot shows a histogram of games by publication year.
