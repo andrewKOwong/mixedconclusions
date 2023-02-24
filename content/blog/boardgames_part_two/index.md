@@ -29,15 +29,11 @@ cover:
 In a [previous post]({{< ref "/blog/boardgames_part_one.md" >}})
 I described a data download from [boardgamegeek.com](https://boardgamegeek.com/) (BGG)
 on Sep 19, 2022.
-
-In this post, I'll describe an exploratory data analysis on this data set.
-
-First, I'll describe an investigation into the "geek rating" of a boardgame.
-I'll use this geek rating to narrow the scope of boardgames we look at.
-
-Second, I'll give an overview of general characteristics of this boardgame dataset.
-
-Third, I'll try to answer the question "Are we in a golden age of boardgames?"
+In this post, I'll describe an exploratory data analysis on this data set by:
+1) Describing an investigation into the "geek rating" of a boardgame,
+and using this geek rating to narrow the scope of boardgames I look at.
+2) Give an overview of general characteristics of this boardgame dataset.
+3) Answer the question "Are we in a golden age of boardgames?"
 by looking at how boardgame ratings have changed over time.
 
 ## Overview of Data
