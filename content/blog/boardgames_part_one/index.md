@@ -12,6 +12,9 @@ What is the golden age of board games?
 In this blog post, I describe code to obtain a dataset of board games
 via the BoardGameGeek.com XML API.
 "
+cover:
+    image: "images/cover_terraforming_mars.jpg"
+    caption: "🔥🔥 A solo mode game of Terraforming Mars 🔥🔥"
 ---
 ## Introduction
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*

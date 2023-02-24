@@ -9,8 +9,8 @@ EnableMathJax: true
 comments: true
 draft: false 
 cover:
-    image: "images/cover_option2.jpg"
-    caption: "🔥🔥 A solo mode game of Terraforming Mars 🔥🔥"
+    image: "images/description_wordcloud.png"
+    caption: 
 
 ---
 - *[Github repo for this project](https://github.com/andrewKOwong/boardgames)*
