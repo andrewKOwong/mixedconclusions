@@ -110,7 +110,7 @@ $$
 
 where Bayes average rating \\(r\\) is constructed from the sum of all user ratings
 \\(x_i\\) and \\(m\\) dummy ratings of value \\(R\\), divided by the total of user ratings + dummy ratings,
-then we can try to discover what values of \\(R\\) and \\(m\\) fits our data here.
+then we can try to discover what values of \\(R\\) and \\(m\\) fits our data.
 
 A caveat here is that this doesn't take into account other parameters
 that BGG might be using, such as weighting ratings based on information about certain users.
