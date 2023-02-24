@@ -86,17 +86,17 @@ versus 23K games with geek ratings.
 ### Visualizing the Effect of Dummy Ratings
 
 The following scatterplot visualizes the impact of the dummy ratings.
-Bayes ratings are plotted along the x axis and the actual ratings along the y.
+Bayesian ratings are plotted along the x axis and the actual ratings along the y.
 The number of ratings a game possesses is mapped to the color of the points.
 
 When the number of ratings is low,
-the Bayes rating is composed mostly of dummy ratings
+the Bayesian rating is composed mostly of dummy ratings
 and ends up at around 5.5.
 As the number of ratings increase,
 actual ratings swamp out the dummy ratings
 resulting in the points drifting toward to the `y=x` diagonal.
 
-![Scatterplot displaying the Bayes rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayes rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png)
+![Scatterplot displaying the Bayesian rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayesian rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png)
 
 ### Computing the Parameters of the Bayesian Average
 If we assume the Bayesian average uses the model:
@@ -108,7 +108,7 @@ r =
         {m + n}
 $$
 
-where Bayes average rating \\(r\\) is constructed from the sum of all user ratings
+where the Bayesian average rating \\(r\\) is constructed from the sum of all user ratings
 \\(x_i\\) and \\(m\\) dummy ratings of value \\(R\\), divided by the total of user ratings + dummy ratings,
 then we can try to discover what values of \\(R\\) and \\(m\\) fits our data.
 
