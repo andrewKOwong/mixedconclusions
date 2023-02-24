@@ -141,7 +141,7 @@ def compute_bayesian_average(
             + (dummy_rating * num_dummies))
         /(game_df[ratings_n_key] + num_dummies))
 ```
-We can then evaluate how far the generated Bayesian ratings are from the actual Bayesian ratings from BGG by calculating the [RMSD](https://en.wikipedia.org/wiki/Root-mean-square_deviation):
+We can then evaluate how far the generated Bayesian ratings are from the actual Bayesian ratings from BGG by calculating the [root-mean-square deviation (RMSD)](https://en.wikipedia.org/wiki/Root-mean-square_deviation):
 
 ```python
 def compute_rmsd(
