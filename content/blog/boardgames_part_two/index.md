@@ -310,7 +310,7 @@ Thus, I would guess that this reflects the time it takes
 for games to be added to BGG,
 but I would find this cause surprising as well,
 as I would assume board game creators would add their games to BGG
-as part of their marketing efforts.
+quickly as part of their marketing efforts.
 
 
 ### Players
