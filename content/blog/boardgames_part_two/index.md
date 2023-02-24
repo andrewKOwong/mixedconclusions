@@ -285,7 +285,7 @@ Similarly, this is a word cloud of the board game descriptions:
 ### Year Published
 The following plot shows a histogram of games by publication year.
 The publication year for games ranges from -3500 to 2023 
-(although one should probably consider anything before the modern era to be approximately annotations).
+(although one should probably consider anything before the modern era to be an approximate annotations).
 The spike in games at year 0 is from 0 being used to encode missing values.
 Note the log scale in the frequency axis.
 
