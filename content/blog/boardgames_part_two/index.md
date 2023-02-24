@@ -161,13 +161,13 @@ def compute_rmsd(
     return np.sqrt(((y_trues - y_preds)**2).mean())
 ```
 
-Next, we'll use the [`minimize` function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html) from `scipy.optimize` to find
+Next, we'll use the `minimize` [function](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html) from `scipy.optimize` to find
 the values of \\(R\\) and \\(m\\) that minimizes the RMSD of the
 computed Bayesian averages.
 
 We'll need to write a wrapper function that takes in \\(R\\) and \\(m\\) as an argument,
 while outputting the RMSD.
-This function will used as one of the parameters
+This function will be used as one of the parameters
 for `minimize`.
 
 ```python
@@ -220,9 +220,9 @@ Number of Dummy Ratings: 1972.456740224388
 Final RMSD: 0.019480321333741443
 ```
 
-The closest we can get to reproducing the real Bayes rating values
-seems to be when the number of dummy ratings is around 1972
-with a rating value of 5.5.
+The closest we can get to reproducing the real Bayesian rating values
+seems to be when the number of dummy ratings is around `1972`
+with a rating value of `5.5`.
 
 For comparison, here are the RMSDs for 0 dummies (i.e. the real user ratings), 100, 1500, and 1972 dummies at a rating value of 5.5:
 
@@ -233,9 +233,9 @@ For comparison, here are the RMSDs for 0 dummies (i.e. the real user ratings), 1
 | Computed Bayesian (1500 x 5.5)| 0.0520 
 | Computed Bayesian (1972 x 5.5)| 0.0194
 
-We can visualize this trend. In the following plot, the x axis plots the real Bayes rating values,
+We can visualize this trend. In the following plot, the x axis plots the real Bayesian rating values,
 whereas the y axis plots the mean real user rating (panel A),
-Bayes rating values when using 100 dummy values (B),
+Bayesian rating values when using 100 dummy values (B),
 1500 dummy values (C),
 and the number of dummy we got from our optimization i.e. ~1972 (D).
 As we increase the number of dummy values, the generated Bayes rating
@@ -244,8 +244,8 @@ approached the real Bayes rating from BGG. The step from 1500 to 1972 ratings lo
 
 [![A four panel figure showing that computed ratings drift towards the y=x diagonal as the number of dummies is increased.](images/optimizing_bayes_model.png)](images/optimizing_bayes_model.png)
 
-We can look at the remaining difference between real Bayes ratings
-and the computed Bayes ratings. 
+We can look at the remaining difference between real Bayesian ratings
+and the computed Bayesian ratings. 
 In the plot below, 
 the x axis plots the number of ratings on a log scale,
 while the y axis plots the differences.
