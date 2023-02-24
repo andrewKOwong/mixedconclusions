@@ -344,7 +344,7 @@ maximum and minimum playtime.
 
 ### Age
 
-Boardgames have an associated mininum recommended age. Most of the minimum ages are 8, 10, 12 years.
+Boardgames have an associated mininum recommended age. Most of the minimum ages are at 8, 10, 12 years.
 Minimum ages of 0 are probably of mix of real values and missing value placeholders.
 
 [![Histogram of minimum ages for boardgames.](images/age_histogram.png)](images/age_histogram.png)
