@@ -393,7 +393,7 @@ Some observations:
 
 
 ## What is the Golden Age of Board Games?
-### Ratings of games over time
+### Game Rating Over Time 
 
 Let's take a look at the median rating of games by year.
 
@@ -420,7 +420,7 @@ This could be a contributor to the sharper uptick post-2020.
 If we had to further investigate the reasons behind this uptick, we could gather data on individual reviews per game. For example, if we wanted to see if early adopters of a game tend to rate a game higher, we could see how the ratings for a game changes over time.
 
 
-### Are higher ratings a result of increased complexity?
+### Are Higher Ratings a Result of Increased Complexity?
 As we saw [above](#ratings), standard ratings (`ratings_mean`) is moderately correlated with the complexity ratings (`ratings_weights_average`) with a Pearson's correlation coefficient of 0.48.
 
 Let's take a look at what this looks like
@@ -450,7 +450,7 @@ However, note that the median rating is actually generated from a small number o
 ![](images/complexity_n_per_year.png "Median number of complexity ratings per game, by year.")
 
 
-### Ratings versus other board game properties
+### Ratings Versus Other Board Game Properties
 Let's take a look to see if standard ratings are correlated with any other board game properties.
 
 ![](images/ratings_heatmap_other_vars.svg "Pearson correlation coefficients for board game properties and ratings.")
