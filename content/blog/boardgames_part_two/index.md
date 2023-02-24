@@ -8,6 +8,15 @@ TocOpen: true
 EnableMathJax: true
 comments: true
 draft: false 
+summary: "
+What is the golden age of board games?
+In this post, I'll describe an exploratory data analysis on this data set.
+First, I'll describe an investigation into the \"geek rating\" of a boardgame.
+I'll use this geek rating to narrow the scope of boardgames we look at.
+Second, I'll give an overview of general characteristics of this boardgame dataset.
+Third, I'll try to answer the question \"Are we in a golden age of boardgames?\"
+by looking at how boardgame ratings have changed over time.
+"
 cover:
     image: "images/description_wordcloud.png"
     caption: 
