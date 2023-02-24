@@ -73,16 +73,15 @@ and ignore the link and polling data for now.
 
 Games on BGG may be rated by users out of 10. Games that receive 30+ user ratings are assigned a ["geek rating"](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ#toc13). This geek rating is used to rank board games against each other, and is necessary to prevent games with a few high rankings from appearing higher than games with a large number of rankings. For example, one may not want a game with five ratings of 10 to be considered a "better" board game than a game with a ratings mean of 4.8 but with 100K ratings. Games that don't meet the 30+ user rating threshold receive a geek rating of 0, and I'll refer to these games as "unrated" games.
 
-The exact calculation method for the geek rating is not published by BGG, but it is apparently mostly a [Bayesian average](https://en.wikipedia.org/wiki/Bayesian_average).
-Indeed, in the original XML data this field is called `bayesaverage`,
-which I've renamed to `ratings_bayes_average`.
+The exact calculation method for the geek rating is not published by BGG,
+but it is apparently mostly a [Bayesian average](https://en.wikipedia.org/wiki/Bayesian_average).
 Its construction probably involves taking the user ratings 
-and adding in something like [100](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ) 
-or [1500-1600](https://boardgamegeek.com/blogpost/109537/reverse-engineering-boardgamegeek-ranking) 
-dummy ratings at a value of 5.5.
+and adding in [100](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ) 
+to [1500-1600](https://boardgamegeek.com/blogpost/109537/reverse-engineering-boardgamegeek-ranking) 
+dummy ratings with a value of 5.5.
 
 Of the entire dataset, about 85K games are unrated 
-vs 23K games with geeks ratings.
+versus 23K games with geek ratings.
 
 ### Visualizing the Effect of Dummy Ratings
 
