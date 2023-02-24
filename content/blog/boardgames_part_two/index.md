@@ -7,7 +7,7 @@ ShowToc: true
 TocOpen: true
 EnableMathJax: true
 comments: true
-draft: true
+draft: false 
 cover:
     image: "images/cover_option2.jpg"
     caption: "🔥🔥 A solo mode game of Terraforming Mars 🔥🔥"

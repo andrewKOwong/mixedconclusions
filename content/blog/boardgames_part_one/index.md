@@ -6,7 +6,7 @@ tags: [boardgames]
 ShowToc: true
 TocOpen: true
 comments: true
-draft: true 
+draft: false 
 summary: "
 What is the golden age of board games?
 In this blog post, I describe code to obtain a dataset of board games
