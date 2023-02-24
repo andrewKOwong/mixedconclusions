@@ -441,7 +441,14 @@ However, note that the median rating is actually generated from a small number o
 ![](images/complexity_n_per_year.png "Median number of complexity ratings per game, by year.")
 
 
-### Quick look at ratings vs other factors.
+### Ratings versus other board game properties
+Let's take a look to see if standard ratings are correlated with any other board game properties.
+
+![](images/ratings_heatmap_other_vars.svg "Pearson correlation coefficients for board game properties and ratings.")
+
+
+Given the low Pearson coefficients, there does not seem to be any obvious correlation.
+
 ## Discussion
 
 Given that the number of boardgames published and the overall rating of boardgames has kept increasing in the last decade,
