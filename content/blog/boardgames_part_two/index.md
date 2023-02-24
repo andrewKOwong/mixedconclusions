@@ -376,9 +376,9 @@ Clustermap:
 [![Clustermap of rating column correlations](images/ratings_clustermap.png)](images/ratings_clustermap.png)
 
 Some observations:
-- the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are highly to fairly correlated with each other.
-- number of regular or weight ratings isn't correlated with the average score of the ratings.
-- average rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher.
+- the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are fairly or highly correlated with each other.
+- number of standard or weight (i.e. complexity) ratings isn't correlated with the average score of the ratings.
+- the average standard rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher.
 
 
 ## What is the Golden Age of Board Games?
