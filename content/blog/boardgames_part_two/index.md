@@ -150,7 +150,7 @@ def compute_rmsd(
     """Compute the root mean squared deviation.
     
     Args:
-        y_trues: 1D vector of .
+        y_trues: 1D vector.
         y_preds (np.ndarray or pd.Series): A 1D vector.
     Returns:
         RMSD as a scalar float.
