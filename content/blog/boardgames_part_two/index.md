@@ -18,7 +18,7 @@ and answer the question \"Are we in a golden age of boardgames?\"
 by looking at how boardgame ratings have changed over time.
 "
 cover:
-    image: "images/description_wordcloud.png"
+    image: "images/name_wordcloud.png"
     caption: 
 
 ---
