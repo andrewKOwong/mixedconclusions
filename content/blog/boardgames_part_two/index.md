@@ -96,7 +96,7 @@ As the number of ratings increase,
 actual ratings swamp out the dummy ratings
 resulting in the points drifting toward to the `y=x` diagonal.
 
-![Scatterplot displaying the Bayesian rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayesian rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png)
+![Scatterplot displaying the Bayesian rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayesian rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png "Bayesian ratings versus mean user ratings. Hue represents the number of user ratings per game.")
 
 ### Computing the Parameters of the Bayesian Average
 If we assume the Bayesian average uses the model:
