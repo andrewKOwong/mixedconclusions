@@ -176,7 +176,7 @@ def error_wrapper(
     game_df: pd.DataFrame,
     bayes_average_key: str='ratings_bayes_average'
     ) -> float:
-    """Objective function to minimize Bayes dummy parameters.
+    """Objective function to minimize Bayesian dummy parameters.
 
     This function is meant to be used in by `scipy.optimize.minimize` as
     the objective function to be minimized. The `game_df` param will be
@@ -238,8 +238,8 @@ whereas the y axis plots the mean real user rating (panel A),
 Bayesian rating values when using 100 dummy values (B),
 1500 dummy values (C),
 and the number of dummy we got from our optimization i.e. ~1972 (D).
-As we increase the number of dummy values, the generated Bayes rating
-approached the real Bayes rating from BGG. The step from 1500 to 1972 ratings lowers the RMSD by a relatively small amount, suggesting that the 1500 estimate was fairly accurate.
+As we increase the number of dummy values, the generated Bayesian rating
+approached the real Bayesian rating from BGG. The step from 1500 to 1972 ratings lowers the RMSD by a relatively small amount, suggesting that the 1500 estimate was fairly accurate.
 
 
 [![A four panel figure showing that computed ratings drift towards the y=x diagonal as the number of dummies is increased.](images/optimizing_bayes_model.png)](images/optimizing_bayes_model.png)
@@ -253,7 +253,7 @@ while the y axis plots the differences.
 The residual differences are less than 0.1 for almost all games,
 although there are a small number of strong outliers.
 
-[![A plot showing residual differences between values computed using 1972 dummies and the actual Bayes values.](images/bayes_residuals.png)](images/bayes_residuals.png)
+[![A plot showing residual differences between values computed using 1972 dummies and the actual Bayesian values.](images/bayes_residuals.png)](images/bayes_residuals.png)
 
 ## Data Overview
 ### Shape, Missing Values, and Duplicate Values
