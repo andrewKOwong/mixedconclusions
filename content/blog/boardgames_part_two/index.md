@@ -253,7 +253,7 @@ while the y axis plots the differences.
 The residual differences are less than 0.1 for almost all games,
 although there are a small number of strong outliers.
 
-[![A plot showing residual differences between values computed using 1972 dummies and the actual Bayesian values.](images/bayes_residuals.png)](images/bayes_residuals.png)
+![A plot showing residual differences between values computed using 1972 dummies and the actual Bayesian values.](images/bayes_residuals.png "Remaining differences between Bayesian Ratings computed with 1972 dummy ratings and Bayesian ratings from BGG, versus number of user ratings.")
 
 ## Data Overview
 ### Shape, Missing Values, and Duplicate Values
