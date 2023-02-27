@@ -338,7 +338,7 @@ Games with 0 for both minimum and maximum playtimes are using
 The biggest bin is for games with a 30 minute value for both
 maximum and minimum playtime.
 
-[![Heatmap of boardgame play times](images/playtime_heatmap.png)](images/playtime_heatmap.png)
+![Heatmap of boardgame play times](images/playtime_heatmap.png "Distribution of minimum and maximum playtimes.")
 
 ### Age
 
