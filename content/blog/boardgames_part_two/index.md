@@ -413,11 +413,11 @@ As we saw [above](#ratings), standard ratings (i.e. `ratings_mean`) are moderate
 Below is a 2D histogram of standard vs complexity ratings,
 which shows the slight positive correlation between these sets of ratings.
 
-![](images/rating_v_complexity_hist2d.png "Histogram of standard ratings vs complexity ratings. Colour scale represents the count of games in each bin. Note: complexity ratings of 0 indicate that the game has no complexity rating, and these games comprise about 2.5% of all games.")
+![](images/rating_v_complexity_hist2d.png "Histogram of complexity ratings vs standard ratings. Colour scale represents the count of games in each bin. Note: complexity ratings of 0 indicate that the game has no complexity rating, and these games comprise about 2.5% of all games.")
 
 This trend also holds when only considering the top 5% of games by number of standard ratings.
 
-![](images/rating_v_complexity_top5per_hist2d.png "Histogram of standard ratings vs complexity ratings, for the top 5% of games by number of standard ratings.")
+![](images/rating_v_complexity_top5per_hist2d.png "Histogram of complexity ratings vs standard ratings, for the top 5% of games by number of standard ratings.")
 
 
 Given that standard ratings have increased in the 2010s,
