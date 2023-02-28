@@ -271,14 +271,14 @@ There are no empty string values in text columns.
 Let's take a brief look at each of these data columns.
 
 ### Name and Description
-As a quick qualitative look at word frequencies in these text fields,
+As a quick qualitative look at word frequencies in the name and description text fields,
 let's construct some [word clouds](https://amueller.github.io/word_cloud/generated/wordcloud.WordCloud.html)
 that approximately display frequency of common words by size of the word,
 while omitting [stop words](https://en.wikipedia.org/wiki/Stop_word) like "and", "the", etc.:
 
 ![Wordcloud from boardgame names](images/name_wordcloud.png "Word cloud from boardgame names.")
 
-![Wordcloud from boardgame descriptions](images/description_wordcloud.png "Word cloud from boardgame names.")
+![Wordcloud from boardgame descriptions](images/description_wordcloud.png "Word cloud from boardgame descriptions.")
 
 ### Year Published
 The following plot shows a histogram of games by publication year.
@@ -287,7 +287,7 @@ The publication year for games ranges from -3500 to 2023
 The spike in games at year 0 is due to 0 being used to encode missing values.
 Note the log scale in the frequency axis.
 
-![Histogram of all rated games](images/year_histo_all.png "Distribution of all boardgames.")
+![Histogram of all rated games](images/year_histo_all.png "Distribution of boardgames by year published.")
 
 Zooming into a more recent time scale,
 we see that the vast majority of games are published in the last 70 years.
@@ -328,17 +328,17 @@ most likely indicate the use of 0's as a missing value placeholder.
 ![Heatmap of boardgame player requirements for player max less than 24](images/players_heatmap.png "Distribution of player number requirements for games with max players ≤ 24")
 
 ### Playtime
-Board games have values for minimum playtime, playtime, and maximum playtime,
+Board games have values for minimum playtime and maximum playtime,
 but the maximum playtime column is actually a duplicate of the playtime column.
 
 Below is a heatmap showing the number of games in various
 minimum and maximum playtime bins.
 Games with 0 for both minimum and maximum playtimes are using
 0 as a missing value placeholder.
-The most populated bin is for games with a 30 minute value for both
+The most populated bin is for games with a 16-30 minute value for both
 maximum and minimum playtime.
 
-![Heatmap of boardgame play times](images/playtime_heatmap.png "Distribution of minimum and maximum playtimes.")
+![Heatmap of boardgame play times](images/playtime_heatmap.png "Distribution of minimum and maximum playtimes. Note: bins are not equally sized.")
 
 ### Age
 
