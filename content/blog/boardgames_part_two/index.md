@@ -280,6 +280,9 @@ while omitting [stop words](https://en.wikipedia.org/wiki/Stop_word) like "and",
 
 ![Wordcloud from boardgame descriptions](images/description_wordcloud.png "Word cloud from boardgame descriptions.")
 
+Some frequent name words include "battle", "game", and "war",
+and some frequent description words include "game", 'player", and "card".
+
 ### Year Published
 The following plot shows a histogram of games by publication year.
 The publication year for games ranges from -3500 to 2023 
