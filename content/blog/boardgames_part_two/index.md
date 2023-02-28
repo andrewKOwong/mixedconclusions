@@ -355,7 +355,6 @@ which I've prefixed with `rating_`. Here's a description each column:
  - `ratings_mean`: the average of user ratings
  - `ratings_bayes_average`: the Bayesian average 'geek rating' as discussed above
  - `ratings_stddev`: standard deviation of user ratings
- - `ratings_median`: an unused data column
  - `ratings_owned`: how many users that have marked the game as being owned
  - `ratings_trading`: how many users are looking to trade away the game
  - `ratings_wanting`: users marked the game as wanted
@@ -365,9 +364,7 @@ which I've prefixed with `rating_`. Here's a description each column:
  - `ratings_weights_average`: the mean of the weight rating. 
 
 For a simplified look at these ratings columns, 
-below is 1) a heatmap of the correlation coefficients between the columns and 2) the heatmap after clustering.
-
-![Heatmap of rating columns correlations](images/ratings_heatmap.png "Heatmap of correlation coefficients between rating columns.")
+below is a clustered heatmap of correlation coefficients between the columns.
 
 ![Clustermap of rating column correlations](images/ratings_clustermap.png "Clustered heatmap of correlation coefficients between rating columns.")
 
