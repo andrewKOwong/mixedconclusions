@@ -361,22 +361,20 @@ which I've prefixed with `rating_`. Here's a description each column:
  - `ratings_wanting`: users marked the game as wanted
  - `ratings_wishing`: users placed onto their wishlist
  - `ratings_comments_n`: how many times users have commented on the game
- - `ratings_weights_n`: times users have given a weight rating. This is supposed to how complex a user thinks a game is, from 1 (light complexity) to 5 (heavily complex).
+ - `ratings_weights_n`: times users have given a weight rating. This is supposed to represent how complex a user thinks a game is, from 1 (light complexity) to 5 (heavily complex).
  - `ratings_weights_average`: the mean of the weight rating. 
 
 For a simplified look at these ratings columns, 
 below is 1) a heatmap of the correlation coefficients between the columns and 2) the heatmap after clustering.
 
-Heatmap:
-[![Heatmap of rating columns correlations](images/ratings_heatmap.png)](images/ratings_heatmap.png)
+![Heatmap of rating columns correlations](images/ratings_heatmap.png "Heatmap of correlation coefficients between rating columns.")
 
-Clustermap:
-[![Clustermap of rating column correlations](images/ratings_clustermap.png)](images/ratings_clustermap.png)
+![Clustermap of rating column correlations](images/ratings_clustermap.png "Clustered heatmap of correlation coefficients between rating columns.")
 
 Some observations:
-- the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are fairly or highly correlated with each other.
-- number of standard or weight (i.e. complexity) ratings isn't correlated with the average score of the ratings.
-- the average standard rating has a mild correlation with the weight average rating, which could suggest more complex games are rated higher.
+- the number of regular ratings, weight ratings, comments, and wishing/wanting/trading/owned statuses are moderately or highly correlated with each other.
+- the number of standard or weight/complexity ratings isn't correlated with the average score of the ratings.
+- standard ratings have a mild correlation with weight/complexity ratings, which could suggest more complex games are rated higher.
 
 
 ## What is the Golden Age of Board Games?
