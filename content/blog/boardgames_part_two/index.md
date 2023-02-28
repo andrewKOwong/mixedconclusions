@@ -192,7 +192,6 @@ def error_wrapper(
         Float for RMSD.
     """
     (dummy_rating, num_dummies) = dummy_args
-
     y_true = game_df[bayes_average_key] 
     y_pred = compute_bayesian_average(game_df, dummy_rating, num_dummies) 
     error = compute_rmsd(y_true, y_pred)
