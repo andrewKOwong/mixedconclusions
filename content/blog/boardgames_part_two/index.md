@@ -410,31 +410,29 @@ If we had to further investigate the reasons behind this uptick, we could gather
 
 
 ### Are Higher Ratings a Result of Increased Complexity?
-As we saw [above](#ratings), standard ratings (`ratings_mean`) is moderately correlated with the complexity ratings (`ratings_weights_average`) with a Pearson's correlation coefficient of 0.48.
+As we saw [above](#ratings), standard ratings (i.e. `ratings_mean`) are moderately correlated with complexity ratings (`ratings_weights_average`),
+ with a Pearson's correlation coefficient of 0.48.
 
-Let's take a look at what this looks like
-by plotting a 2D histogram of 
-standard ratings vs complexity ratings.
+Below is a 2D histogram of standard vs complexity ratings,
+which shows the slight positive correlation between these sets of ratings.
 
 ![](images/rating_v_complexity_hist2d.png "Histogram of standard ratings vs complexity ratings. Colour scale represents the count of games in each bin. Note: complexity ratings of 0 indicate that the game has no complexity rating, and these games comprise about 2.5% of all games.")
 
-There appears to indeed be a slight positive association between the two sets of ratings.
-
-
 This trend also holds when only considering the top 5% of games by number of standard ratings.
 
-![](images/rating_v_complexity_top5per_hist2d.png "Histogram of standard ratings vs complexity ratings, for top 5% of games by number of standard ratings.")
+![](images/rating_v_complexity_top5per_hist2d.png "Histogram of standard ratings vs complexity ratings, for the top 5% of games by number of standard ratings.")
 
 
 Given that standard ratings have increased in the 2010s,
-we can also see if complexity ratings have increased concurrently.
+we can check to see if complexity ratings have increased concurrently.
 
 
 ![](images/complexity_rating_vs_time.png "Median complexity ratings by year. Bars indicate number of games with complexity ratings.")
 
-It appears that an increasing in the 2010s is not obvious in either the top 5% or in all games. The spike in 2022/2023 is again probably some sort of bias from the smaller number of very recent games.
+It appears that an increasing trend for complexity ratings in the 2010s is not obvious in either the top 5% or in all games. The spike in 2022/2023 is again probably some sort of bias from the smaller number of very recent games.
 
-However, note that the median rating is actually generated from a small number of individual ratings (often <10):
+However, note that the median complexity rating is actually composed from a small number of individual ratings that is often <10
+(i.e. the median number of complexity ratings per game is < 10):
 
 ![](images/complexity_n_per_year.png "Median number of complexity ratings per game, by year.")
 
