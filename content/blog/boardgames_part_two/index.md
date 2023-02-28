@@ -70,7 +70,7 @@ and ignore the link and polling data.
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
 
-Games on BGG may be rated by users out of 10. Games that receive 30+ user ratings are assigned a ["geek rating"](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ#toc13). This geek rating is used to rank board games against each other, and is necessary to prevent games with a few high rankings from appearing higher than games with a large number of rankings. For example, one may not want a game with five ratings of 10 to be considered a "better" board game than a game with a ratings mean of 4.8 but with 100K ratings. Games that don't meet the 30+ user rating threshold receive a geek rating of 0, and I'll refer to these games as "unrated" games.
+Games on BGG can be rated by users out of 10. Games that receive 30+ user ratings are assigned a ["geek rating"](https://boardgamegeek.com/wiki/page/BoardGameGeek_FAQ#toc13). This geek rating is used to rank board games against each other, and is necessary to prevent games with a few high rankings from appearing higher than games with a large number of rankings. For example, one may not want a game with five ratings of 10 to be considered a "better" board game than a game with a ratings mean of 4.8 but with 100K ratings. Games that don't meet the 30+ user rating threshold receive a geek rating of 0, and I'll refer to these games as "unrated" games.
 
 The exact calculation method for the geek rating is not published by BGG,
 but is apparently mostly a [Bayesian average](https://en.wikipedia.org/wiki/Bayesian_average).
@@ -85,7 +85,7 @@ versus 23K games with geek ratings.
 ### Visualizing the Effect of Dummy Ratings
 
 The following scatterplot visualizes the impact of the dummy ratings.
-Bayesian ratings are plotted along the x axis and the actual ratings along the y.
+Bayesian ratings are plotted along the x axis and the actual ratings along the y axis.
 The number of ratings a game possesses is mapped to the color of the points.
 
 When the number of ratings is low,
@@ -95,7 +95,7 @@ As the number of ratings increase,
 actual ratings swamp out the dummy ratings
 resulting in the points drifting toward to the `y=x` diagonal.
 
-![Scatterplot displaying the Bayesian rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayesian rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png "Bayesian ratings versus mean user ratings. Hue represents the number of user ratings per game.")
+![Scatterplot displaying the Bayesian rating on the x axis and the mean user rating on the y axis, with each point representing a board game. The hue of each point represents the number of ratings a game has. For games with a small number of ratings (e.g. starting at 30), the points have a Bayesian rating around 5.5 regardless of the user rating. As the number of ratings increase, a games Bayesian rating becomes more closely matched to its actual rating.](images/ratings_mean_v_bayes.png "Mean user ratings versus Bayesian ratings. Hue represents the number of user ratings per game. Grey line indicates y=x")
 
 ### Computing the Parameters of the Bayesian Average
 If we assume the Bayesian average uses the model:
@@ -241,7 +241,8 @@ As we increase the number of dummy values, the generated Bayesian rating
 approached the real Bayesian rating from BGG. The step from 1500 to 1972 ratings lowers the RMSD by a relatively small amount, suggesting that the 1500 estimate was fairly accurate.
 
 
-[![A four panel figure showing that computed ratings drift towards the y=x diagonal as the number of dummies is increased.](images/optimizing_bayes_model.png)](images/optimizing_bayes_model.png)
+![A four panel figure showing that computed ratings drift towards the y=x diagonal as the number of dummies is increased.](images/optimizing_bayes_model.png
+"Mean user ratings with A) 0, B) 100, C) 1500, D) 1972 dummy ratings of 5.5 added versus Bayesian ratings.")
 
 We can look at the remaining difference between real Bayesian ratings
 and the computed Bayesian ratings. 
