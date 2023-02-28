@@ -27,14 +27,13 @@ cover:
 
 ## Introduction
 In a [previous post]({{< ref "/blog/boardgames_part_one.md" >}})
-I described a data download from [boardgamegeek.com](https://boardgamegeek.com/) (BGG)
-on Sep 19, 2022.
+I described a data download from [boardgamegeek.com](https://boardgamegeek.com/) (BGG).
 In this post, I'll describe an exploratory data analysis on this data set by:
 1) Describing an investigation into the "geek rating" of a boardgame,
 and using this geek rating to narrow the scope of boardgames I look at.
-2) Give an overview of general characteristics of this boardgame dataset.
-3) Answer the question "Are we in a golden age of boardgames?"
-by looking at how boardgame ratings have changed over time.
+2) Giving an overview of general characteristics of this boardgame dataset.
+3) Answering the question "Are we in a golden age of boardgames?"
+by examining how boardgame ratings have changed over time.
 
 ## Overview of Data
 During the data download, I split boardgame data into three parts:
@@ -46,16 +45,16 @@ which in the original XML data was contained in `<link>` tags for each game.
     - Artists that have worked on the game.
     - Designers that have worked on the game.
     - Publishers that have published the game.
-    - Mechanics that the game uses (e.g. dice rolling, hand management)
+    - Mechanics that the game uses (e.g. dice rolling, hand management).
     - Expansions of the game.
     - Compilations that the boardgame belongs to.
     - Games that reimplement the mechanics of the boardgame.
     - Games that can be integrated (i.e. combined with) the game. 
     - Categories of games that a game belongs to 
-    (e.g. card game, war game, fantasy, party game)
+    (e.g. card game, war game, fantasy, party game).
     - Board game families that the game belongs to.
     This seems to be a more abstract type of categorization
-    (e.g. "Players: Two Player Only Games", "Crowdfunding: Kickstarter", "Components: Miniatures")
+    (e.g. "Players: Two Player Only Games", "Crowdfunding: Kickstarter", "Components: Miniatures").
 
     There are 1,053,398 link entries.
     Some of these links are "inbound" links,
@@ -66,7 +65,7 @@ which in the original XML data was contained in `<link>` tags for each game.
 such as the optimal playtime that users think the boardgame will take to play.
 
 For this analysis, I will only discuss the general data,
-and ignore the link and polling data for now.
+and ignore the link and polling data.
 
 ## The Bayesian Average Rating: Rated vs Unrated Games
 ### The Geek Rating: Rated vs Unrated Games
