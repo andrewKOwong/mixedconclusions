@@ -393,7 +393,11 @@ For comparison I've also plotted the top 5% of games by number of ratings in ora
 
 Note that the number of games increases as we approach the present.
 
-![Ratings](images/test.png)
+![Ratings](images/ratings_v_year.png 
+"Median boardgame rating and number of rated boardgames published per year.
+Blue represents all games with ≥ 30 ratings.
+Orange represents games in the top 5% by number of ratings.
+")
 
 This data suggests that the quality of games has increased in this past decade, perhaps as game design improves over time and so forth.
 However, there could be some form of [recency bias](https://en.wikipedia.org/wiki/Recency_bias).
