@@ -426,7 +426,8 @@ we can check to see if complexity ratings have increased concurrently.
 
 ![](images/complexity_rating_vs_time.png "Median complexity ratings by year. Bars indicate number of games with complexity ratings.")
 
-It appears that an increasing trend for complexity ratings in the 2010s is not obvious in either the top 5% or in all games. The spike in 2022/2023 is again probably some sort of bias from the smaller number of very recent games.
+There is no obvious trend of increasing complexity ratings in the 2010s.
+The spike in 2022/2023 is again probably some sort of bias from the smaller number of very recent games.
 
 However, note that the median complexity rating is actually composed from a small number of individual ratings that is often <10
 (i.e. the median number of complexity ratings per game is < 10):
@@ -451,17 +452,11 @@ Thus, it does seem reasonable to declare that we are in a golden age of boardgam
 
 While I found that higher complexity was moderately associated 
 with increasing ratings of games,
-for further work we could dig deeper into what types of mechanics, themes, or other attributes
+further work could dig deeper into what types of mechanics, themes, or other attributes
 are associated with ratings increases.
-If we then integrated these as features in the main data set,
-we start thinking about building models
+If these features were integrated into the main data set,
+I could build a model
 to figure out which features contribute most to higher ratings.
-
-On a minor technical note, my analysis would probably have been easier
-if I had downloaded all boardgame ids instead of only boardgames alone
-(e.g. without expansions etc.),
-as this would have saved me some confusion and wrangling of missing
-board game ids. 
 
 As of this writing, [recommend.games](https://recommend.games/),
 a website for recommending board games to play, is [on hiatus](https://blog.recommend.games/posts/announcement-hiatus/),
