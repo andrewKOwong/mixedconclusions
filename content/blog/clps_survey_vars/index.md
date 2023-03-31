@@ -15,36 +15,41 @@ cover:
 summary:
 ---
 ## Introduction
-A friend of mine was working on a project that required the use of the
+Some friends were working on a project that required the use of data from the
 [Canadian Legal Problems
 Survey](https://www.justice.gc.ca/eng/rp-pr/jr/survey-enquete.html) (CLPS).
 CLPS is a national survey of Canadians' experiences with the justice system,
-conducted periodically by Statistics Canada. The most recent survey was
-conducted in 2021.
+conducted periodically by Statistics Canada,
+ with the most recent survey conducted in 2021.
+Data from the survey is freely available in the form of a [Public Use
+Microdata
+File](https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm)
+provided by StatsCan.
 
 
-The data from the survey is provided by Statistics Canada via a [Public Use
-Microdata File](https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm)
+The main data set is a CSV file containing individual survey responses as rows,
+and each column corresponding to a survey variable
+(i.e. a response to an individual question or a demographic variable).
+Column headings represent a variable name.
+For example, the column `PRIP05A` corresponds to a question about whether the
+respondent had a dispute related to a large purchase,
+and values in the `PRIP05A` column represent answers to that question.These
+answers are coded as integers,
+with "Yes" mapped to `1`, "No" mapped to `2`,
+and "Not stated" mapped to `9`.
 
-- Something about what the main data set looks like.
-- Columns and rows.
-- Rows represent individuals, columns represent variables.
-- Answer choices are coded as integers.
-- Look up the mapping.
+A full list of these headings and response mappings are provided in a codebook
+PDF file, but in a format that is not readily machine-readable,
+requiring manual transcribing to access.
 
-The main data set is a CSV file, but it also includes a codebook containing
-information and metadata about survey variables in PDF format that is not
-readily machine-readable.
-
-This project extracts the data from the codebook PDF and provides a web app to
-browse and verify the extracted data.
-
-- Then can use the data in combination with the main
-data set for processing and display.
+Thus, in this project, I extracted the data from the codebook PDF
+in order to use it in combination with the main data set for processing and
+display. The result is a JSON with the extracted codebook data, as well as a
+simple web app for browsing the codebook and verifying correct extraction.
+I plan to use this JSON in a future project to create a web app for exploring the main CLPS data set.
 
 
 ## Describing the Codebook
-
 ## Extracting to HTML first
 - various choices
 - chose HTML cuz familiarity, ease, already found beautifulsoup4 fairly easy
