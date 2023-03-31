@@ -72,7 +72,11 @@ fields, it creates more than set of answer category headings:
 ![Multipage Answer Categories](images/multipage_answer_cats.png)
 
 While it is possible to manually copy-paste the data out into a spreadsheet, I
-felt this would be somewhat error-prone and tedious as there 277 survey variables.
+felt this would be somewhat error-prone and tedious as there 277 survey
+variables.
+This is especially the case as I wanted to extract all the data from each
+section, as I thought the frequency counts etc.
+might be useful for checking the main data set later.
 
 ## Extracting to HTML first
 
