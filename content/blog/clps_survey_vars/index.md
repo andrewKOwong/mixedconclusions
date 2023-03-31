@@ -15,6 +15,33 @@ cover:
 summary:
 ---
 ## Introduction
+A friend of mine was working on a project that required the use of the
+[Canadian Legal Problems
+Survey](https://www.justice.gc.ca/eng/rp-pr/jr/survey-enquete.html) (CLPS).
+CLPS is a national survey of Canadians' experiences with the justice system,
+conducted periodically by Statistics Canada. The most recent survey was
+conducted in 2021.
+
+
+The data from the survey is provided by Statistics Canada via a [Public Use
+Microdata File](https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm)
+
+- Something about what the main data set looks like.
+- Columns and rows.
+- Rows represent individuals, columns represent variables.
+- Answer choices are coded as integers.
+- Look up the mapping.
+
+The main data set is a CSV file, but it also includes a codebook containing
+information and metadata about survey variables in PDF format that is not
+readily machine-readable.
+
+This project extracts the data from the codebook PDF and provides a web app to
+browse and verify the extracted data.
+
+- Then can use the data in combination with the main
+data set for processing and display.
+
 
 ## Describing the Codebook
 
