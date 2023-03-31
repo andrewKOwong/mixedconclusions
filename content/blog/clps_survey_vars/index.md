@@ -51,7 +51,15 @@ I plan to use this JSON in a future project to create a web app for exploring th
 
 ## Describing the Codebook
 ## Extracting to HTML first
-- various choices
+
+There are various choices for extracting text from a PDF file.
+
+I ended up choose `pdfminer.six` as it was fairly straightforward to use,
+and I knew I could use the `beautifulsoup` library to parse the HTML output
+with which I was already familiar.
+
+I could not extract text directly, but it loses the position.
+
 - chose HTML cuz familiarity, ease, already found beautifulsoup4 fairly easy
 - pdfminer six
 - run pdf with script
