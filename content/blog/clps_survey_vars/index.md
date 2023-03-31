@@ -78,19 +78,32 @@ This is especially the case as I wanted to extract all the data from each
 section, as I thought the frequency counts etc.
 might be useful for checking the main data set later.
 
-## Extracting to HTML first
+## Extracting to HTML
+I first sought out a library to extract data from PDFs.
+There's a number of options, such as [pypdf](https://github.com/py-pdf/pypdf),
+[PyMuPDF](https://github.com/pymupdf/PyMuPDF),
+[pdfminer.six](https://github.com/pdfminer/pdfminer.six),
+and [PDFquery](https://github.com/jcushman/pdfquery).
 
-There are various choices for extracting text from a PDF file.
+After extracting the bare text with them,
+I found that the bare text was not sufficient, as
+it loses the semantic structure of the document.
+For example, the heading "Answer Categories" and the
+answer category text values themselves may not be next to each other on
+extraction, so it's not clear which text chunk belongs under which heading.
 
-I ended up choose `pdfminer.six` as it was fairly straightforward to use,
-and I knew I could use the `beautifulsoup` library to parse the HTML output
-with which I was already familiar.
+Most of the pdf libraries have a way to extract positioning information as
+well, by including coordinates of a boundary box for each text element, such as
+by XML or HTML tag attributes. I ended
+up choosing `pdfminer.six` as it had a CLI utility that was simple to use to
+convert the entire PDF to HTML in one step,
+at which point I could manipulate the HTML with a library like `beautifulsoup4`
+which I already have some familiarity with.
 
-I could not extract text directly, but it loses the position.
-
-- chose HTML cuz familiarity, ease, already found beautifulsoup4 fairly easy
-- pdfminer six
-- run pdf with script
+After installing `pdfminer.six`, the CLI utility is a one-liner:
+```bash
+pdf2txt.py codebook.pdf -o codebook.html --output_type html
+```
 
 ## Extracting the thing
 - Issues to look out for
