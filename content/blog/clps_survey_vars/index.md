@@ -50,6 +50,30 @@ I plan to use this JSON in a future project to create a web app for exploring th
 
 
 ## Describing the Codebook
+A typical page of the codebook PDF looks like this:
+![Codebook page](images/codebook_page.png)
+
+The codebook is divided into sections, each of which corresponds to a survey
+variable.
+These sections don't correspond to a single page, but may bridge across two
+pages.
+
+For example, the survey variable `PRIP05C` has its answer categories on a
+separate page:
+
+![Multipage variable](images/multipage_variable.png)
+
+Sometimes, page breaks can occur in the middle of a field. For example,
+`CON_10D` has its question text broken over two pages:
+![Multipage Question Text](images/multipage_question_text.png)
+
+As well, when a page break occurs in the middle of the answer categories
+fields, it creates more than set of answer category headings:
+![Multipage Answer Categories](images/multipage_answer_cats.png)
+
+While it is possible to manually copy-paste the data out into a spreadsheet, I
+felt this would be somewhat error-prone and tedious as there 277 survey variables.
+
 ## Extracting to HTML first
 
 There are various choices for extracting text from a PDF file.
