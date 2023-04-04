@@ -109,12 +109,70 @@ The resulting HTML file is a reasonably good facsimile of the original PDF:
 ![HTML codebook](images/html_codebook.png)
 
 ## Extracting the thing
-- Issues to look out for
-- Separating out into units
-    - diagram
-- Extracting functions
+- script is: `extract_cdbk_pdf_answers.py`
+- given that it's an html, I used beautifulsoup to parse it
+- Several things to notice about the structure of the html file:
+  - each page has an element with the page number
+  - there are superfluous header and footer elements
+  - each survey variable is bounded by single horizontal lines, regardless of
+    where the page breaks occur.
+
+  start div.
+- All the elements are siblings of the start div element.
+- So first extract that to get only things between start and end pages.
+- Each pages starts with an element with the Page number that's added by pdfminder.six
+
+- Then run loops to filter out elements
+  - horizontal hlines that aren't the dividers
+  - headers and footers
+  - page divs numbers
+
+- The rest are data elements, are the dividing hlines
+- Used a custom `Element` class that can be 'text' or 'divider'
+and has positioning information, left/top, width/height, calculate
+right/bottom.
+- Then convert HTML elements into `Element` objects. Extracting the text and
+  such.
+
+- Sort the elements
+- strip out whitespace from element text.
+
+- Group the elements
+- Because we have positioning information, from divider elements, we can group
+  the elements into units.
+    - Each unit then represents a survey variable.
+
+- After that write bunch of functions to extract the data from each unit.
+- Mostly knowing the data header for each field, then using positioning.
+    - Allow for buffers because the positioning is not exact.
+
+- Top section straight forward.
+- Middle section has some complications.
+
+- There are some complications.
+  - multiple lines of question text
+  - multiple headers
+  - Some questions ASTP20B have broken in the middle. I have two underlying
+    functions to deal with that, because I discovered this after, and didn't
+    want to think too hard, because most of it works, in the middle section.
+
+- Bottom section are the answers. There are problems with multiple headers, as
+  well as some answer categories are broken into multiple lines, which breaks
+  the codes, etc on the right. When things are broken, there are new line
+  characters, so it's a matter of extracting the text and figuring out how many
+  new lines there are, and counting the code categories and ameliorating the
+  count differences.
+  - maybe talk about custom classes to represent it in lists.
+
+
 - Other issues
     - fi, hyphenated words, occasional inconsistent dashing
+    - some other exceptions, VERDATE has unnamed answer category
+    - PUMFIID, WTPP, and VERDATE have no answer categories, but I was using the
+      header to triangulate where the text is. So rather than rewriting to
+      handle it elegant, I just built in some check conditions in the main
+      loop.
+
 - Some discovered after verification app
 
 ## Verification app
