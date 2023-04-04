@@ -108,7 +108,10 @@ The resulting HTML file is a reasonably good facsimile of the original PDF:
 
 ![HTML codebook](images/html_codebook.png)
 
-## Extracting the thing
+## Extracting data from HTML to JSON
+### Parsing HTML with BeautifulSoup
+
+
 - script is: `extract_cdbk_pdf_answers.py`
 - given that it's an html, I used beautifulsoup to parse it
 - Several things to notice about the structure of the html file:
@@ -122,10 +125,13 @@ The resulting HTML file is a reasonably good facsimile of the original PDF:
 - So first extract that to get only things between start and end pages.
 - Each pages starts with an element with the Page number that's added by pdfminder.six
 
+### Filtering Out Non-data Elements
 - Then run loops to filter out elements
   - horizontal hlines that aren't the dividers
   - headers and footers
   - page divs numbers
+
+### Assembling Data Elements into Units
 
 - The rest are data elements, are the dividing hlines
 - Used a custom `Element` class that can be 'text' or 'divider'
@@ -142,6 +148,7 @@ right/bottom.
   the elements into units.
     - Each unit then represents a survey variable.
 
+### Extracting Data from Units
 - After that write bunch of functions to extract the data from each unit.
 - Mostly knowing the data header for each field, then using positioning.
     - Allow for buffers because the positioning is not exact.
@@ -164,7 +171,7 @@ right/bottom.
   count differences.
   - maybe talk about custom classes to represent it in lists.
 
-
+### Miscellaneous Issues
 - Other issues
     - fi, hyphenated words, occasional inconsistent dashing
     - some other exceptions, VERDATE has unnamed answer category
@@ -173,9 +180,13 @@ right/bottom.
       handle it elegant, I just built in some check conditions in the main
       loop.
 
-- Some discovered after verification app
+
+
+### Running the Extraction Script
+
 
 ## Verification app
+- Some discovered after verification app
 - number small enough that I could look through it. Found some errors.
 - Chose streamlit because it's fairly easy to get started
 - Early prototype was drawing a bunch of columns, and then all 276 variables.
