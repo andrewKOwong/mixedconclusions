@@ -104,6 +104,9 @@ After installing `pdfminer.six`, the CLI utility is a one-liner:
 ```bash
 pdf2txt.py codebook.pdf -o codebook.html --output_type html
 ```
+The resulting HTML file is a reasonably good facsimile of the original PDF:
+
+![HTML codebook](images/html_codebook.png)
 
 ## Extracting the thing
 - Issues to look out for
