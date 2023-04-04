@@ -110,29 +110,54 @@ The resulting HTML file is a reasonably good facsimile of the original PDF:
 
 ## Extracting data from HTML to JSON
 ### Parsing HTML with BeautifulSoup
+The structure of the extracted HTML file is a list of sibling `<div>` and
+`<span>` elements inside the main `<body>` tag. For example, the following is
+a very truncated version of the first page of data corresponding to page 9 of the
+original pdf:
+```html
+<div style="position:absolute; top:6786px;"><a name="9">Page 9</a></div>
+<div
+    style="position:absolute; border: textbox 1px solid; writing-mode:lr-tb; left:245px; top:6806px; width:120px; height:19px;">
+    <span style="font-family: NimbusSanL-Bold; font-size:8px">CLPS 2021 - Data Dictionary
+        <br>PUMF
+        <br></span></div>
+<div
+    style="position:absolute; border: textbox 1px solid; writing-mode:lr-tb; left:40px; top:6852px; width:64px; height:8px;">
+    <span style="font-family: NimbusSanL-Bold; font-size:8px">Variable Name:
+        <br></span></div>
+...
+...
+...
+<span style="position:absolute; border: black 1px solid; left:36px; top:7548px; width:540px; height:1px;"></span>
+<span style="position:absolute; border: gray 1px solid; left:0px; top:7628px; width:612px; height:792px;"></span>
+```
+This is a relatively simple structure with a few notable features:
+- During extraction to HTML, `pdfminer.six` marks the beginning of each page with a e.g. `<div><a name="9">Page
+9</a></div>` nested anchor tag.
+- Nested `<div><span>text</span></div>` elements represent the text on the page
+- Single `<span>` elements represent horizontal lines or other drawn objects.
+- A subset of `<span>` horizontal lines are used to divide survey variables from each other.
+- Each element also has a `style` attribute that contains positioning and size information.
 
 
-- script is: `extract_cdbk_pdf_answers.py`
-- given that it's an html, I used beautifulsoup to parse it
-- Several things to notice about the structure of the html file:
-  - each page has an element with the page number
-  - there are superfluous header and footer elements
-  - each survey variable is bounded by single horizontal lines, regardless of
-    where the page breaks occur.
+Using the python library `beautifulsoup4`, I first cleaned up the HTML in
+several steps:
+- Locate the starting and ending anchor tags that mark the page breaks at the
+  start of Page 9 and the end of Page 126 (i.e. the start of Page 127), which
+  correspond to t  start of Page 9 and the end of Page 126 (i.e. the start of Page 127), which
+  correspond to the first and last pages containing survey variable data in the codebook.
+- Extract all the HTML between those two anchor elements.
+- Filter out unnecessary and cosmetic elements such as:
+    - The page break anchor elements
+    - Horizontal lines that aren't the dividers between survey variables
+    - Headers and footers
 
-  start div.
-- All the elements are siblings of the start div element.
-- So first extract that to get only things between start and end pages.
-- Each pages starts with an element with the Page number that's added by pdfminder.six
+This left only the HTML elements corresponding to data for each survey variable and the horizontal
+lines that divide survey variables between each other.
 
-### Filtering Out Non-data Elements
-- Then run loops to filter out elements
-  - horizontal hlines that aren't the dividers
-  - headers and footers
-  - page divs numbers
 
-### Assembling Data Elements into Units
-
+### Converting HTML Elements into Python objects
+- Helps to thinking to convert rather than thinking of div/spans.
 - The rest are data elements, are the dividing hlines
 - Used a custom `Element` class that can be 'text' or 'divider'
 and has positioning information, left/top, width/height, calculate
@@ -142,6 +167,7 @@ right/bottom.
 
 - Sort the elements
 - strip out whitespace from element text.
+### Assembling Data Elements into Units
 
 - Group the elements
 - Because we have positioning information, from divider elements, we can group
@@ -183,6 +209,8 @@ right/bottom.
 
 
 ### Running the Extraction Script
+
+- script is: `extract_cdbk_pdf_answers.py`
 
 
 ## Verification app
