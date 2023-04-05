@@ -193,11 +193,15 @@ and sorted the elements by top to bottom position, then left to right,
 resulting in a `list` of `Element` objects.
 
 ### Assembling Data Elements into Units
+The next step was to assemble the `Element` objects into units that correspond
+to a single survey variable.
 
-- Group the elements
-- Because we have positioning information, from divider elements, we can group
-  the elements into units.
-    - Each unit then represents a survey variable.
+Since the list of `Elements` is sorted by position,
+ I iterated through the list and used the divider
+elements `Elements` as markers to group elements into sublists.
+This list of units of elements could then be iterated through to extract
+information for each survey variable.
+
 
 ### Extracting Data from Units
 - After that write bunch of functions to extract the data from each unit.
