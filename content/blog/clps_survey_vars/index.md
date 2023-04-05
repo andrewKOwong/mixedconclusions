@@ -203,21 +203,102 @@ This list of units of elements could then be iterated through to extract
 information for each survey variable.
 
 
-### Extracting Data from Units
-- After that write bunch of functions to extract the data from each unit.
-- Mostly knowing the data header for each field, then using positioning.
-    - Allow for buffers because the positioning is not exact.
+### Defining a Text Extraction Strategy and Output Format
+At this point, my goal was to convert the data into `list` of `dicts` format
+that could be converted directly into JSON:
+```json
+[
+  {
+    "variable_name": "PHHP01P",
+    "length": "2.0",
+    "position": "7",
+    "question_name": "",
+    "concept": "Number of people in household",
+    "question_text": "Including yourself, how many people live in your household? Number of people",
+    "universe": "All respondents",
+    "note": "",
+    "source": "",
+    "answer_categories": [
+      "1 person",
+      ...
+  ],
+    "code": [
+      ...
+    ],
+    "frequency": [
+      ...
+    ],
+    "weighted_frequency": [
+      ...
+    ],
+    "percent": [
+      ...
+    ],
+    "total": {
+      "frequency": "21170",
+      "weighted_frequency": "30091985",
+      "percent": "100.0"
+    }
+  },
+  ...
+]
+```
+To do this, I wrote a series of functions to extract and clean the text from
+each data field. These functions are roughly grouped between the top,
+middle, and bottom section for each survey variable:
 
-- Top section straight forward.
-- Middle section has some complications.
+![](./images/variable_sections.png)
 
-- There are some complications.
-  - multiple lines of question text
-  - multiple headers
-  - Some questions ASTP20B have broken in the middle. I have two underlying
-    functions to deal with that, because I discovered this after, and didn't
-    want to think too hard, because most of it works, in the middle section.
 
+### Extracting the Top Section
+The top section consists of the variable name, length, and position fields
+horizontally stacked beside each other:
+
+- For variable name, my strategy was to look for the elements containing
+the text "Variable Name:" and "Length:" and then look for the single text
+element in between these two elements (raising an error if more than one
+element was found).
+- For length and position, the field name and field value were fused into a
+  single element (e.g. "Length: 2.0"),
+  so I searched for element containing the field heading text
+  (e.g. "Length:" and "Position:"), then split/stripped the text to get
+  just the field value.
+
+### Extracting the Middle Section
+The middle section consists of data fields that are vertically stacked on
+top of each other.
+
+My first strategy was write a generic function `get_middle_section` that
+would as arguments the current field heading and the next field heading
+below it, find their `top` position,
+then find any elements whose `top` lay between these two limits,
+with appropriate buffers/tolerances in case the `top` positions
+are slightly off.
+This strategy worked for all the fields except for the question text field.
+In the case of question text, even though this strategy worked for most
+of the survey variables there was some survey variables where `pdfminer.six`
+didn't recognize the text elements in a way that I expected.
+
+For example, for the survey variable ASTP20B, the question text is split
+horizontally because of some punctuation.
+
+![](./images/question_text_split_horizontally.png)
+
+This results in the text elements (1,2,3) being extracted. When I naively
+put these elements together, they don't end up in the same order.
+
+Since this really only affected question text, I decided to write a clone of
+`get_middle_section` and call it `get_middle_section_broad`.
+The final strategy is that `get_question_name`, `get_concept`, `get_universe`,
+`get_note`, and `get_source` use `get_middle_section` and
+`get_question_text` uses `get_middle_section_broad`.
+
+
+
+
+![Question text broken in the middle](./images/question_text_broken_in_middle.png)
+
+### Extracting the Bottom Section
 - Bottom section are the answers. There are problems with multiple headers, as
   well as some answer categories are broken into multiple lines, which breaks
   the codes, etc on the right. When things are broken, there are new line
@@ -225,6 +306,9 @@ information for each survey variable.
   new lines there are, and counting the code categories and ameliorating the
   count differences.
   - maybe talk about custom classes to represent it in lists.
+
+  I found it helpful to code defensively during this process, and raise
+  `AssertionErrors` when my assumptions were violated.
 
 ### Miscellaneous Issues
 - Other issues
