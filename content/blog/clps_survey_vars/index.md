@@ -157,16 +157,41 @@ lines that divide survey variables between each other.
 
 
 ### Converting HTML Elements into Python objects
-- Helps to thinking to convert rather than thinking of div/spans.
-- The rest are data elements, are the dividing hlines
-- Used a custom `Element` class that can be 'text' or 'divider'
-and has positioning information, left/top, width/height, calculate
-right/bottom.
-- Then convert HTML elements into `Element` objects. Extracting the text and
-  such.
+At this point, rather than continuing to work with the HTML elements, I thought
+it would be easier to work with a more structured representation of the data.
+I created an `Element` dataclass that would hold positionig information,
+whether the element was a text element or a dividing horizontal line,
+and any text within the element:
+```python
+@dataclass
+class Element:
+    TEXT_TYPE = 'text'
+    DIVIDER_TYPE = 'divider'
+    elem_type: str
+    left: int
+    top: int
+    width: int
+    height: int
+    right: int = field(init=False)
+    bottom: int = field(init=False)
+    text: str = ''
 
-- Sort the elements
-- strip out whitespace from element text.
+    def __post_init__(self):
+        # Convert to ints
+        self.left = int(self.left)
+        self.top = int(self.top)
+        self.width = int(self.width)
+        self.height = int(self.height)
+        # Calculate right and bottom positions
+        self.right = self.left + self.width
+        self.bottom = self.top + self.height
+
+```
+I then converted each HTML element into an `Element` object,
+stripped whitespace from the text,
+and sorted the elements by top to bottom position, then left to right,
+resulting in a `list` of `Element` objects.
+
 ### Assembling Data Elements into Units
 
 - Group the elements
