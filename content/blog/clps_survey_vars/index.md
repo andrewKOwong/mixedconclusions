@@ -247,18 +247,21 @@ To do this, I wrote a series of functions to extract and clean the text from
 each data field. These functions are roughly grouped between the top,
 middle, and bottom section for each survey variable:
 
-![](./images/variable_sections.png)
+![](images/variable_sections.png)
 
 
 ### Extracting the Top Section
 The top section consists of the variable name, length, and position fields
 horizontally stacked beside each other:
 
-- For variable name, my strategy was to look for the elements containing
+![](images/variable_top.png)
+
+For variable name, my strategy was to look for the elements containing
 the text "Variable Name:" and "Length:" and then look for the single text
 element in between these two elements (raising an error if more than one
 element was found).
-- For length and position, the field name and field value were fused into a
+
+For length and position, the field name and field value were fused into a
   single element (e.g. "Length: 2.0"),
   so I searched for element containing the field heading text
   (e.g. "Length:" and "Position:"), then split/stripped the text to get
@@ -266,39 +269,51 @@ element was found).
 
 ### Extracting the Middle Section
 The middle section consists of data fields that are vertically stacked on
-top of each other.
+top of each other:
+![](images/variable_middle.png)
 
-My first strategy was write a generic function `get_middle_section` that
-would as arguments the current field heading and the next field heading
-below it, find their `top` position,
-then find any elements whose `top` lay between these two limits,
-with appropriate buffers/tolerances in case the `top` positions
-are slightly off.
-This strategy worked for all the fields except for the question text field.
-In the case of question text, even though this strategy worked for most
-of the survey variables there was some survey variables where `pdfminer.six`
-didn't recognize the text elements in a way that I expected.
-
-For example, for the survey variable ASTP20B, the question text is split
-horizontally because of some punctuation.
-
-![](./images/question_text_split_horizontally.png)
-
-This results in the text elements (1,2,3) being extracted. When I naively
-put these elements together, they don't end up in the same order.
-
-Since this really only affected question text, I decided to write a clone of
-`get_middle_section` and call it `get_middle_section_broad`.
-The final strategy is that `get_question_name`, `get_concept`, `get_universe`,
-`get_note`, and `get_source` use `get_middle_section` and
-`get_question_text` uses `get_middle_section_broad`.
+My first strategy was to have several functions e.g. `get_question_name`,
+`get_concept`, etc. call a generic function `get_middle_section` that
+would take as arguments the current field heading and the next field heading
+below it.
+For example, to get the "Concept" data field,
+`get_middle_section` would take in `"Concept:"` and `"Question Text:`
+as arguments,
+find the elements that contain that text,
+and use their position to get all the text elements to the right of
+and in between the two data headings.
 
 
+This strategy generally worked.
+However, I discovered that there was a issue with some 'question_text'
+fields.
+For example, for the survey variable ASTP20B, the second line of question text
+has a dash that causes `pdfminer.six` to extract it as the following text elements:
+
+![](images/question_text_broken_in_middle.png)
+```python
+# Top text element
+'Indicate the helpfulness of the actions you took to resolve your most serious problem'
+# Left side text element that fuses with the last line
+'Only report the actions you took in Canada.\nthedispute'
+# Right side text element
+' - Contacted the other party involve in'
+```
+
+The way `get_middle_section` was written misses the text element on the right.
+Rather than rewriting the whole function and having to check to see if any
+new problems with the fields that already worked, I decided clone the function
+to a new function `get_middle_section_broad` that gets all text elements and
+also splits the strings by new lines before putting them together in the right
+order.
+Then I just had `get_question_text` to call `get_middle_section_broad` instead
+of `get_middle_section`.
 
 
-![Question text broken in the middle](./images/question_text_broken_in_middle.png)
 
 ### Extracting the Bottom Section
+![](images/variable_bottom.png)
+
 - Bottom section are the answers. There are problems with multiple headers, as
   well as some answer categories are broken into multiple lines, which breaks
   the codes, etc on the right. When things are broken, there are new line
@@ -306,6 +321,14 @@ The final strategy is that `get_question_name`, `get_concept`, `get_universe`,
   new lines there are, and counting the code categories and ameliorating the
   count differences.
   - maybe talk about custom classes to represent it in lists.
+
+Picture of a problematic bottom section.
+
+```python
+Some example of how the code looks with elements in them.
+
+```
+
 
   I found it helpful to code defensively during this process, and raise
   `AssertionErrors` when my assumptions were violated.
