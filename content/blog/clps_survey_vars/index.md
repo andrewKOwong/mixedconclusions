@@ -312,26 +312,83 @@ of `get_middle_section`.
 
 
 ### Extracting the Bottom Section
+The bottom section contains the answer categories,
+their encodings in the main dataset,
+and frequency, weighted frequency, and percent data for each answer category
+for respondents in the survey:
 ![](images/variable_bottom.png)
 
-- Bottom section are the answers. There are problems with multiple headers, as
-  well as some answer categories are broken into multiple lines, which breaks
-  the codes, etc on the right. When things are broken, there are new line
-  characters, so it's a matter of extracting the text and figuring out how many
-  new lines there are, and counting the code categories and ameliorating the
-  count differences.
-  - maybe talk about custom classes to represent it in lists.
+For most of the survey variables, each column is extracted as a single block,
+with the headings as a separate element (although the frequency and weighted
+frequency headings are fused to each other). The totals row is fused with the
+column values above it.
 
-Picture of a problematic bottom section.
+However, sometimes the answer categories get broken by a page break, resulting
+in multiple headings:
+![](images/answers_double_headings.png)
 
+As well, there are cases that individual answer categories have text broken
+into multiple lines. This breaks the corresponding code column into more than
+one element. For example, in the code column below, there is an element with
+`"1\n2\n3\n4"` and another element with `"6\n7\n9"`:
+
+![](images/answers_multiline.png)
+The extracted text for multiline answer categories are not distinguishable
+from multiple answer categories on their own. E.g. the answer category
+`"Not applicable/did not retain\nlawyer/paralegal/law student" would appear as
+two answer categories since newline characters separate the other answer
+categories from each other. However, these cases will appear with multiple
+elements in the code column, so I needed to incorporate that information.
+
+
+The following is an approximate description of the process to these issues.
+Note that the actual code combines some of these steps, but I've illustrated it
+slightly differently for clarity:
 ```python
-Some example of how the code looks with elements in them.
+## Initial text that gets extracted, text contains internal headers
+# as well as a multiline answer category
+# Categories:
+["Cat1\nCat2A\nCat2B\nCat3\nCat4", "Answer Categories", "Cat 5\nCat6"]
+# Codes:
+["1\n2","3\n4", "Code", "5\n6"]
+
+## Swap internal headers for PageBreaks
+# Categories:
+[["Cat1","Cat2A","Cat2B","Cat3","Cat4"], PageBreak, ["Cat 5","Cat6"]]
+# Codes:
+[["1","2"],["3","4"], PageBreak,["5","6"]]
+
+## Add in CodeElementBreaks in between code elements
+## but not where there are page breaks
+# Codes:
+[["1","2"], CodeElementBreak, ["3","4"], PageBreak, ["5","6"]]
+
+# Flatten both answer categories and codes
+# Categories:
+["Cat1", "Cat2A", "Cat2B", "Cat3", "Cat4", PageBreak, "Cat 5", "Cat6"]
+# Codes:
+["1", "2", CodeElementBreak, "3", "4", PageBreak, "5", "6"]
+
+# Infer the presence of a multiline answer category by the presence of a
+# CodeElementBreak in the codes list
+# Categories:
+["Cat1", "Cat2ACat2B", "Cat3", "Cat4", PageBreak, "Cat 5", "Cat6"]
+
+# Clean up CodeElementBreaks and PageBreaks
+# Categories
+["Cat1", "Cat2ACat2B", "Cat3", "Cat4", "Cat 5", "Cat6"]
+# Codes:
+["1", "2", "3", "4", "5", "6"]
 
 ```
 
+For frequency, weighted frequency, and percent columns, I only had to handle
+internal headers.
 
-  I found it helpful to code defensively during this process, and raise
-  `AssertionErrors` when my assumptions were violated.
+
+
+As a side note, I found it helpful to code defensively during this process,
+ and raise `AssertionErrors` when my assumptions were violated.
 
 ### Miscellaneous Issues
 - Other issues
