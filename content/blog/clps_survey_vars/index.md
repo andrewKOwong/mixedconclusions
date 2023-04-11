@@ -411,9 +411,13 @@ text needed to be displayed elsewhere.
 
 
 ### Running the Extraction Script
-
-- script is: `extract_cdbk_pdf_answers.py`
-
+To run the extraction script, run the following in the main project folder:
+```bash
+python extract_cdbk_pdf_answers.py codebook.html
+```
+There is an optional `-d` flag to enable debug mode, which will print out
+several text files representing intermediate steps in the extraction process,
+as well as a `-o` flag to change the output file name.
 
 ## Verification app
 - Some discovered after verification app
