@@ -419,19 +419,52 @@ There is an optional `-d` flag to enable debug mode, which will print out
 several text files representing intermediate steps in the extraction process,
 as well as a `-o` flag to change the output file name.
 
-## Verification app
-- Some discovered after verification app
-- number small enough that I could look through it. Found some errors.
-- Chose streamlit because it's fairly easy to get started
+## Verification App
+### Rationale
+I thought it would be useful to have a way to verify the extracted data, so I
+
+So I wanted to make a simple app to display the extracted data, so I could
+easily verify that the data was correct.
+
+Looking at a JSON and a PDF at the same time sounded extremely painful.
+Scrolling through a JSON and a PDF at the same time sounded extremely painful.
+
+In fact, this is how I discovered several issues and errors.
+
+The number of survey variables was small enough that I could look through all
+of it.
+
+
+
+### Using Streamlit
+I had heard about [Streamlit](https://streamlit.io/) some time ago.
+It seemed like a fairly easy way to get started with a simple app.
+As well, streamlit community cloud provides free hosting.
+
+
+### An Early Prototype
+
 - Early prototype was drawing a bunch of columns, and then all 276 variables.
     - seems though causes performance issues, both locally and online. Some other testing shows yada
       columns can't complete if over yada numbers.
-- Scrolling is a pain anyways, so I made it page-like, display next/prev
+- Scrolling is a pain if doing scrolling anyways, so I made it page-like, display next/prev
   button.
-- syncing button to dropdown uses session state (see link), keeping track of
-  the index.
-- Downloadable JSON.
 
+
+### Paginated Display
+- Basically I'm loading the data JSON data in, and then using session state to
+  keep track of the current index.
+- Adding next/prev button to increment/decrement index, and hence change the
+  displayed variable.
+- The sidebar has a dropdown to select a variable to display, which always has
+  access to session state.
+
+- Sidebar also has a button to download the JSON data.
+
+The app is available at [LINK](LINK).
+Streamlit community cloud has app hibernation after a few days of no traffic,
+so you have to press the wake app button, and it may take a few seconds to a
+couple of minutes to wake.
 
 ## Discussion
 - Bounding box might be easier to think about? Not like single point.
