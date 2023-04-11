@@ -391,14 +391,23 @@ As a side note, I found it helpful to code defensively during this process,
  and raise `AssertionErrors` when my assumptions were violated.
 
 ### Miscellaneous Issues
-- Other issues
-    - fi, hyphenated words, occasional inconsistent dashing
-    - some other exceptions, VERDATE has unnamed answer category
-    - PUMFIID, WTPP, and VERDATE have no answer categories, but I was using the
-      header to triangulate where the text is. So rather than rewriting to
-      handle it elegant, I just built in some check conditions in the main
-      loop.
-
+There are several other issues of note:
+- Words like "certificate" are extracted with `'fi'` as a single character
+  `'ﬁ'`. These needed to be replaced.
+- In the question text fields, some words contain line-breaking hyphens.
+I removed these hyphens, as I felt they would not be useful if the question
+text needed to be displayed elsewhere.
+- There is occasional inconsistent dashs/hyphens (e.g. spaces before or after
+  dashs). I left these as is.
+- The survey variables `PUMFID` and `WTPP` have no answer categories. However,
+  my extraction function depended on the "Answer Categories" heading to locate
+  where the boundary of the source field was.
+  These survey variables didn't actually have data in the source field, so rather than rewrite the function,
+  I just added these as check conditions in the main loop to handle them.
+- The survey variable `VERDATE` has no answer categories, as it just has a date
+  in the code column.
+  This would cause `AssertionErrors` in my extraction functions, so I just
+  handled it with a check condition in the main loop.
 
 
 ### Running the Extraction Script
