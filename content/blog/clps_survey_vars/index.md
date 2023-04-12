@@ -446,29 +446,32 @@ hosting and deploys apps straight off a GitHub repo, so I didn't have to worry
 about managing a server etc.
 
 
-### An Early Prototype
+### Implementing the App
 
-- Early prototype was drawing a bunch of columns, and then all 276 variables.
-    - seems though causes performance issues, both locally and online. Some other testing shows yada
-      columns can't complete if over yada numbers.
-- Scrolling is a pain if doing scrolling anyways, so I made it page-like, display next/prev
-  button.
+My initial prototype was to display all the data on a single scrollable page,
+but formatted to look like the PDF.
+I did this with a bunch of nested `st.container`, `st.column`, and `st.metric` objects,
+but I found that the app had trouble loading.
+I did some quick testing,
+and found that page loading takes
+10 seconds with 900 `st.metric` objects,
+30-45 seconds with 1800 objects,
+and a failure to load with 3600 objects.
+
+Since, scrolling is kind of a pain anyways, I decided to make the app display
+one survey variable at a time.
+The user then chooses the survey variable via a dropdown menu in the sidebar,
+or can click a next/prev button to cycle through the survey variables.
+The current variable displayed is stored in
+[session state](https://docs.streamlit.io/en/stable/api.html#streamlit.session_state),
+so that the next/prev buttons and the dropdown menu stays in sync with each
+other.
+The sidebar also includes a button to download the JSON data.
 
 
-### Paginated Display
-- Basically I'm loading the data JSON data in, and then using session state to
-  keep track of the current index.
-- Adding next/prev button to increment/decrement index, and hence change the
-  displayed variable.
-- The sidebar has a dropdown to select a variable to display, which always has
-  access to session state.
-
-- Sidebar also has a button to download the JSON data.
-
-The app is available at [LINK](LINK).
-Streamlit community cloud has app hibernation after a few days of no traffic,
-so you have to press the wake app button, and it may take a few seconds to a
-couple of minutes to wake.
+The app is available at [https://clps-survey-variables.streamlit.app/](https://clps-survey-variables.streamlit.app/).
+Streamlit Community Cloud hosting hibernates the app after
+a few days of no traffic, in which case a user can click the wake app button,
 
 ## Discussion
 - Bounding box might be easier to think about? Not like single point.
