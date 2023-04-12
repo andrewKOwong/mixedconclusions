@@ -421,25 +421,29 @@ as well as a `-o` flag to change the output file name.
 
 ## Verification App
 ### Rationale
-I thought it would be useful to have a way to verify the extracted data, so I
+While I was working on the extraction script, I keep discovering new issues
+which made me nervous about the integrity of the extracted data.
+Since the number of survey variables is fairly small (276),
+I thought I could look through all of the extracted data without
+consuming too much time.
 
-So I wanted to make a simple app to display the extracted data, so I could
-easily verify that the data was correct.
-
-Looking at a JSON and a PDF at the same time sounded extremely painful.
-Scrolling through a JSON and a PDF at the same time sounded extremely painful.
-
-In fact, this is how I discovered several issues and errors.
-
-The number of survey variables was small enough that I could look through all
-of it.
-
-
+However, trying to look through the data as a JSON file and then having to
+match it to a PDF file while scrolling sounded extremely painful and error prone.
+I decided it would be prudent to make a simple app to display the extracted
+data in a nicely formatted way.
+Indeed, I ended up discovering several issues this way, which I then went back
+and fixed in the extraction script.
 
 ### Using Streamlit
 I had heard about [Streamlit](https://streamlit.io/) some time ago.
-It seemed like a fairly easy way to get started with a simple app.
-As well, streamlit community cloud provides free hosting.
+Its main draw is that it turns fairly simple Python scripts into decent-looking
+web apps,
+so this sounded like an easy, fast way to get started with a simple app.
+
+
+As well, [Streamlit Community Cloud](https://streamlit.io/cloud) provides free
+hosting and deploys apps straight off a GitHub repo, so I didn't have to worry
+about managing a server etc.
 
 
 ### An Early Prototype
