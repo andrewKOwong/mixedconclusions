@@ -473,5 +473,17 @@ The app is available at [https://clps-survey-variables.streamlit.app/](https://c
 Streamlit Community Cloud hosting hibernates the app after
 a few days of no traffic, in which case a user can click the wake app button,
 
-## Discussion
-- Bounding box might be easier to think about? Not like single point.
+## Discussion and Improvements
+
+The data extraction in the main script relies on finding headers
+and using their corner positions as limits to find where
+data values are located in relation to the headers.
+An alternate approach could be to explicitly define bounding boxes
+and finding data values that fall within these boxes.
+I suspect this approach might lead to more standardized extraction functions
+that are easier to think about and read/write,
+and perhaps handle edge cases better (e.g. when there are missing headers).
+
+However, since this data extraction step is probably a one-off,
+I do not plan to rewrite it at this time.
+Instead, I plan to move on and use this extracted data with the main CLPS data set.
