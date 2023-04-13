@@ -489,10 +489,10 @@ which usually takes from a few seconds to a couple of minutes.
 ## Discussion and Improvements
 
 The data extraction in the main script relies on finding headers
-and using their corner positions as limits to find where
+and using their corner positions as landmarks to find where
 data values are located in relation to the headers.
 An alternate approach could be to explicitly define bounding boxes
-and finding data values that fall within these boxes.
+and finding data value elements that overlap with these boxes.
 I suspect this approach might lead to more standardized extraction functions
 that are easier to think about and read/write,
 and perhaps handle edge cases better (e.g. when there are missing headers).
