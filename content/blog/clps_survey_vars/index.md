@@ -113,7 +113,7 @@ The resulting HTML file is a reasonably good facsimile of the original PDF:
 
 ![HTML codebook](images/html_codebook.png)
 
-## Extracting data from HTML to JSON
+## Extracting the Data from HTML to JSON
 ### Parsing HTML with BeautifulSoup
 The structure of the extracted HTML file is a list of sibling `<div>` and
 `<span>` elements inside the main `<body>` tag. For example, the following is
@@ -137,7 +137,7 @@ original pdf:
 <span style="position:absolute; border: gray 1px solid; left:0px; top:7628px; width:612px; height:792px;"></span>
 ```
 This is a relatively simple structure with a few notable features:
-- During extraction to HTML, `pdfminer.six` marks the beginning of each page with a e.g. `<div><a name="9">Page
+- During extraction to HTML, `pdfminer.six` marks the beginning of each page with an e.g. `<div><a name="9">Page
 9</a></div>` nested anchor tag.
 - Nested `<div><span>text</span></div>` elements represent the text on the page
 - Single `<span>` elements represent horizontal lines or other drawn objects.
@@ -145,12 +145,11 @@ This is a relatively simple structure with a few notable features:
 - Each element also has a `style` attribute that contains positioning and size information.
 
 
-Using the python library `beautifulsoup4`, I first cleaned up the HTML in
+Using the Python library `beautifulsoup4`, I first cleaned up the HTML in
 several steps:
 - Locate the starting and ending anchor tags that mark the page breaks at the
-  start of Page 9 and the end of Page 126 (i.e. the start of Page 127), which
-  correspond to t  start of Page 9 and the end of Page 126 (i.e. the start of Page 127), which
-  correspond to the first and last pages containing survey variable data in the codebook.
+  start of Page 9 and the end of Page 126 (i.e. the start of Page 127),
+  which correspond to the first and last pages containing survey variable data in the codebook.
 - Extract all the HTML between those two anchor elements.
 - Filter out unnecessary and cosmetic elements such as:
     - The page break anchor elements
@@ -161,7 +160,7 @@ This left only the HTML elements corresponding to data for each survey variable 
 lines that divide survey variables between each other.
 
 
-### Converting HTML Elements into Python objects
+### Converting HTML Elements into Python Objects
 At this point, rather than continuing to work with the HTML elements, I thought
 it would be easier to work with a more structured representation of the data.
 I created an `Element` dataclass that would hold positionig information,
@@ -208,7 +207,7 @@ This list of units of elements could then be iterated through to extract
 information for each survey variable.
 
 
-### Defining a Text Extraction Strategy and Output Format
+### Defining a Text Extraction Strategy and the Output Format
 At this point, my goal was to convert the data into `list` of `dicts` format
 that could be converted directly into JSON:
 ```json
@@ -290,7 +289,7 @@ and in between the two data headings.
 
 
 This strategy generally worked.
-However, I discovered that there was a issue with some 'question_text'
+However, I discovered that there was a issue with some "question_text"
 fields.
 For example, for the survey variable ASTP20B, the second line of question text
 has a dash that causes `pdfminer.six` to extract it as the following text elements:
@@ -307,20 +306,20 @@ has a dash that causes `pdfminer.six` to extract it as the following text elemen
 
 The way `get_middle_section` was written misses the text element on the right.
 Rather than rewriting the whole function and having to check to see if any
-new problems with the fields that already worked, I decided clone the function
+new problems arise with the fields that already worked, I decided clone the function
 to a new function `get_middle_section_broad` that gets all text elements and
 also splits the strings by new lines before putting them together in the right
 order.
-Then I just had `get_question_text` to call `get_middle_section_broad` instead
+Then I just had `get_question_text` call `get_middle_section_broad` instead
 of `get_middle_section`.
 
 
 
 ### Extracting the Bottom Section
 The bottom section contains the answer categories,
-their encodings in the main dataset,
-and frequency, weighted frequency, and percent data for each answer category
+their encodings in the main dataset, frequency, weighted frequency, and percent data for each answer category
 for respondents in the survey:
+
 ![](images/variable_bottom.png)
 
 For most of the survey variables, each column is extracted as a single block,
@@ -339,14 +338,18 @@ one element. For example, in the code column below, there is an element with
 
 ![](images/answers_multiline.png)
 The extracted text for multiline answer categories are not distinguishable
-from multiple answer categories on their own. E.g. the answer category
-`"Not applicable/did not retain\nlawyer/paralegal/law student" would appear as
-two answer categories since newline characters separate the other answer
-categories from each other. However, these cases will appear with multiple
-elements in the code column, so I needed to incorporate that information.
+from multiple answer categories on their own.
+For example, the answer category
+`"Not applicable/did not retain\nlawyer/paralegal/law student"` would appear as
+two answer categories since newline characters also separate the other answer
+categories from each other. However, since these cases only appear when the
+code column is broken into multiple elements, I could incorporate that
+information to figure out where the multiline answer categories occur.
 
 
 The following is an approximate description of the process to these issues.
+I used two custom classes `PageBreak` and `CodeElementBreak` to represent where
+page breaks and breaks in the code column occur.
 Note that the actual code combines some of these steps, but I've illustrated it
 slightly differently for clarity:
 ```python
@@ -387,13 +390,16 @@ slightly differently for clarity:
 
 ```
 
-For frequency, weighted frequency, and percent columns, I only had to handle
-internal headers.
+For processing frequency, weighted frequency, and percent columns,
+I only had to handle internal headers,
+as the multiline issue was already
+resolved between the answer category and code columns.
 
 
 
 As a side note, I found it helpful to code defensively during this process,
- and raise `AssertionErrors` when my assumptions were violated.
+and incorportate `assert` checks to make sure my assumptions about the state of
+the columns and data were correct.
 
 ### Miscellaneous Issues
 There are several other issues of note:
@@ -402,16 +408,16 @@ There are several other issues of note:
 - In the question text fields, some words contain line-breaking hyphens.
 I removed these hyphens, as I felt they would not be useful if the question
 text needed to be displayed elsewhere.
-- There is occasional inconsistent dashs/hyphens (e.g. spaces before or after
+- There are occasional inconsistent dashs/hyphens (e.g. spaces before or after
   dashs). I left these as is.
 - The survey variables `PUMFID` and `WTPP` have no answer categories. However,
   my extraction function depended on the "Answer Categories" heading to locate
-  where the boundary of the source field was.
+  where the boundary of the "source" field was.
   These survey variables didn't actually have data in the source field, so rather than rewrite the function,
   I just added these as check conditions in the main loop to handle them.
 - The survey variable `VERDATE` has no answer categories, as it just has a date
   in the code column.
-  This would cause `AssertionErrors` in my extraction functions, so I just
+  This would raise `AssertionErrors` in my extraction functions, so I also
   handled it with a check condition in the main loop.
 
 
