@@ -1,5 +1,5 @@
 ---
-title: "Clps_survey_vars"
+title: "Canadian Legal Problems Survey: Codebook Extraction"
 date: 2023-03-30T16:15:13-07:00
 publishdate: 2023-03-30T16:15:13-07:00
 author: Andrew Wong
