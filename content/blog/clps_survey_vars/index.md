@@ -435,25 +435,25 @@ as well as a `-o` flag to change the output file name
 ### Rationale
 While I was working on the extraction script, I keep discovering new issues
 which made me nervous about the integrity of the extracted data.
-Since the number of survey variables is fairly small (276),
+Since the number of survey variables is fairly small (277),
 I thought I could look through all of the extracted data without
 consuming too much time.
 
 However, trying to look through the data as a JSON file and then having to
-match it to a PDF file while scrolling sounded extremely painful and error prone.
+match it to a PDF file while scrolling sounded extremely painful and error-prone.
 I decided it would be prudent to make a simple app to display the extracted
 data in a nicely formatted way.
 Indeed, I ended up discovering several issues this way, which I then went back
 and fixed in the extraction script.
 
-### Using Streamlit
+### Choosing Streamlit
 I had heard about [Streamlit](https://streamlit.io/) some time ago.
 Its main draw is that it turns fairly simple Python scripts into decent-looking
 web apps,
 so this sounded like an easy, fast way to get started with a simple app.
 
 
-As well, [Streamlit Community Cloud](https://streamlit.io/cloud) provides free
+Additionally, [Streamlit Community Cloud](https://streamlit.io/cloud) provides free
 hosting and deploys apps straight off a GitHub repo, so I didn't have to worry
 about managing a server etc.
 
@@ -468,22 +468,23 @@ I did some quick testing,
 and found that page loading takes
 10 seconds with 900 `st.metric` objects,
 30-45 seconds with 1800 objects,
-and a failure to load with 3600 objects.
+and fails to load with 3600 objects.
 
-Since, scrolling is kind of a pain anyways, I decided to make the app display
+Since scrolling is kind of a pain anyways, I decided to make the app display
 one survey variable at a time.
-The user then chooses the survey variable via a dropdown menu in the sidebar,
+The user then chooses the survey variable via a searchable dropdown menu in the sidebar,
 or can click a next/prev button to cycle through the survey variables.
-The current variable displayed is stored in
+The current variable displayed is stored as an index in the app's
 [session state](https://docs.streamlit.io/en/stable/api.html#streamlit.session_state),
-so that the next/prev buttons and the dropdown menu stays in sync with each
+so that the next/prev buttons and the dropdown menu stay in sync with each
 other.
 The sidebar also includes a button to download the JSON data.
 
 
 The app is available at [https://clps-survey-variables.streamlit.app/](https://clps-survey-variables.streamlit.app/).
 Streamlit Community Cloud hosting hibernates the app after
-a few days of no traffic, in which case a user can click the wake app button,
+a few days of no traffic, in which case a user can click the "Wake App" button,
+which usually takes from a few seconds to a couple of minutes.
 
 ## Discussion and Improvements
 
