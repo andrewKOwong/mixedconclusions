@@ -49,13 +49,14 @@ simple web app for browsing the codebook and verifying correct extraction.
 I plan to use this JSON in a future project to create a web app for exploring the main CLPS data set.
 
 
-## Describing the Codebook
-A typical page of the codebook PDF looks like this:
+## Format of the Codebook
+A typical page of the codebook PDF will contain several survey variables, with
+each variable separated by dividing lines:
+
+
 ![Codebook page](images/codebook_page.png)
 
-The codebook is divided into sections, each of which corresponds to a survey
-variable.
-These sections don't correspond to a single page, but may bridge across two
+A survey variable section doesn't always reside on a single page, but may bridge across two
 pages.
 
 For example, the survey variable `PRIP05C` has its answer categories on a
@@ -65,18 +66,21 @@ separate page:
 
 Sometimes, page breaks can occur in the middle of a field. For example,
 `CON_10D` has its question text broken over two pages:
+
 ![Multipage Question Text](images/multipage_question_text.png)
 
 As well, when a page break occurs in the middle of the answer categories
 fields, it creates more than set of answer category headings:
+
 ![Multipage Answer Categories](images/multipage_answer_cats.png)
 
 While it is possible to manually copy-paste the data out into a spreadsheet, I
 felt this would be somewhat error-prone and tedious as there 277 survey
 variables.
-This is especially the case as I wanted to extract all the data from each
-section, as I thought the frequency counts etc.
-might be useful for checking the main data set later.
+This is especially true as I wanted to extract all the data from each
+section,
+since the frequency counts etc.
+might be useful for cross referencing to the main data set later.
 
 ## Extracting to HTML
 I first sought out a library to extract data from PDFs.
