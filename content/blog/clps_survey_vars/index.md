@@ -13,7 +13,13 @@ cover:
     image: "images/cover_cropped.jpg"
     caption: 'Photo by <a href="https://unsplash.com/@wesleyphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Wesley Tingey</a> on <a href="https://unsplash.com/photos/TdNLjGXVH3s?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'
 
-summary:
+summary: "The Canadian Legal Problems Survey is a national survey of Canadians'
+ experiences with the justice system.
+While the main data is available as a CSV, the codebook containing the mappings of
+survey responses and their codes is only available as a PDF.
+This post describes how I extracted data from the PDF codebook
+and built a simple web app for browsing the extracted data.
+"
 ---
 ## Introduction
 Some friends of mine have been working on a project that required the use of data from the
