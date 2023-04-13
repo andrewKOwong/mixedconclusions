@@ -15,7 +15,7 @@ cover:
 summary:
 ---
 ## Introduction
-Some friends were working on a project that required the use of data from the
+Some friends of mine have been working on a project that required the use of data from the
 [Canadian Legal Problems
 Survey](https://www.justice.gc.ca/eng/rp-pr/jr/survey-enquete.html) (CLPS).
 CLPS is a national survey of Canadians' experiences with the justice system,
@@ -28,7 +28,7 @@ provided by StatsCan.
 
 
 The main data set is a CSV file containing individual survey responses as rows,
-and each column corresponding to a survey variable
+with each column corresponding to a survey variable
 (i.e. a response to an individual question or a demographic variable).
 Column headings represent a variable name.
 For example, the column `PRIP05A` corresponds to a question about whether the
