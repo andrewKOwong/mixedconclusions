@@ -10,8 +10,9 @@ ShowToc: true
 TocOpen: true
 EnableMathJax: false
 cover:
-    image:
-    caption:
+    image: "images/cover_cropped.jpg"
+    caption: 'Photo by <a href="https://unsplash.com/@wesleyphotography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Wesley Tingey</a> on <a href="https://unsplash.com/photos/TdNLjGXVH3s?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>'
+
 summary:
 ---
 ## Introduction
