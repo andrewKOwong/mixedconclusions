@@ -83,26 +83,27 @@ since the frequency counts etc.
 might be useful for cross referencing to the main data set later.
 
 ## Extracting to HTML
-I first sought out a library to extract data from PDFs.
+I first sought out a Python library to extract data from PDFs.
 There's a number of options, such as [pypdf](https://github.com/py-pdf/pypdf),
 [PyMuPDF](https://github.com/pymupdf/PyMuPDF),
 [pdfminer.six](https://github.com/pdfminer/pdfminer.six),
 and [PDFquery](https://github.com/jcushman/pdfquery).
 
-After extracting the bare text with them,
+After experimenting with extracting the text with them,
 I found that the bare text was not sufficient, as
 it loses the semantic structure of the document.
 For example, the heading "Answer Categories" and the
 answer category text values themselves may not be next to each other on
-extraction, so it's not clear which text chunk belongs under which heading.
+when extracted to text, so it's not clear which text chunk belongs under which heading.
 
-Most of the pdf libraries have a way to extract positioning information as
-well, by including coordinates of a boundary box for each text element, such as
-by XML or HTML tag attributes. I ended
-up choosing `pdfminer.six` as it had a CLI utility that was simple to use to
+Most of the pdf libraries can include positioning information upon extraction
+by embedding the text in XML or HTML tags that contain the coordinates of a
+bounding box for each text element.
+I ended
+up choosing `pdfminer.six` as it had a simple CLI utility that could
 convert the entire PDF to HTML in one step,
 at which point I could manipulate the HTML with a library like `beautifulsoup4`
-which I already have some familiarity with.
+(which I already had some familiarity with).
 
 After installing `pdfminer.six`, the CLI utility is a one-liner:
 ```bash
