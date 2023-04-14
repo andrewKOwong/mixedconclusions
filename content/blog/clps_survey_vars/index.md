@@ -21,6 +21,9 @@ This post describes how I extracted data from the PDF codebook
 and built a simple web app for browsing the extracted data.
 "
 ---
+**Note: the code for this project is available on
+[GitHub](https://github.com/andrewKOwong/clps_survey_vars).**
+
 ## Introduction
 Some friends of mine have been working on a project that required the use of data from the
 [Canadian Legal Problems
