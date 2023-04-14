@@ -495,6 +495,8 @@ Streamlit Community Cloud hosting hibernates the app after
 a few days of no traffic, in which case a user can click the "Wake App" button,
 which usually takes from a few seconds to a couple of minutes.
 
+![](images/app_screenshot.png)
+
 ## Discussion and Improvements
 
 The data extraction in the main script relies on finding headers
