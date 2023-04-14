@@ -40,7 +40,7 @@ with each column corresponding to a survey variable
 Column headings represent a variable name.
 For example, the column `PRIP05A` corresponds to a question about whether the
 respondent had a dispute related to a large purchase,
-and values in the `PRIP05A` column represent answers to that question.These
+and values in the `PRIP05A` column represent answers to that question. These
 answers are coded as integers,
 with "Yes" mapped to `1`, "No" mapped to `2`,
 and "Not stated" mapped to `9`.
@@ -77,7 +77,7 @@ Sometimes, page breaks can occur in the middle of a field. For example,
 ![Multipage Question Text](images/multipage_question_text.png)
 
 As well, when a page break occurs in the middle of the answer categories
-fields, it creates more than set of answer category headings:
+fields, it creates more than one set of answer category headings:
 
 ![Multipage Answer Categories](images/multipage_answer_cats.png)
 
@@ -109,8 +109,7 @@ bounding box for each text element.
 I ended
 up choosing `pdfminer.six` as it had a simple CLI utility that could
 convert the entire PDF to HTML in one step,
-at which point I could manipulate the HTML with a library like `beautifulsoup4`
-(which I already had some familiarity with).
+at which point I could manipulate the HTML with a library like `beautifulsoup4`.
 
 After installing `pdfminer.six`, the CLI utility is a one-liner:
 ```bash
