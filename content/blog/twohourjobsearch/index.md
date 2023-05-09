@@ -104,6 +104,8 @@ There's a few optional cleanup steps here:
 Re-sort the list. The list is now prioritized for who you should approach first, with the top 5 being your first batch.
 
 ## Making Contact
+![](images/email.jpg "Photo by Kaitlyn Baker on Unsplash")
+
 ### Naturalize (20 min)
 
 The next part of 2HJS deals with how to actually contact people at these
@@ -153,9 +155,13 @@ An example email matching this format might look like this:
 ```text
 Hi Jane,
 
-I'm Andrew, a fellow UBC alum from the Genome Science and Technology program. May I chat with you for a few minutes about your experience as a data scientist at Microsoft?
+I'm Andrew, a fellow UBC alum from the Genome Science and Technology program.
+May I chat with you for a few minutes about your experience as a data scientist
+at Microsoft?
 
-I'm interested in learning more how data science is applied in the tech industry, and I'm also curious about how you got into the field. Your insights would be greatly appreciated!
+I'm interested in learning more about how data science is applied in the
+tech industry, and I'm also curious about how you got into the field.
+Your insights would be greatly appreciated!
 
 Thanks, and all the best,
 Andrew
@@ -181,6 +187,9 @@ This system is proactive, rather than reactively waiting for replies. As well, i
 And if you're wondering about what happens when, say, the second contact replies at the same time as the first person (so who do you reply to first), the book outlines contingencies for all the weird scheduling scenarios that could occur.
 
 ## Convince: Informational Meetings
+![](images/chat.jpeg "Photo by Christina @ wocintechchat.com on Unsplash")
+
+
 Eventually, you'll be able to schedule an informational meeting with someone. Critically, these meetings aren't asking about jobs. Rather, these meetings are an opportunity for a contact and you to get to know each other, and for them to share their knowledge on their industry, their company, etc. with you. Once someone knows you, it's much easier for them to naturally help and advocate for you when the time comes.
 
 This part of the book takes up the last three chapters, and contains a wealth of information on things like:
