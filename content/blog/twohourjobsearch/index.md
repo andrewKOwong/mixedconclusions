@@ -59,7 +59,7 @@ companies, and you need to have enough starting stock to have enough companies
 remaining in the end. Listing such a large number also surfaces a lot of
 employers you normally wouldn't think about.
 
-Dalton warns strongly that while making this list, you should not get distracted and start researching the companies, as that is task-switching that creates mental drag preventing you from moving through this process swiftly.
+Dalton warns strongly that while making this list, you should not get distracted and start researching the companies, as that is task-switching which creates mental drag preventing you from moving through this process swiftly.
 
 There are 4 approaches to coming up with this list:
 1) Dream employers:
@@ -137,7 +137,10 @@ candidates) finding articles they wrote and getting their email info from
 there. You may have to get a bit creative here and do some guessing.
 
 ### The Six-Point Email (20 min)
-If you're somewhat introverted like me, the thought of writing what is essentially a cold-call email makes you cringe. But Dalton states that this is because we imagining writing an email where we have to "sell ourselves". Instead, he outlines a six-point email method, which I've copied here verbatim:
+If you're somewhat introverted like me, the thought of writing what is
+essentially a cold-call email makes you cringe. But Dalton states that this is
+because we imagine writing an email where we have to "sell ourselves". Instead,
+he outlines a six-point email method, which I've copied here verbatim:
 
 
 1.  Write fewer than seventy-five words.
