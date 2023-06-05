@@ -14,6 +14,15 @@ cover:
     caption:
 summary:
 ---
+- The [repo for this project](https://github.com/andrewKOwong/clps)
+is on Github.
+- The [dashboard is deployed](https://clps-data.streamlit.app/) on Streamlit
+Community Cloud.
+- A sub-project extracting the CLPS codebook is
+[here](https://mixedconclusions.com/blog/clps_survey_vars/)
+
+## Introduction
+
 
 
 ## Data Validation
@@ -65,3 +74,47 @@ input/output filepath options.
 Side note: While writing this section, I came across [Great
 Expectations](https://github.com/great-expectations/great_expectations),
 another data validation tool that I'm curious to explore in the future.
+
+## Data Overview
+- ints
+- survey vars
+- weights
+- valid skips
+
+## Dashboard Overview
+- outline
+- data transformations
+- config
+
+## Representing the Survey Variables: `SurveyVar` Class
+- PROBCNTP is a special case
+
+## Data Transformations
+- various transformations
+
+## Plotting with Altair
+- rationale
+    - streamlit already using it
+    - but not altair 5
+    - free interactivity
+- functions mostly in the app
+- weird altair stuff
+    - sort order
+    - docs colour sorting actually from altair 5, which streamlit doesn't
+    currently support
+- why not use altair aggregations
+    - testing
+- line label breaking.
+- tooltips
+
+## Data Table Display
+- Updates to streamlit
+
+## Testing
+- data transformations
+- surveyvars
+- some eyeball testing.
+    - not super easy to get, potentially use selenium in the future
+
+## Discussion and Future Improvements
+- selenium in the future instead of eye ball testing.
