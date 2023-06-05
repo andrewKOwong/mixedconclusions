@@ -414,6 +414,8 @@ the columns and data were correct.
 There are several other issues of note:
 - Words like "certificate" are extracted with `'fi'` as a single character
   `'ﬁ'`. These needed to be replaced.
+- A number of apostrophes are extracted as "right single quotation marks"
+`’` instead of `'`. These are also replaced for consistency.
 - In the question text fields, some words contain line-breaking hyphens.
 I removed these hyphens, as I felt they would not be useful if the question
 text needed to be displayed elsewhere.
