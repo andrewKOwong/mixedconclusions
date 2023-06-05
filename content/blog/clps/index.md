@@ -22,8 +22,14 @@ Community Cloud.
 [here](https://mixedconclusions.com/blog/clps_survey_vars/)
 
 ## Introduction
+In a previous blogpost, I extracted the survey variables from the CLPS codebook
+
+[Some friends of mine](https://parallaxinformation.com/) have been using.
+
+- Again, describe data, but not verbatim from other project.
 
 
+In this project.
 
 ## Data Validation
 Before working with the data, I wanted to check my assumptions and compare the
