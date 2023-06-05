@@ -31,6 +31,80 @@ In a previous blogpost, I extracted the survey variables from the CLPS codebook
 
 In this project.
 
+## Data Overview
+TODO summarize CLPS methodology.
+
+Because the survey is highly complex and stratified, StatsCan provides a column
+of survey weights, `WTPP`, which is used to compute weighted frequencies.
+
+This is intended to account for the stratification of the survey, and is
+representative of the Canadian population.
+
+Weights: what are they.
+
+Bootstrapped weights are also available, but I didn't use them for this
+project.
+
+The primary dataset consists of 21170 rows and 277 columns.
+Each row corresponds to a survey respondent,
+whereas each column corresponds to a survey variable.
+
+Of the 277 survey variables,
+274 are represent a response to a survey question and their responses
+(including demographic variables),
+along with an ID column (`PUMFID`),
+a column of survey weights (`WTPP`),
+and a column representing the date the data was created
+(`VERDATE`, which only consists of one value, `28/02/2022`).
+
+The answers to survey questions are represented as integers.
+For example, survey variable `PRIP10A` represents a question with the text:
+> Were the following disputes or problems serious and not easy to fix? -
+> A large purchase or service where you did not get what you paid for and the seller did not fix the problem
+
+can be answered with the following values:
+```python
+{
+    "Yes": 1,
+    "No": 2,
+    "Valid skip": 6,
+    "Not stated": 9
+}
+```
+
+`"Valid skip"` refers to a question that is not applicable to the respondent,
+given their response to a previous question.
+In this case, the question for `PRIP10A` is only asked
+if the respondent had answered "Yes" to the question for `PRIP05A`
+with the text:
+> Have you had any of the following types of disputes or problems in Canada
+> since (month) 2018? - A large purchase or service where you did not get what
+> you paid for and the seller did not fix the problem
+
+<br>
+
+The full list of survey variables and their answer encodings
+can be in found in the CLPS codebook.
+This is available as a PDF,
+but I have also extracted the data as a JSON file
+that can be
+browsed [as a dashboard](https://clps-survey-variables.streamlit.app/)
+in a [related project detailed in another blogpost](https://mixedconclusions.com/blog/clps_survey_vars/).
+
+
+
+
+
+
+Since this data is mostly ints, it's highly compressable, with the zipped data
+taking 576KB (from 12MB).
+
+- ints
+- survey vars
+- weights
+- valid skips
+
+
 ## Data Validation
 Before working with the data, I wanted to check my assumptions and compare the
 data to the values extracted from the CLPS codebook
@@ -80,12 +154,6 @@ input/output filepath options.
 Side note: While writing this section, I came across [Great
 Expectations](https://github.com/great-expectations/great_expectations),
 another data validation tool that I'm curious to explore in the future.
-
-## Data Overview
-- ints
-- survey vars
-- weights
-- valid skips
 
 ## Dashboard Overview
 - outline
