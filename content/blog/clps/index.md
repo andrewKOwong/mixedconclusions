@@ -31,6 +31,75 @@ In a previous blogpost, I extracted the survey variables from the CLPS codebook
 
 In this project.
 
+## Project Organization
+The code for this project is organized as follows:
+```
+clps/
+├── .streamlit/
+│   └── config.toml
+├── clps/
+│   ├── survey_vars/
+│   │   ├── __init__.py
+│   │   ├── json_keys.py
+│   │   └── utils.py
+│   ├── __init__.py
+│   ├── constants.py
+│   └── transform.py
+├── clps_docs
+├── data/
+│   ├── bootstraps.csv
+│   ├── clps.csv
+│   ├── clps.zip
+│   └── survey_vars.json
+├── test/
+│   ├── __init__.py
+│   ├── test_survey_var_utils.py
+│   └── test_transform.py
+├── text/
+│   └── intro.md
+├── .gitattributes
+├── .gitignore
+├── README.md
+├── app.py
+├── config.yaml
+├── requirements.txt
+└── validate_data.py
+```
+
+The main dashboard code is found in `app.py`,
+containing the main logic flow and UI elements for the Streamlit app.
+
+The `clps` folder contains module code that is called by `app.py`.
+This includes the submodule `transform.py`
+(handling pandas data transformation),
+the `survey_vars` submodule (handling survey variable extraction
+related constants),
+and `constants.py` (which handles other project constants).
+
+The `data` folder contains data from the CLPS PUMF
+(`clps.csv` and `bootstraps.csv`)
+as well as a compressed version of the CLPS data (`clps.zip`)
+and the extracted survey variables (`survey_vars.json`)
+from the codebook.
+
+The `test` folder contains `pytest` tests.
+
+The `text` folder holds long text/markdown files,
+which right now consists of the introduction text for the dashboard.
+
+`.streamlit` contains configuration info for Streamlit Community Cloud.
+Additionally, `requirements.txt` contains the Python dependencies for
+installation on Streamlit Community Cloud, but does not contain the full
+list of dependencies for local developmenet (as some dependencies are already
+loaded by SCC).
+
+`config.yaml` contains project configuration info,
+which is mostly file paths of the data.
+
+`validate_data.py` is a script that does minor validation of the
+CLPS data using [Pandera](https://pandera.readthedocs.io/en/stable/index.html)
+
+
 ## CLPS Methodology Overview
 The methodology for the CLPS survey is described in detail in the
 "Guide" section of the CLPS documentation, but a brief overview is given here.
