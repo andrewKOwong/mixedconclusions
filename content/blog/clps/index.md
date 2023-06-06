@@ -31,38 +31,52 @@ In a previous blogpost, I extracted the survey variables from the CLPS codebook
 
 In this project.
 
-## Data Overview
-TODO summarize CLPS methodology.
+## CLPS Methodology Overview
+The methodology for the CLPS survey is described in detail in the
+"Guide" section of the CLPS documentation, but a brief overview is given here.
 
-Because the survey is highly complex and stratified, StatsCan provides a column
-of survey weights, `WTPP`, which is used to compute weighted frequencies.
+To construct this dataset, StatsCan sampled 42,400 people drawn mostly from
+the 2016 Canadian Census. This sample contains 29,972 people from the general
+population, and 12,428 oversampled from the Indigenous population.
+This sample was stratified by province,
+and the Indigenous population further sub-stratified by Indigenous identity.
+The response rate was 50.7%, and combined with other exclusions,
+resulted in a final sample of 21,170 respondents.
 
-This is intended to account for the stratification of the survey, and is
-representative of the Canadian population.
+To account for the stratified design,
+StatsCan provides a set of survey weights.
+These weights (ranging from 20 - 8140) represent the number of people
+in the Canadian population that each respondent represents.
+For example, a respondent with a weight of 570.9 (the median weight)
+should have their response treated as if it represents 570.9 people.
+Note that the sum of the weights is less than the total population of Canada,
+has it takes into account the exclusions from the sample
+(e.g. people less than 18 years of age).
 
-Weights: what are they.
+For estimating sample variance, StatsCan also provides 1000 bootstrap
+sample sets.
+However, I did not use these for this project (see discussion).
 
-Bootstrapped weights are also available, but I didn't use them for this
-project.
-
-The primary dataset consists of 21170 rows and 277 columns.
+## CLPS Data Overview
+The primary dataset is a CSV file consisting of 21,170 rows and 277 columns.
 Each row corresponds to a survey respondent,
 whereas each column corresponds to a survey variable.
 
 Of the 277 survey variables,
-274 are represent a response to a survey question and their responses
-(including demographic variables),
-along with an ID column (`PUMFID`),
+274 are represent a response to a survey question
+(including demographic variables).
+The remaining 3 columns are an ID column (`PUMFID`),
 a column of survey weights (`WTPP`),
 and a column representing the date the data was created
 (`VERDATE`, which only consists of one value, `28/02/2022`).
 
-The answers to survey questions are represented as integers.
+Survey answers are represented as integers.
 For example, survey variable `PRIP10A` represents a question with the text:
 > Were the following disputes or problems serious and not easy to fix? -
-> A large purchase or service where you did not get what you paid for and the seller did not fix the problem
+> A large purchase or service where you did not get what you paid for
+> and the seller did not fix the problem
 
-can be answered with the following values:
+which could be answered with the following values:
 ```python
 {
     "Yes": 1,
@@ -71,10 +85,11 @@ can be answered with the following values:
     "Not stated": 9
 }
 ```
+Thus, the `PRIP10A` column will have the values 1, 2, 6, or 9.
 
 `"Valid skip"` refers to a question that is not applicable to the respondent,
 given their response to a previous question.
-In this case, the question for `PRIP10A` is only asked
+For `PRIP10A`, the question is only asked
 if the respondent had answered "Yes" to the question for `PRIP05A`
 with the text:
 > Have you had any of the following types of disputes or problems in Canada
@@ -92,18 +107,8 @@ browsed [as a dashboard](https://clps-survey-variables.streamlit.app/)
 in a [related project detailed in another blogpost](https://mixedconclusions.com/blog/clps_survey_vars/).
 
 
-
-
-
-
 Since this data is mostly ints, it's highly compressable, with the zipped data
-taking 576KB (from 12MB).
-
-- ints
-- survey vars
-- weights
-- valid skips
-
+taking 576KB of space (from 12MB uncompressed).
 
 ## Data Validation
 Before working with the data, I wanted to check my assumptions and compare the
