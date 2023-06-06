@@ -230,9 +230,58 @@ Expectations](https://github.com/great-expectations/great_expectations),
 another data validation tool that I'm curious to explore in the future.
 
 ## Dashboard Overview
-- outline
-- data transformations
-- config
+The dashboard is built with [Streamlit](https://streamlit.io/).
+I chose Streamlit as it promised an easy-to-use interface for building
+dashboards from relatively simple Python scripts.
+
+The dashboard can be accessed online at
+[https://clps-data.streamlit.app/](https://clps-data.streamlit.app/).
+Additionally, it can also be run locally by cloning the
+[repository](https://github.com/andrewKOwong/clps)
+and running `streamlit run app.py` in the top-level directory.
+
+The dashboard is a single page, and looks like this:
+![dashboard overview](images/dashboard_overview.png
+"Dashboard overview. A data table is below the plot out of view.")
+
+
+On the left, a toggleable sidebar provides introductory information
+as well as instructions on operating the dashboard.
+On the right is the main part of the dashboard,
+which is split into three sections.
+
+The top section contains widgets for selecting the survey variable to display,
+filtering by region, and grouping by demographic information.
+Demographic variables are also survey variables
+(e.g. "Age Group" refers to the data column "AGEGRP").
+Note that a user cannot select a demographic variable and
+groupby the same demographic variable.
+
+There is also a checkbox to control whether weighted frequencies
+are displayed
+(i.e. checked will use survey weights to compute the weighted frequencies,
+whereas unchecked will use raw counts of the survey respondents),
+and a checkbox to control whether the plot below is
+capable if mouse-based interactive panning and zooming.
+Disabling pan/zoom can be useful for users who want to scroll up and down
+over the dashboard without accidentally panning or zooming the plot.
+
+The middle section contains a plot of the selected data,
+(using Altair as the plotting library).
+This is a bar plot that can be stacked by grouping variables.
+Additionally, Streamlit handles interactive Altair plots,
+allowing pan/zoom, hover tooltips, and the ability to save
+the plot as a SVG/PNG file (via the three-dot menu in the top-right corner).
+
+The bottom section contains a data table displaying the plotted data,
+for convenient readability and inspection.
+
+While I did not really consider responsive design when building the dashboard,
+the default Streamlit behaviour seems to function well enough on mobile,
+as most of the UI is down a central column.
+However, some of the survey variables with many options
+(i.e. with many categories on the x-axis)
+ end up being extremely-cramped or unreadable on mobile
 
 ## Representing the Survey Variables: `SurveyVar` Class
 - PROBCNTP is a special case
