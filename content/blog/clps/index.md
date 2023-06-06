@@ -283,13 +283,48 @@ However, some of the survey variables with many options
 (i.e. with many categories on the x-axis)
  end up being extremely-cramped or unreadable on mobile
 
-## Representing the Survey Variables: `SurveyVar` Class
+## Dashboard Implementation
+### App Flow
+```mermaid
+graph TD;
+    Load config file
+
+
+```
+
+
+- load config
+    - config file filepaths, compressed, etc
+- load data
+    - load compressed data
+    - load survey vars
+        - custom object (discussed below)
+    - cached, what is it, and why
+- deploy UI elements
+    - sidebar
+    - widgets
+        - how do they work
+        - format funcs
+        - return values
+- data transformation pipeline
+- plot. Streamlit function to do so. By default using altair anyways.
+    - but need to use altair chart for more control.
+- display data table with `st.dataframe`.
+
+Details discussed below.
+
+
+### Representing the Survey Variables: `SurveyVar` Class
+- loading the JSON file.
 - PROBCNTP is a special case
 
-## Data Transformations
+### Data Transformation Pipeline
 - various transformations
+- also makes it easier to do all transformations at once,
+took a while to move from prototype to this,
+extracting all the UI logic, clean decoupled.
 
-## Plotting with Altair
+### Plotting with Altair
 - rationale
     - streamlit already using it
     - but not altair 5
@@ -304,7 +339,7 @@ However, some of the survey variables with many options
 - line label breaking.
 - tooltips
 
-## Data Table Display
+### Data Table Display
 - Updates to streamlit
 
 ## Testing
