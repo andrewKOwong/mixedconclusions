@@ -286,10 +286,17 @@ However, some of the survey variables with many options
 ## Dashboard Implementation
 ### App Flow
 ```mermaid
-graph TD;
-    Load config file
+graph TD
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    linkStyle default stroke-width:3px;
 
-
+    subgraph bg [ ]
+        A[Load Config] --> B[Load Data];
+        A[Load Config] --> C[Load Survey Vars];
+        D[Deploy UI Elements]
+        B & C & D --> F[Data Transformation Pipeline];
+        F --> G[Altair Plot] & H[Data Table];
+    end
 ```
 
 
@@ -317,6 +324,13 @@ Details discussed below.
 ### Representing the Survey Variables: `SurveyVar` Class
 - loading the JSON file.
 - PROBCNTP is a special case
+
+### The UI elements
+    - sidebar
+    - widgets
+        - how do they work
+        - format funcs
+        - return values
 
 ### Data Transformation Pipeline
 - various transformations
@@ -350,3 +364,5 @@ extracting all the UI logic, clean decoupled.
 
 ## Discussion and Future Improvements
 - selenium in the future instead of eye ball testing.
+- refactor survey var loading in order to cache, try the JSON,
+the load into survey var constructor.
