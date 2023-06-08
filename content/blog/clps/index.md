@@ -320,7 +320,6 @@ The details of each of these steps are discussed below.
 
 
 ### Representing the Survey Variables: `SurveyVars` Class
-
 The constructor for the `SurveyVars` class takes in a file path
 to the location of the survey variable metadata JSON file.
 It calles a helper function `load_keyed_survey_vars()`
@@ -331,7 +330,7 @@ where the keys are the survey variable names,
 and the values are `_SurveyVar` objects that
 represent a single survey variable.
 
-`SurveyVars` has several access methods.
+`SurveyVars` has several access mechanisms.
 `.get_var(key: str)` returns a `_SurveyVar` object,
 and an implemented `__getitem__` method allows for
 `[ ]` bracket indexing.
@@ -340,7 +339,43 @@ the survey variable names. `get_region()` is a special
 convenience method that returns the `_SurveyVar` object
 for the "REGION" survey variable.
 
-- PROBCNTP is a special case
+Individual `_SurveyVar` objects are created from their raw
+JSON dictionary-like representations.
+During instantiation,
+private attributes for each piece of metadata are created
+(e.g. `self._name`, `self._concept`, etc.).
+These can then be accessed by public `@property` attributes
+that are read-only.
+As well, lookup dictionaries are generated for
+allowing access to answer categories, frequencies, etc.,
+by their answer codes.
+These are accessed by `lookup_*()` methods
+(e.g. `lookup_answer(code: int | str)`).
+A `has_valid_skips()` method is provided to check whether
+the survey variable has the "Valid skip" answer category.
+
+Special handling is required for survey variable "PROBCNTP",
+as the metadata has an aggregated answer category
+"01-16" that sums up all the individual answer categories 1 to 16.
+These numbers represents how many "serious problems"
+a survey respondent reported having,
+and are not aggregated in the main CLPS data.
+The answer section for "PROBCNTP" is moved into
+private attributes of the form `self._aggregate_*`,
+and a new set of answer categories and codes is generated
+that disaggregates the "01-16" category into individual
+answer categories.
+However, no attempt is made to disaggregate the frequencies,
+weighted frequencies, or percentages,
+as this would require access (and coupling) to the raw CLPS data,
+which does not appear to be necessary at this time.
+
+For any survey variable that has a missing metadata attribute
+(e.g. "PUMFID" has no answer section at all),
+calling the attribute returns `None`.
+For `lookup_*()`` methods, this is also the default behaviour,
+but a `suppress_missing=False` flag can be passed
+to raise an `AttributeError` instead.
 
 ### The UI elements
     - sidebar
