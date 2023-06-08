@@ -461,7 +461,7 @@ return (alt.Chart(df)
                         ))
 ```
 The four steps in the chain correspond to steps
-1. Loading the data into a Chart object.
+1. Loading the data into a `Chart` object.
 2. Specifying that the chart should be a bar chart.
 3. Specifying how the data should be converted into the bars.
 This includes what variable the bars should be,
@@ -473,8 +473,21 @@ This design I find to be quite elegant.
 However, I did encounter some issues.
 
 ### Issues and Considerations with Altair plotting.
+#### Altair Aggregations
+Altair offers the ability to aggregate the data within
+the `Chart` object itself.
+This was my initial design, as it seemed extremely convenient.
+However, as I wanted to test the data transformations for correctness,
+I needed a way to look at the data post-aggregation.
+I was unable to find a way to do this.
+I tried to pull out the Vega/Vega-Lite specification,
+which appeared to only contain unaggregated data.
+Subsequently, I put all data transformation logic into
+`pandas` operations as described above,
+which allowed me to test the transformed data.
 
-- functions mostly in the app
+#### Stacked Bar Chart Sort Order
+
 - weird altair stuff
     - sort order
     - docs colour sorting actually from altair 5, which streamlit doesn't
