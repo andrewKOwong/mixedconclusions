@@ -428,10 +428,26 @@ The transformed data is returned as a `DataFrame`.
 
 
 ### Plotting with Altair
-- rationale
-    - streamlit already using it
-    - but not altair 5
-    - free interactivity
+Originally, I wanted to plot the data with `matplotlib`,
+as I was already familiar with it.
+However, it seemed to me that for interactive plots,
+I would have to [use third-party libraries
+](https://blog.streamlit.io/make-your-st-pyplot-interactive/)
+ like `mpld3`,
+or use an interactive backend.
+It wasn't immediately obvious to me how much work this would be.
+I then noticed that the default Streamlit plotting functions used
+Altair as their plotting library.
+These plots look quite good and had interactivity without much configuration,
+so I thought I might as well learn Altair and have some fun wit it.
+
+Note: when I was first developing the app,
+Streamlit only supported Altair version 4,
+but now supports Altair version 5 as of the
+[June 1, 2023 Streamlit version 1.23.0 release
+](docs.streamlit.io/library/changelog#version-1230).
+
+
 - functions mostly in the app
 - weird altair stuff
     - sort order
