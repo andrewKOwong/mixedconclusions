@@ -299,26 +299,24 @@ graph TD
     end
 ```
 
+1. Load the `config.yaml` configuation file.
+This contains the filepaths to various input files,
+as well as a flag for whether to load the compressed data.
+2. Load the CLPS data (`clps.zip`)
+and the survey variable metadata (`survey_vars.json`).
+The main CLPS data loader is cached to avoid reloading the data upon
+app state changes.
+Survey variable metadata is loaded into a custom `SurveyVar` class
+(located in `clps.survey_vars.utils`) for convenient access.
+3. Deploy the UI elements, which includes the sidebar and
+various widgets for selecting/filtering/grouping.
+4. Feed the widgets' return values and the CLPS data/metadata
+into the data transformation pipeline
+(this is a call to `clps.transform.transform()`).
+5. The transformed data is plotted with Altair.
+6. The transformed data is then styled and displayed as a data table.
 
-- load config
-    - config file filepaths, compressed, etc
-- load data
-    - load compressed data
-    - load survey vars
-        - custom object (discussed below)
-    - cached, what is it, and why
-- deploy UI elements
-    - sidebar
-    - widgets
-        - how do they work
-        - format funcs
-        - return values
-- data transformation pipeline
-- plot. Streamlit function to do so. By default using altair anyways.
-    - but need to use altair chart for more control.
-- display data table with `st.dataframe`.
-
-Details discussed below.
+The details of each of these steps are discussed below.
 
 
 ### Representing the Survey Variables: `SurveyVar` Class
