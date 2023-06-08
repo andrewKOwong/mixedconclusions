@@ -306,7 +306,7 @@ as well as a flag for whether to load the compressed data.
 and the survey variable metadata (`survey_vars.json`).
 The main CLPS data loader is cached to avoid reloading the data upon
 app state changes.
-Survey variable metadata is loaded into a custom `SurveyVar` class
+Survey variable metadata is loaded into a custom `SurveyVars` class
 (located in `clps.survey_vars.utils`) for convenient access.
 3. Deploy the UI elements, which includes the sidebar and
 various widgets for selecting/filtering/grouping.
@@ -314,13 +314,32 @@ various widgets for selecting/filtering/grouping.
 into the data transformation pipeline
 (this is a call to `clps.transform.transform()`).
 5. The transformed data is plotted with Altair.
-6. The transformed data is then styled and displayed as a data table.
+6. The transformed data is also then styled and displayed as a data table.
 
 The details of each of these steps are discussed below.
 
 
-### Representing the Survey Variables: `SurveyVar` Class
-- loading the JSON file.
+### Representing the Survey Variables: `SurveyVars` Class
+
+The constructor for the `SurveyVars` class takes in a file path
+to the location of the survey variable metadata JSON file.
+It calles a helper function `load_keyed_survey_vars()`
+to load the JSON file
+(which is formatted equivalently to a Python list of dicts).
+This list of dicts is then converted into a dictionary
+where the keys are the survey variable names,
+and the values are `_SurveyVar` objects that
+represent a single survey variable.
+
+`SurveyVars` has several access methods.
+`.get_var(key: str)` returns a `_SurveyVar` object,
+and an implemented `__getitem__` method allows for
+`[ ]` bracket indexing.
+Additionally, `get_all_var_names()` returns a list of all
+the survey variable names. `get_region()` is a special
+convenience method that returns the `_SurveyVar` object
+for the "REGION" survey variable.
+
 - PROBCNTP is a special case
 
 ### The UI elements
