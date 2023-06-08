@@ -447,6 +447,32 @@ but now supports Altair version 5 as of the
 [June 1, 2023 Streamlit version 1.23.0 release
 ](docs.streamlit.io/library/changelog#version-1230).
 
+The main plotting function in `app.py` is `create_chart()`.
+The body of this function deals largely with a number of chart arguments
+before passing them into the `alt.Chart` object in a series of chained
+methods:
+
+```python
+return (alt.Chart(df)
+        .mark_bar()
+        .encode(**chart_args)
+        .configure_axis(labelFontSize=14,
+                        titleFontSize=16,
+                        ))
+```
+The four steps in the chain correspond to steps
+1. Loading the data into a Chart object.
+2. Specifying that the chart should be a bar chart.
+3. Specifying how the data should be converted into the bars.
+This includes what variable the bars should be,
+how and what order the bars should be stacked,
+what the axis labels should be, etc.
+4. Configuring global parameters for the chart.
+
+This design I find to be quite elegant.
+However, I did encounter some issues.
+
+### Issues and Considerations with Altair plotting.
 
 - functions mostly in the app
 - weird altair stuff
@@ -459,7 +485,6 @@ but now supports Altair version 5 as of the
     took a while to move from prototype to this,
     extracting all the UI logic, clean decoupled.
 - line label breaking.
-- tooltips
 
 ### Data Table Display
 - Updates to streamlit
