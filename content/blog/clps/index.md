@@ -302,6 +302,7 @@ graph TD
 1. Load the `config.yaml` configuation file.
 This contains the filepaths to various input files,
 as well as a flag for whether to load the compressed data.
+It is loaded as a dictionary.
 2. Load the CLPS data (`clps.zip`)
 and the survey variable metadata (`survey_vars.json`).
 The main CLPS data loader is cached to avoid reloading the data upon
@@ -320,6 +321,8 @@ The details of each of these steps are discussed below.
 
 
 ### Representing the Survey Variables: `SurveyVars` Class
+The `SurveyVars` class is a custom class defined in
+`clps.survey_vars.utils`.
 The constructor for the `SurveyVars` class takes in a file path
 to the location of the survey variable metadata JSON file.
 It calles a helper function `load_keyed_survey_vars()`
@@ -377,18 +380,52 @@ For `lookup_*()`` methods, this is also the default behaviour,
 but a `suppress_missing=False` flag can be passed
 to raise an `AttributeError` instead.
 
-### The UI elements
-    - sidebar
-    - widgets
-        - how do they work
-        - format funcs
-        - return values
+### UI Elements
+UI elements are deployed in the main `app.py` file
+by various `deploy_*()` functions.
+
+`deploy_sidebar()` takes a file path to a text file
+containing text for the sidebar text,
+as read from `config.yaml`.
+
+The data selection/filtering/grouping widgets are `st.selectbox()`
+objects.
+These objects take a list of options,
+as well as a `format_func` that converts options to
+appropriate strings for display.
+The return values of these widgets are the selected options.
+For example, `deploy_survey_var_selectbox()` returns
+the selected survey variable name (e.g. `"AGEGRP"`),
+which itself is returned from the `st.selectbox()`
+used in the function.
+The checkboxes operate similarly.
+
+When the user changes an option,
+Streamlit [reruns the entire app script
+](docs.streamlit.io/library/get-started/main-concepts#app-model)
+with the new option value set.
+Hence, it is important for relatively expensive operations
+like data-loading to be cached with `@st.cache_data`.
+
 
 ### Data Transformation Pipeline
-- various transformations
-- also makes it easier to do all transformations at once,
-took a while to move from prototype to this,
-extracting all the UI logic, clean decoupled.
+The collected UI widget values,
+along with the CLPS data and survey variable metadata,
+are passed to `clps.transform.transform()`.
+
+This function calls internal helper functions in
+`clps.transform` to do the following:
+- Filter the CLPS data for the region of interest (row filtering).
+- Filter by the selected and groupby variables (column filtering).
+- Replace integer answer codes with string answer categories,
+stored as a ordered categorical data type.
+- Filter out "Valid skip" answer categories, if applicable.
+- Groupby and aggregate. This is done by summing up the survey
+weights for weighted frequencies, or counting the rows for raw
+frequencies.
+
+The transformed data is returned as a `DataFrame`.
+
 
 ### Plotting with Altair
 - rationale
@@ -402,6 +439,9 @@ extracting all the UI logic, clean decoupled.
     currently support
 - why not use altair aggregations
     - testing
+    - also makes it easier to do all transformations at once,
+    took a while to move from prototype to this,
+    extracting all the UI logic, clean decoupled.
 - line label breaking.
 - tooltips
 
@@ -418,3 +458,5 @@ extracting all the UI logic, clean decoupled.
 - selenium in the future instead of eye ball testing.
 - refactor survey var loading in order to cache, try the JSON,
 the load into survey var constructor.
+
+- other rigorous testing?
