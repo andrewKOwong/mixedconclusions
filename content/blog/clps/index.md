@@ -485,18 +485,25 @@ which appeared to only contain unaggregated data.
 Subsequently, I put all data transformation logic into
 `pandas` operations as described above,
 which allowed me to test the transformed data.
+Essentially, this also allows decoupling of transformations vs plotting.
 
 #### Stacked Bar Chart Sort Order
+- For stacked bar charts,
+the variable being stacked is specified by the color encoding:
+```python
+color = alt.Color(
+    f"{groupby_var}:N",
+    title=GROUPBY_VARS[groupby_var],
+    sort=alt.Sort(groupby_order))
+```
+
 
 - weird altair stuff
     - sort order
     - docs colour sorting actually from altair 5, which streamlit doesn't
     currently support
-- why not use altair aggregations
-    - testing
-    - also makes it easier to do all transformations at once,
-    took a while to move from prototype to this,
-    extracting all the UI logic, clean decoupled.
+
+
 - line label breaking.
 
 ### Data Table Display
