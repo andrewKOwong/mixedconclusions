@@ -47,8 +47,6 @@ clps/
 │   └── transform.py
 ├── clps_docs
 ├── data/
-│   ├── bootstraps.csv
-│   ├── clps.csv
 │   ├── clps.zip
 │   └── survey_vars.json
 ├── test/
@@ -76,11 +74,11 @@ the `survey_vars` submodule (handling survey variable extraction
 related constants),
 and `constants.py` (which handles other project constants).
 
-The `data` folder contains data from the CLPS PUMF
-(`clps.csv` and `bootstraps.csv`)
-as well as a compressed version of the CLPS data (`clps.zip`)
+The `data` folder
+contains a compressed version of the CLPS data (`clps.zip`)
 and the extracted survey variables (`survey_vars.json`)
 from the codebook.
+Note: `clps.zip` corresponds to `clps2021ecpj_p` in the CLPS PUMF.
 
 The `test` folder contains `pytest` tests.
 
