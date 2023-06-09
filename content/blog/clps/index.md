@@ -503,7 +503,17 @@ color = alt.Color(
     - docs colour sorting actually from altair 5, which streamlit doesn't
     currently support
 
+#### Breaking Long Bar Chart Labels
+TODO, this isn't how I did it.
+Some bar chart labels are very long.
+In order to wrap them,
+the long label [needs to be split into separate list items
+](https://github.com/altair-viz/altair/issues/2376).
+This is done in `create_chart()` by preprocessing
+the answer category strings with Python's `textwrap.wrap()`,
+which breaks strings into chunks that are under a specified width.
 
+For reasons that I do not understand,
 - line label breaking.
 
 ### Data Table Display
