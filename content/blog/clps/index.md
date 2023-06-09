@@ -527,6 +527,52 @@ For reasons that I do not understand,
 - some eyeball testing.
     - not super easy to get, potentially use selenium in the future
 
+## Miscellaneous Issues: Using Git Large File Storage
+Originally, I was going to package the original CLPS data and bootstraps
+along with the repo using [Git Large File Storage (LFS)
+](https://docs.github.com/en/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage).
+Github offers 1GB of storage and 1GB of bandwidth per month for free,
+which I assumed would be plenty,
+as these two files together are around 200MB,
+and I wasn't expecting very many people (if any) to try cloning the repo.
+It turns out, I ended up clearing this bandwidth limit in less than 10 minutes
+while I was doing some troubleshooting and cloning the repo a few times.
+
+Since the original data is distributed by StatsCan regardless,
+I decided to remove this data from the repo.
+I personally found this surprisingly confusing.
+The [instructions
+](https://docs.github.com/en/repositories/working-with-files/managing-large-files/removing-files-from-git-large-file-storage)
+on Github recommend [first using a tool
+ ](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+ such as `git-filter-repo` to purge your git history of these large files.
+
+It then recommends either removing the files from `.gitattributes`
+or running `git lfs uninstall`.
+However `git lfs uninstall` appears to just uninstall `git-lfs` from my system.
+What I found was left was a `.git/lfs` directory that still contained
+local copies of the large files.
+
+I ended up just deleting the `.git/lfs` directory,
+although I'm not sure if I was supposed to use [`git-lfs-prune`
+](https://www.mankier.com/1/git-lfs-prune#:~:text=In%20general%20terms%2C%20prune%20will,orphaned%20commits%20are%20always%20deleted.)
+instead.
+I also ended up running `git-filter-repo` on the `.gitattributes` file itself,
+since I had nothing in there information in there except for the large file storage
+information.
+
+The Github docs then say that the [only way to remove
+](https://docs.github.com/en/repositories/working-with-files/managing-large-files/removing-files-from-git-large-file-storage#git-lfs-objects-in-your-repository)
+the large files from the Github LFS quota itself
+is to delete the repo and recreate it.
+This is a little bit of a hassle, as I had to make backups,
+create a new repo, move things over, etc.
+
+Generally though, I think I would consider more carefully in the future
+whether there are alternatives before using Git LFS.
+
+
+
 ## Discussion and Future Improvements
 - selenium in the future instead of eye ball testing.
 - refactor survey var loading in order to cache, try the JSON,
