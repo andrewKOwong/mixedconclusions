@@ -285,15 +285,17 @@ However, some of the survey variables with many options
 
 ## Dashboard Implementation
 ### App Flow
+
+Here is an overview of the data flow in the dashboard app:
 ```mermaid
 graph TD
     classDef bg_box stroke:None, fill:#C2E1FF;
     linkStyle default stroke-width:3px;
 
     subgraph bg [ ]
-        A[Load Config] --> B[Load Data];
-        A[Load Config] --> C[Load Survey Vars];
-        D[Deploy UI Elements]
+        A[Load Config] --> B[Load CLPS Data];
+        A[Load Config] --> C[Load Survey Vars Metadata];
+        D[Deploy UI Elements];
         B & C & D --> F[Data Transformation Pipeline];
         F --> G[Altair Plot] & H[Data Table];
     end
