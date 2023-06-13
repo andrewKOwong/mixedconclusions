@@ -536,7 +536,30 @@ For reasons that I do not understand,
 - line label breaking.
 
 ### Data Table Display
-- Updates to streamlit
+The output from `transform()` is also displayed as a data table,
+and is processed `style_datatable()` to return a Pandas `Styler` object.
+Although there is no styling applied currently,
+this `Styler` object allows styling further styling of the data table,
+either by altering `style_datatable()` itself,
+or via further chained method calls on the `Styler` object
+in the main `app.py` body.
+This styled dataframe is then passed into `st.dataframe()`,
+with a [magic formula](
+https://discuss.streamlit.io/t/st-dataframe-controlling-the-height-threshold-for-scolling/31769
+) passed to the height argument to prevent scrolling on the data table.
+
+While I was originally working on this app,
+Streamlit did not support hiding of the index column
+via a
+[call](https://pandas.pydata.org/docs/reference/api/pandas.io.formats.style.Styler.hide.html)
+to `Styler.hide()`.
+As well, there was a bug in the display of categorical index columns.
+Both these issues appear to have been fixed in the
+[June 1, 2023 release of Streamlit 1.23.0](
+    docs.streamlit.io/library/changelog#version-1230
+)
+(search for "hide_index" and
+"display issue with index columns using category dtype")
 
 ## Testing
 Testing is primarily handled using [Pytest](https://docs.pytest.org/en/7.3.x/).
@@ -637,3 +660,5 @@ the load into survey var constructor.
     or two data points derived from completely orthogonal method
     (e.g. calculation in Excel) as a sanity check of the data transformation
     pipeline.
+
+- Test driven development on SurveyVars?
