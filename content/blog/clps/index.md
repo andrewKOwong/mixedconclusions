@@ -539,10 +539,45 @@ For reasons that I do not understand,
 - Updates to streamlit
 
 ## Testing
-- data transformations
-- surveyvars
-- some eyeball testing.
-    - not super easy to get, potentially use selenium in the future
+Testing is primarily handled using [Pytest](https://docs.pytest.org/en/7.3.x/).
+The test suite is located in the `tests/` directory,
+and primarily covers the `clps.transform` and `clps.survey_vars.utils`
+submodules.
+The test suite can be run with using
+`pytest` in the shell at the project root directory.
+Use `-vv` optionally for verbose output.
+
+For `clps.transform`, I tested the final output of the `transform()` function.
+The first set of tests covers the cases where there is no groupby variable.
+For several selected survey variables, the output of `transform()` was
+compared with reference values frequencies etc.
+that were manually obtained from the codebook.
+The second set of tests covers the cases where there is a groupby variable.
+Here, I picked several survey variables and then picked a
+different subcategory and subgroup for each survey variable.
+The output of `transform()` was then compared against a freshly written
+set of `pandas` methods that would perform the same operations to
+extract that particularly subcategory and subgroup.
+
+
+For `clps.survey_vars.utils`,
+I instantiated a `SurveyVars` object
+and pulled out several individual `_SurveyVar` objects
+representing individual survey variables.
+For these, I tested various methods/attributes of the `_SurveyVar` objects
+(e.g. `has_valid_skips`, `lookup_answer`, `universe`, `note`, etc.)
+and compared against reference values from the codebook.
+
+For testing the coherence between displayed data table
+and the plots, I relied on manual visual testing.
+Essentially, I picked a few variables at random and check if the
+size of the stacked bars and their tooltips match the data table.
+This is not ideal, and potentially could be automated with a library
+like [Selenium](https://www.selenium.dev/) in the future.
+Given the data flow (data transformation -> chart / table)
+and minimal manipulation during chart creation,
+I thought it was not too likely that the data would be mutated accidentally,
+and decided to leave automated testing for the future.
 
 ## Miscellaneous Issues: Using Git Large File Storage
 Originally, I was going to package the original CLPS data and bootstraps
@@ -591,8 +626,14 @@ whether there are alternatives before using Git LFS.
 
 
 ## Discussion and Future Improvements
-- selenium in the future instead of eye ball testing.
 - refactor survey var loading in order to cache, try the JSON,
 the load into survey var constructor.
+- valid skip is removed as a string.
+     - I think this is a design inconsistency, it should be handled
+     at the SurveyVars object level.
 
 - other rigorous testing?
+    - I am somewhat paranoid, and I think it would worth it to have one
+    or two data points derived from completely orthogonal method
+    (e.g. calculation in Excel) as a sanity check of the data transformation
+    pipeline.
