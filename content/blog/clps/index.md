@@ -22,14 +22,33 @@ Community Cloud.
 [here](https://mixedconclusions.com/blog/clps_survey_vars/)
 
 ## Introduction
-In a previous blogpost, I extracted the survey variables from the CLPS codebook
+Some friends of mine at
+[Parallax Information Consulting](https://parallaxinformation.com/)
+have been working with a dataset from Statistics Canada (StatsCan)
+derived from the [Canadian Legal Problems Survey](
+https://www.justice.gc.ca/eng/rp-pr/jr/survey-enquete.html
+) (CLPS). This survey is a national survey of Canadians' experiences
+with the justice system, and is conducted periodically,
+with the most recent survey conducted in 2021.
 
-[Some friends of mine](https://parallaxinformation.com/) have been using.
+The main dataset is provided by StatsCan as a [Public Use Microdata File](
+https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm),
+containing both data and documentation describing the data and survey
+methodology.
 
-- Again, describe data, but not verbatim from other project.
-
-
-In this project.
+In a [previous blogpost](
+https://mixedconclusions.com/blog/clps_survey_vars/
+), I describe the extraction
+I performed of survey metadata from a PDF "codebook" provided by StatsCan.
+In this blogpost, I will the construction of a dashboard from the
+main CLPS dataset itself.
+I will first give an overview of the structure of the project organization
+and go through the structure of the data.
+Then I describe some simple data validation procedures I performed using
+a data validation toolkit called
+[Pandera](https://pandera.readthedocs.io/en/stable/index.html).
+Finally, I describe the dashboard and its implementation,
+including various issues I encountered.
 
 ## Project Organization
 The code for this project is organized as follows:
