@@ -463,8 +463,8 @@ so I thought I might as well learn Altair and have some fun wit it.
 Note: when I was first developing the app,
 Streamlit only supported Altair version 4,
 but now supports Altair version 5 as of the
-[June 1, 2023 Streamlit version 1.23.0 release
-](docs.streamlit.io/library/changelog#version-1230).
+[June 1, 2023 Streamlit version 1.23.0 release](
+    docs.streamlit.io/library/changelog#version-1230).
 
 The main plotting function in `app.py` is `create_chart()`.
 The body of this function deals largely with a number of chart arguments
@@ -492,48 +492,116 @@ This design I find to be quite elegant.
 However, I did encounter some issues.
 
 ### Issues and Considerations with Altair plotting.
-#### Altair Aggregations
+#### Altair Aggregations vs Pandas Aggregations
 Altair offers the ability to aggregate the data within
 the `Chart` object itself.
 This was my initial design, as it seemed extremely convenient.
 However, as I wanted to test the data transformations for correctness,
 I needed a way to look at the data post-aggregation.
-I was unable to find a way to do this.
+I was unable to find an easy way to do this.
 I tried to pull out the Vega/Vega-Lite specification,
 which appeared to only contain unaggregated data.
 Subsequently, I put all data transformation logic into
 `pandas` operations as described above,
 which allowed me to test the transformed data.
-Essentially, this also allows decoupling of transformations vs plotting.
+Essentially, this also allows decoupling of transformation vs plotting.
 
 #### Stacked Bar Chart Sort Order
-- For stacked bar charts,
-the variable being stacked is specified by the color encoding:
+For stacked bar charts,
+the default behaviour of Altair is to sort the colour bars
+by the names of the grouping variable's subgroups.
+
+![](images/stack_default_sort.png "Stacked bar chart - default sort order.")
+
+However, this is not desireable, as the CLPS
+survey variables have their own implicit order,
+as specified in the codebook.
+Setting an `:O` flag for ordinal data
+to pull
+the internal order from a Pandas ordered `Categorical` dtype column
+is not a currently supported solution in Altair.
+
+
+A custom sort order can be specified in the `color` encoding channel:
 ```python
+groupby_order = list(df[groupby_var].cat.categories)
+color = alt.Color(
+            f"{groupby_var}:N",
+            sort=alt.Sort(groupby_order)
+            )
+```
+While this sorts the legend,
+it does not actually sort the order of the stacked bars themselves:
+
+![](images/stack_color_sort.png
+"Stacked bar chart - with custom sort order in the colour encoding channel.")
+
+
+Surprisingly, there is no native way to provide a custom ordering
+to the stacked bar order.
+Instead, the official documentation points to the solution
+found in [this Github comment](
+    https://github.com/altair-viz/altair/issues/245#issuecomment-748443434
+),
+wherein the `order` encoding is used
+to access an underlying variable in the Vega specification
+(of the form `f"color_{groupby_var}_sort_index"`).
+Thus, in the case where grouping is performed
+for the age group variable (``"AGEGRP"``):
+
+```python
+groupby_order = list(df[groupby_var].cat.categories)
 color = alt.Color(
     f"{groupby_var}:N",
     title=GROUPBY_VARS[groupby_var],
-    sort=alt.Sort(groupby_order))
+    sort=alt.Sort(groupby_order)
+    )
+order = alt.Order(
+    f'color_{groupby_var}_sort_index:Q', sort='descending')
 ```
+the resulting variable would be `"color_AGEGRP_sort_index"`.
 
+You can actually see this variable name if you use the default tooltip:
 
-- weird altair stuff
-    - sort order
-    - docs colour sorting actually from altair 5, which streamlit doesn't
-    currently support
+![](images/stack_order_workaround.png
+"Stacked bar chart - with order encoding workaround.")
+
 
 #### Breaking Long Bar Chart Labels
-TODO, this isn't how I did it.
-Some bar chart labels are very long.
-In order to wrap them,
-the long label [needs to be split into separate list items
-](https://github.com/altair-viz/altair/issues/2376).
-This is done in `create_chart()` by preprocessing
-the answer category strings with Python's `textwrap.wrap()`,
-which breaks strings into chunks that are under a specified width.
+For some survey variables, the name of some categories
+can be very long, and would look better with line wrapping:
 
-For reasons that I do not understand,
-- line label breaking.
+![](images/label_wrapped.png "Bar chart with wrapped labels.")
+
+One way to wrap labels is to
+[split the label into separate list items](
+https://stackoverflow.com/questions/71215156/how-to-wrap-axis-label-in-altair
+).
+For reasons I did not end up diagnosing,
+this did not work for me.
+
+I ended up using a workaround
+where I split the labels using `textwrap.wrap()`,
+joined the list with the delimiter `----`,
+then used the `labelExpr` argument in `alt.Axis`
+to provide a [Vega expression](
+    https://vega.github.io/vega/docs/expressions/
+) that splits the labels on the delimiter:
+```python
+x = alt.X(f"{selected_var}",
+              type='ordinal',
+              title=f"{selected_var} - {survey_vars[selected_var].concept}",
+              sort=list(df[selected_var].cat.categories),
+              axis=alt.Axis(labelLimit=1000,
+                            labelAngle=-45,
+                            labelOverlap=False,
+                            # Vega expression to split the labels
+                            labelExpr=f"split(datum.label, '{LABEL_SPLIT}')"))
+```
+
+Newlines apparently do not work as a delimiter,
+although I did not investigate this further to confirm.
+
 
 ### Data Table Display
 The output from `transform()` is also displayed as a data table,
