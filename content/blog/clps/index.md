@@ -717,16 +717,73 @@ whether there are alternatives before using Git LFS.
 
 
 ## Discussion and Future Improvements
-- refactor survey var loading in order to cache, try the JSON,
-the load into survey var constructor.
-- valid skip is removed as a string.
-     - I think this is a design inconsistency, it should be handled
-     at the SurveyVars object level.
+There are several areas of discussion and potential improvements.
 
-- other rigorous testing?
-    - I am somewhat paranoid, and I think it would worth it to have one
-    or two data points derived from completely orthogonal method
-    (e.g. calculation in Excel) as a sanity check of the data transformation
-    pipeline.
 
-- Test driven development on SurveyVars?
+### Data Caching
+
+Currently, the main CLPS data is cached using the `@st.cache_data` decorator.
+However, the loading of `survey_variables.json` is not cached.
+This is because the `@st.cache_data` decorator only works
+if the function output is pickleable.
+
+A potential option would to cache the loading of the `survey_variables.json`
+file itself,
+and the construct the `SurveyVars` instance from JSON data.
+However, I'm not sure if there would be much of a performance gain,
+as `survey_variables.json` is only around 250KB.
+
+
+### Design of the `SurveyVars` Class
+I had a piece-meal approach to designing the `SurveyVars` class,
+whereby I implemented and changed the class as I needed to.
+In retrospective, I think it would have been beneficial
+to spend a bit more up-front time
+thinking about and writing down the potential API of the class
+before I started coding it.
+This would have also allowed me to pursue a test-driven development approach,
+which may have helped me code more clearly and with more speed,
+instead of writing tests after the fact as I did here.
+
+### Removing Valid Skips
+"Valid skip" values are removed in the transformation pipeline
+by checking for values against a project-wide `VALID_SKIP` constant.
+To me, this feels somewhat like a design inconsistency.
+An alternative could be that `_SurveyVar` objects
+could return an integer value for valid skips for that
+particular survey variable,
+so that data can be filtered before conversion of the CLPS
+integer data to string data.
+However, in the CLPS dataset, all valid skips are the same
+string, so it is not really worth the effort to do this,
+unless there is a potential for new data where
+valid skips take on different string values.
+
+### Additional Features
+Some additional features that could be added to the graph include:
+- **A plot to display the distribution of responses for follow-up questions.**
+Some questions/survey variables are only presented to respondents if they
+answered a previous question with a particular response.
+For example, the question for `"PRIP10A"` is only presented
+if the respondent answered "Yes" to the question for `"PRIP05A"`.
+In turn, survey variables `"CON_10A"` to `"CON_10H"`
+are only presented if the respondent answered "Yes" to `"PRIP10A"`.
+This flow of respondents could be displayed as a [Sankey diagram](
+    https://plotly.com/python/sankey-diagram/
+).
+- **Implementation of StatsCan release guidelines.**
+In the guide document for CLPS, StatsCan recommends that estimates be
+released with confidence intervals (calculated from bootstrap weights).
+As well, StatsCan has a series of guidelines for when survey category
+and group size estimates should be released with warnings or suppressed
+if the sample size is too small.
+I have omitted this feature for now,
+but this is worth implementing if this dashboard is to be used
+as more than a simple exploration tool for the CLPS dataset.
+
+## Further Information
+If you'd like to know more about this dataset,
+please reach out to [Parallax Information Consulting](
+    https://parallaxinformation.com/)!
+
+Thanks for reading!
