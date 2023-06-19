@@ -24,8 +24,15 @@ and built a simple web app for browsing the extracted data.
 **Note: the code for this project is available on
 [GitHub](https://github.com/andrewKOwong/clps_survey_vars).**
 
+For a related project on creating a dashboard for the main CLPS
+dataset, see [here](
+  https://mixedconclusions.com/blog/clps
+).
+
 ## Introduction
-Some friends of mine have been working on a project that required the use of data from the
+Some [friends of mine](
+  https://parallaxinformation.com/
+) have been working on a project that required the use of data from the
 [Canadian Legal Problems
 Survey](https://www.justice.gc.ca/eng/rp-pr/jr/survey-enquete.html) (CLPS).
 CLPS is a national survey of Canadians' experiences with the justice system,
