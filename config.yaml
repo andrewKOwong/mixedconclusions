@@ -5,13 +5,14 @@ theme: PaperMod
 copyright: Andrew Wong - All Rights Reserved.
 params:
   logo: /images/test_icon.png
-  description: test description
+  description: "Hello! You've reached Andrew's blog 😃.
+  See below for posts about my data science projects!"
   defaultTheme: dark
   homeInfoParams:
     Title: Hello! 😃
     Content: "My name is Andrew K.O. Wong.
-    I'm a cell biologist by training,
-    but these days I'm much more interested in data science.
+    I am a former cell biologist 🧫🔬🦠🧬
+    who is currently interested in data science 📊📈🤖.
     Below are posts about some of my personal data analysis/data science projects.
     Happy reading!
     "
