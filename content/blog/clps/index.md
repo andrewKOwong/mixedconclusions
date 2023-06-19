@@ -26,7 +26,7 @@ Community Cloud.
 - A sub-project extracting the CLPS codebook is
 [here](https://mixedconclusions.com/blog/clps_survey_vars/)
 - Note: this post was last updated on 2023-06-19,
-and may not reflected app updates since then.
+and may not reflect app updates since then.
 
 ## Introduction
 Some friends of mine at
