@@ -1,7 +1,7 @@
 ---
-title: "Clps"
-date: 2023-04-26T15:07:41-07:00
-publishdate: 2023-04-26T15:07:41-07:00
+title: "Canadian Legal Problems Survey: Data Dashboard"
+date: 2023-06-18T15:07:41-07:00
+publishdate: 2023-06-18T15:07:41-07:00
 author: Andrew Wong
 tags: []
 comments: true
@@ -12,7 +12,12 @@ EnableMathJax: false
 cover:
     image:
     caption:
-summary:
+summary: "The Canadian Legal Problems Survey is a national survey of Canadians'
+ experiences with the justice system.
+This post describes the construction of a data dashboard for the
+main CLPS dataset,
+using Streamlit and Altair.
+"
 ---
 - The [repo for this project](https://github.com/andrewKOwong/clps)
 is on Github.
