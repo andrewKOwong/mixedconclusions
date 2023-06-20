@@ -291,7 +291,7 @@ are displayed
 (i.e. checked will use survey weights to compute the weighted frequencies,
 whereas unchecked will use raw counts of the survey respondents),
 and a checkbox to control whether the plot below is
-capable if mouse-based interactive panning and zooming.
+capable of mouse-based interactive panning and zooming.
 Disabling pan/zoom can be useful for users who want to scroll up and down
 over the dashboard without accidentally panning or zooming the plot.
 
@@ -307,7 +307,7 @@ for convenient readability and inspection.
 
 While I did not really consider responsive design when building the dashboard,
 the default Streamlit behaviour seems to function well enough on mobile,
-as most of the UI is down a central column.
+as most of the UI is inside a central column.
 However, some of the survey variables with many options
 (i.e. with many categories on the x-axis)
  end up being extremely-cramped or unreadable on mobile
