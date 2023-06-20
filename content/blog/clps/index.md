@@ -853,10 +853,11 @@ as `survey_variables.json` is only around 250KB.
 
 
 ### Design of the `SurveyVars` Class
-I had a piece-meal approach to designing the `SurveyVars` class,
-whereby I implemented and changed the class as I needed to.
-In retrospective, I think it would have been beneficial
-to spend a bit more up-front time
+I had a piecemeal approach to designing the `SurveyVars` class,
+whereby I implemented and changed the class as needed while working
+on the data transformations pipeline.
+In retrospect, I think it would have been beneficial
+to spend a bit more upfront time
 thinking about and writing down the potential API of the class
 before I started coding it.
 This would have also allowed me to pursue a test-driven development approach,
@@ -878,7 +879,7 @@ unless there is a potential for new data where
 valid skips take on different string values.
 
 ### Additional Features
-Some additional features that could be added to the graph include:
+Some additional features that could be added include:
 - **A plot to display the distribution of responses for follow-up questions.**
 Some questions/survey variables are only presented to respondents if they
 answered a previous question with a particular response.
