@@ -254,7 +254,7 @@ Piping the `stderr` is optional, but convenient for inspection as Pandera
 outputs its collected errors to the `stderr` stream. See `--help` for
 input/output filepath options.
 
-Side note: While writing this section, I came across [Great
+Side note: while writing this section, I came across [Great
 Expectations](https://github.com/great-expectations/great_expectations),
 another data validation tool that I'm curious to explore in the future.
 
