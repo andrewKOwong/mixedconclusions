@@ -357,6 +357,64 @@ The details of each of these steps are discussed below.
 
 
 ### Representing the Survey Variables: `SurveyVars` Class
+```mermaid
+
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff'
+    }
+  }
+}%%
+
+classDiagram
+    class SurveyVars {
+        +get_var(key: str) -> _SurveyVar
+        +__getitem__(key: str) -> _SurveyVar
+        +get_all_var_names() -> list[str]
+        +get_region() -> _SurveyVar (for "REGION")
+
+    }
+
+    class _SurveyVar {
+        +raw -> dict
+        +name -> str
+        +var_name -> str
+        +length -> str
+        +position -> str
+        +question_name -> str
+        +concept -> str
+        +question_text -> str
+        +universe -> str
+        +note -> str
+        +source -> str
+        +ans_cats -> list[str] | None
+        +answer_categories -> list[str] | None
+        +codes -> list[int] | list[str] | None
+        +freqs -> list[int] | None
+        +frequencies -> list[int] | None
+        +wt_freqs -> list[int] | None
+        +weighted_frequencies -> list[int] | None
+        +percents -> list[float] | None
+        +totals -> dict
+        +lookup_answer(code: int | str, suppress_missing: bool) -> str | None
+        +lookup_freq(code: int | str, suppress_missing: bool) -> int | None
+        +lookup_weighted_freq(code: int | str, suppress_missing: bool) -> int | None
+        +lookup_percent(code: int | str, suppress_missing: bool) -> float | None
+        +has_valid_skips() -> bool
+    }
+
+    SurveyVars *-- _SurveyVar
+
+```
+
+
 The `SurveyVars` class is a custom class defined in
 `clps.survey_vars.utils`.
 The constructor for the `SurveyVars` class takes in a file path
