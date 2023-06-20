@@ -153,7 +153,7 @@ However, I did not use these for this project (see discussion).
 
 ## CLPS Data Overview
 
-![](images/clps_data_overview.png "CLPS Data Overview")
+![](images/clps_data_overview.png "Shape of the CLPS Dataset")
 
 
 The primary dataset is a CSV file consisting of 21,170 rows and 277 columns.
