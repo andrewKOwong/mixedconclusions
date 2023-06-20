@@ -712,13 +712,13 @@ although I did not investigate this further to confirm.
 
 ### Data Table Display
 
-![](images/data_table_display.png "The data table.")
+![](images/data_table_display.png "Grouped data displayed as a table.")
 
 
 The output from `transform()` is also displayed as a data table,
-and is processed `style_datatable()` to return a Pandas `Styler` object.
+and is processed by `style_datatable()` to return a Pandas `Styler` object.
 Although there is no styling applied currently,
-this `Styler` object allows styling further styling of the data table,
+this `Styler` object allows further styling of the table,
 either by altering `style_datatable()` itself,
 or via further chained method calls on the `Styler` object
 in the main `app.py` body.
@@ -738,7 +738,7 @@ Both these issues appear to have been fixed in the
     docs.streamlit.io/library/changelog#version-1230
 )
 (search for "hide_index" and
-"display issue with index columns using category dtype")
+"display issue with index columns using category dtype").
 
 ## Testing
 
