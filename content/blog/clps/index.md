@@ -151,6 +151,10 @@ sample sets.
 However, I did not use these for this project (see discussion).
 
 ## CLPS Data Overview
+
+![](images/clps_data_overview.png "CLPS Data Overview")
+
+
 The primary dataset is a CSV file consisting of 21,170 rows and 277 columns.
 Each row corresponds to a survey respondent,
 whereas each column corresponds to a survey variable.
@@ -407,6 +411,8 @@ but a `suppress_missing=False` flag can be passed
 to raise an `AttributeError` instead.
 
 ### UI Elements
+![](images/UI_widgets.png "The UI widgets for selecting/filtering/grouping the data.")
+
 UI elements are deployed in the main `app.py` file
 by various `deploy_*()` functions.
 
@@ -454,6 +460,10 @@ The transformed data is returned as a `DataFrame`.
 
 
 ### Plotting with Altair
+
+![](images/plotting_with_altair.png "The Data Plot")
+
+
 Originally, I wanted to plot the data with `matplotlib`,
 as I was already familiar with it.
 However, it seemed to me that for interactive plots,
@@ -611,6 +621,10 @@ although I did not investigate this further to confirm.
 
 
 ### Data Table Display
+
+![](images/data_table_display.png "The data table.")
+
+
 The output from `transform()` is also displayed as a data table,
 and is processed `style_datatable()` to return a Pandas `Styler` object.
 Although there is no styling applied currently,
@@ -637,6 +651,9 @@ Both these issues appear to have been fixed in the
 "display issue with index columns using category dtype")
 
 ## Testing
+
+![](images/pytest.png "Test suite output.")
+
 Testing is primarily handled using [Pytest](https://docs.pytest.org/en/7.3.x/).
 The test suite is located in the `tests/` directory,
 and primarily covers the `clps.transform` and `clps.survey_vars.utils`
@@ -678,6 +695,9 @@ I thought it was not too likely that the data would be mutated accidentally,
 and decided to leave automated testing for the future.
 
 ## Miscellaneous Issues: Using Git Large File Storage
+
+![](images/git_lfs.png "Git LFS Monthly Bandwidth and Storage Usage.")
+
 Originally, I was going to package the original CLPS data and bootstraps
 along with the repo using [Git Large File Storage (LFS)
 ](https://docs.github.com/en/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage).
