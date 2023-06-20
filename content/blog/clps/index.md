@@ -441,6 +441,30 @@ like data-loading to be cached with `@st.cache_data`.
 
 
 ### Data Transformation Pipeline
+```mermaid
+graph TD
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef empty fill:None, stroke:None;
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef nodes stroke:#00478F, stroke-width:2px, fill:#FFE45C, color:black;
+    linkStyle default stroke-width:3px;
+
+    subgraph bg ["clps.transform.transform()"]
+        A["Raw DF"];
+        B["_filter_by_region()"];
+        C["_filter_by_selected_and_groupby()"];
+        D["_convert_to_categorical()"];
+        E["_filter_valid_skips()"];
+        F["_groupby_and_aggregate()"];
+        G["Transformed DF"];
+        A --> B --> C --> D --> E --> F --> G;
+    end
+
+class bg bg_box;
+class A,B,C,D,E,F,G,H nodes;
+```
+
+
 The collected UI widget values,
 along with the CLPS data and survey variable metadata,
 are passed to `clps.transform.transform()`.
