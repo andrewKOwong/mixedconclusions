@@ -607,7 +607,7 @@ However, as I wanted to test the data transformations for correctness,
 I needed a way to look at the data post-aggregation.
 I was unable to find an easy way to do this.
 I tried to pull out the Vega/Vega-Lite specification,
-which appeared to only contain unaggregated data.
+but they appeared to only contain unaggregated data.
 Subsequently, I put all data transformation logic into
 `pandas` operations as described above,
 which allowed me to test the transformed data.
