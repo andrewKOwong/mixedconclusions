@@ -318,6 +318,9 @@ Here is an overview of the data flow in the dashboard app:
 ```mermaid
 graph TD
     classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef empty fill:None, stroke:None;
+    classDef bg_box stroke:None, fill:#C2E1FF;
+    classDef nodes stroke:#00478F, stroke-width:2px, fill:#FFE45C, color:black;
     linkStyle default stroke-width:3px;
 
     subgraph bg [ ]
@@ -327,6 +330,9 @@ graph TD
         B & C & D --> F[Data Transformation Pipeline];
         F --> G[Altair Plot] & H[Data Table];
     end
+
+class bg bg_box;
+class A,B,C,D,E,F,G,H nodes;
 ```
 
 1. Load the `config.yaml` configuation file.
