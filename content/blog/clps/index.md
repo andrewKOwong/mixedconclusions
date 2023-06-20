@@ -551,7 +551,7 @@ The transformed data is returned as a `DataFrame`.
 
 ### Plotting with Altair
 
-![](images/plotting_with_altair.png "The Data Plot")
+![](images/plotting_with_altair.png "An Altair Stacked Bar Plot")
 
 
 Originally, I wanted to plot the data with `matplotlib`,
@@ -565,7 +565,7 @@ It wasn't immediately obvious to me how much work this would be.
 I then noticed that the default Streamlit plotting functions used
 Altair as their plotting library.
 These plots look quite good and had interactivity without much configuration,
-so I thought I might as well learn Altair and have some fun wit it.
+so I thought I might as well learn Altair and have some fun with it.
 
 Note: when I was first developing the app,
 Streamlit only supported Altair version 4,
