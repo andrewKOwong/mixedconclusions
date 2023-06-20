@@ -746,7 +746,7 @@ Both these issues appear to have been fixed in the
 
 Testing is primarily handled using [Pytest](https://docs.pytest.org/en/7.3.x/).
 The test suite is located in the `tests/` directory,
-and primarily covers the `clps.transform` and `clps.survey_vars.utils`
+and covers the `clps.transform` and `clps.survey_vars.utils`
 submodules.
 The test suite can be run with using
 `pytest` in the shell at the project root directory.
@@ -755,7 +755,7 @@ Use `-vv` optionally for verbose output.
 For `clps.transform`, I tested the final output of the `transform()` function.
 The first set of tests covers the cases where there is no groupby variable.
 For several selected survey variables, the output of `transform()` was
-compared with reference values frequencies etc.
+compared with reference values (frequencies etc.)
 that were manually obtained from the codebook.
 The second set of tests covers the cases where there is a groupby variable.
 Here, I picked several survey variables and then picked a
@@ -771,9 +771,9 @@ and pulled out several individual `_SurveyVar` objects
 representing individual survey variables.
 For these, I tested various methods/attributes of the `_SurveyVar` objects
 (e.g. `has_valid_skips`, `lookup_answer`, `universe`, `note`, etc.)
-and compared against reference values from the codebook.
+and compared them against reference values from the codebook.
 
-For testing the coherence between displayed data table
+For testing the coherence between the data table
 and the plots, I relied on manual visual testing.
 Essentially, I picked a few variables at random and check if the
 size of the stacked bars and their tooltips match the data table.
