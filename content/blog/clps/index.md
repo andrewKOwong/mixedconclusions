@@ -61,7 +61,7 @@ including various issues I encountered.
 
 ## Project Organization
 The code for this project is organized as follows:
-```
+```txt
 clps/
 ├── .streamlit/
 │   └── config.toml
@@ -97,33 +97,32 @@ containing the main logic flow and UI elements for the Streamlit app.
 
 The `clps` folder contains module code that is called by `app.py`.
 This includes the submodule `transform.py`
-(handling pandas data transformation),
-the `survey_vars` submodule (handling survey variable extraction
-related constants),
-and `constants.py` (which handles other project constants).
+(handling `pandas` data transformations),
+the `survey_vars` submodule (handling survey variable extraction),
+and `constants.py` (which handles project-level constants).
 
 The `data` folder
 contains a compressed version of the CLPS data (`clps.zip`)
 and the extracted survey variables (`survey_vars.json`)
 from the codebook.
-Note: `clps.zip` corresponds to `clps2021ecpj_p` in the CLPS PUMF.
+Note: `clps.zip` corresponds to `clps2021ecpj_p.csv` in the CLPS PUMF.
 
 The `test` folder contains `pytest` tests.
 
 The `text` folder holds long text/markdown files,
 which right now consists of the introduction text for the dashboard.
 
-`.streamlit` contains configuration info for Streamlit Community Cloud.
+`.streamlit` contains configuration info for Streamlit Community Cloud (SCC).
 Additionally, `requirements.txt` contains the Python dependencies for
 installation on Streamlit Community Cloud, but does not contain the full
-list of dependencies for local developmenet (as some dependencies are already
+list of dependencies for local development (as some dependencies are already
 loaded by SCC).
 
 `config.yaml` contains project configuration info,
-which is mostly file paths of the data.
+which is mostly file paths for the data.
 
 `validate_data.py` is a script that does minor validation of the
-CLPS data using [Pandera](https://pandera.readthedocs.io/en/stable/index.html)
+CLPS dataset using [Pandera](https://pandera.readthedocs.io/en/stable/index.html).
 
 
 ## CLPS Methodology Overview
