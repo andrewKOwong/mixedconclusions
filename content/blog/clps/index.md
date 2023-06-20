@@ -421,7 +421,7 @@ The `SurveyVars` class is a custom class defined in
 `clps.survey_vars.utils`.
 The constructor for the `SurveyVars` class takes in a file path
 to the location of the survey variable metadata JSON file.
-It calles a helper function `load_keyed_survey_vars()`
+It calls a helper function `load_keyed_survey_vars()`
 to load the JSON file
 (which is formatted equivalently to a Python list of dicts).
 This list of dicts is then converted into a dictionary
@@ -430,8 +430,8 @@ and the values are `_SurveyVar` objects that
 represent a single survey variable.
 
 `SurveyVars` has several access mechanisms.
-`.get_var(key: str)` returns a `_SurveyVar` object,
-and an implemented `__getitem__` method allows for
+`get_var(key: str)` returns a `_SurveyVar` object,
+and implementing the `__getitem__` dunder method allows for
 `[ ]` bracket indexing.
 Additionally, `get_all_var_names()` returns a list of all
 the survey variable names. `get_region()` is a special
@@ -467,12 +467,12 @@ answer categories.
 However, no attempt is made to disaggregate the frequencies,
 weighted frequencies, or percentages,
 as this would require access (and coupling) to the raw CLPS data,
-which does not appear to be necessary at this time.
+and does not appear to be necessary at this time.
 
 For any survey variable that has a missing metadata attribute
 (e.g. "PUMFID" has no answer section at all),
 calling the attribute returns `None`.
-For `lookup_*()`` methods, this is also the default behaviour,
+For `lookup_*()` methods, this is also the default behaviour,
 but a `suppress_missing=False` flag can be passed
 to raise an `AttributeError` instead.
 
