@@ -336,6 +336,7 @@ class bg bg_box;
 class A,B,C,D,E,F,G,H nodes;
 ```
 
+The steps are:
 1. Load the `config.yaml` configuation file.
 This contains the filepaths to various input files,
 as well as a flag for whether to load the compressed data.
@@ -351,10 +352,10 @@ various widgets for selecting/filtering/grouping.
 4. Feed the widgets' return values and the CLPS data/metadata
 into the data transformation pipeline
 (this is a call to `clps.transform.transform()`).
-5. The transformed data is plotted with Altair.
-6. The transformed data is also then styled and displayed as a data table.
+5. Plot the transformed data with Altair.
+6. Style and display the transformed data as a table.
 
-The details of each of these steps are discussed below.
+The details of selected steps are discussed below.
 
 
 ### Representing the Survey Variables: `SurveyVars` Class
