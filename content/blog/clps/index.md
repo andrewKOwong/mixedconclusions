@@ -271,7 +271,7 @@ and running `streamlit run app.py` in the top-level directory.
 
 The dashboard is a single page, and looks like this:
 ![dashboard overview](images/dashboard_overview.png
-"Dashboard overview. A data table is below the plot out of view.")
+"Note: a data table is below the plot out-of-view.")
 
 
 On the left, a toggleable sidebar provides introductory information
