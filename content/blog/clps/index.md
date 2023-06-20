@@ -27,6 +27,8 @@ Community Cloud.
 [here](https://mixedconclusions.com/blog/clps_survey_vars/)
 - Note: this post was last updated on 2023-06-19,
 and may not reflect app updates since then.
+- To learn more about how this dataset can help your organization,
+please contact [Parallax Information Consulting](https://parallaxinformation.com/).
 
 ## Introduction
 Some friends of mine at
@@ -47,14 +49,14 @@ In a [previous blogpost](
 https://mixedconclusions.com/blog/clps_survey_vars/
 ), I describe the extraction
 I performed of survey metadata from a PDF "codebook" provided by StatsCan.
-In this blogpost, I will the construction of a dashboard from the
+In this blogpost, I describe the construction of a dashboard from the
 main CLPS dataset itself.
-I will first give an overview of the structure of the project organization
+First, I'll give an overview of the organization of the project
 and go through the structure of the data.
-Then I describe some simple data validation procedures I performed using
+Then I'll describe some simple data validation procedures I performed using
 a data validation toolkit called
 [Pandera](https://pandera.readthedocs.io/en/stable/index.html).
-Finally, I describe the dashboard and its implementation,
+Finally, I'll spend the bulk of this post describing the dashboard and its implementation,
 including various issues I encountered.
 
 ## Project Organization
