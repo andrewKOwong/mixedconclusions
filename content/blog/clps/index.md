@@ -131,8 +131,8 @@ The methodology for the CLPS survey is described in detail in the
 
 To construct this dataset, StatsCan sampled 42,400 people drawn mostly from
 the 2016 Canadian Census. This sample contains 29,972 people from the general
-population, and 12,428 oversampled from the Indigenous population.
-This sample was stratified by province,
+population, and 12,428 people oversampled from the Indigenous population.
+This sampling was stratified by province,
 and the Indigenous population further sub-stratified by Indigenous identity.
 The response rate was 50.7%, and combined with other exclusions,
 resulted in a final sample of 21,170 respondents.
@@ -144,7 +144,7 @@ in the Canadian population that each respondent represents.
 For example, a respondent with a weight of 570.9 (the median weight)
 should have their response treated as if it represents 570.9 people.
 Note that the sum of the weights is less than the total population of Canada,
-has it takes into account the exclusions from the sample
+as it takes into account the exclusions from the sample
 (e.g. people less than 18 years of age).
 
 For estimating sample variance, StatsCan also provides 1000 bootstrap
