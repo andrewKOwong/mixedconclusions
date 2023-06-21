@@ -31,6 +31,8 @@ and may not reflect app updates since then.
 please contact [Parallax Information Consulting](https://parallaxinformation.com/).
 
 ## Introduction
+![](images/clipboard2.png "Image: Midjourney")
+
 Some friends of mine at
 [Parallax Information Consulting](https://parallaxinformation.com/)
 have been working with a dataset from Statistics Canada (StatsCan)
