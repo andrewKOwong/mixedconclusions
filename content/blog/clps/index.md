@@ -267,8 +267,10 @@ Additionally, it can also be run locally by cloning the
 and running `streamlit run app.py` in the top-level directory.
 
 The dashboard is a single page, and looks like this:
-![dashboard overview](images/dashboard_overview.png
-"Note: a data table is below the plot out-of-view.")
+
+![](images/dashboard_overview_top.png "Dashboard overview: UI elements and plot.")
+![](images/dashboard_overview_bottom.png "Dashboard overview: data table.")
+
 
 
 On the left, a toggleable sidebar provides introductory information
