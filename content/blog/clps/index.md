@@ -19,7 +19,7 @@ main CLPS dataset,
 using Streamlit and Altair.
 "
 ---
-- The [repo for this project](https://github.com/andrewKOwong/clps)
+- The [repo for this project](https://github.com/andrewKOwong/clps_data)
 is on Github.
 - The [dashboard is deployed](https://clps-data.streamlit.app/) on Streamlit
 Community Cloud.
@@ -266,7 +266,7 @@ dashboards from relatively simple Python scripts.
 The dashboard can be accessed online at
 [https://clps-data.streamlit.app/](https://clps-data.streamlit.app/).
 Additionally, it can also be run locally by cloning the
-[repository](https://github.com/andrewKOwong/clps)
+[repository](https://github.com/andrewKOwong/clps_data)
 and running `streamlit run app.py` in the top-level directory.
 
 The dashboard is a single page, and looks like this:
@@ -598,7 +598,7 @@ what the axis labels should be, etc.
 This design I find to be quite elegant.
 However, I did encounter some issues.
 
-### Issues and Considerations with Altair plotting.
+### Issues and Considerations with Altair Plotting
 #### Altair Aggregations vs Pandas Aggregations
 Altair offers the ability to aggregate the data within
 the `Chart` object itself.
