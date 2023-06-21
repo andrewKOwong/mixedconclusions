@@ -455,7 +455,7 @@ the survey variable has the "Valid skip" answer category.
 Special handling is required for survey variable "PROBCNTP",
 as the metadata has an aggregated answer category
 "01-16" that sums up all the individual answer categories 1 to 16.
-These numbers represents how many "serious problems"
+These numbers represent how many "serious problems"
 a survey respondent reported having,
 and are not aggregated in the main CLPS data.
 The answer section for "PROBCNTP" is moved into
