@@ -41,8 +41,8 @@ with the justice system, and is conducted periodically,
 with the most recent survey conducted in 2021.
 
 The main dataset is provided by StatsCan as a [Public Use Microdata File](
-https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm),
-containing both data and documentation describing the data and survey
+https://www150.statcan.gc.ca/n1/pub/35-25-0002/352500022022001-eng.htm)
+(PUMF), containing both data and documentation describing the data and survey
 methodology.
 
 In a [previous blogpost](
@@ -110,7 +110,7 @@ Note: `clps.zip` corresponds to `clps2021ecpj_p.csv` in the CLPS PUMF.
 The `test` folder contains `pytest` tests.
 
 The `text` folder holds long text/markdown files,
-which right now consists of the introduction text for the dashboard.
+which currently consists of the introduction text for the dashboard.
 
 `.streamlit` contains configuration info for Streamlit Community Cloud (SCC).
 Additionally, `requirements.txt` contains the Python dependencies for
@@ -161,7 +161,7 @@ Each row corresponds to a survey respondent,
 whereas each column corresponds to a survey variable.
 
 Of the 277 survey variables,
-274 are represent a response to a survey question
+274 represent a response to a survey question
 (including demographic variables).
 The remaining 3 columns are an ID column (`PUMFID`),
 a column of survey weights (`WTPP`),
@@ -170,9 +170,9 @@ and a column representing the date the data was created
 
 Survey answers are represented as integers.
 For example, survey variable `PRIP10A` represents a question with the text:
-> Were the following disputes or problems serious and not easy to fix? -
+> "Were the following disputes or problems serious and not easy to fix? -
 > A large purchase or service where you did not get what you paid for
-> and the seller did not fix the problem
+> and the seller did not fix the problem"
 
 which could be answered with the following values:
 ```python
@@ -190,9 +190,9 @@ given their response to a previous question.
 For `PRIP10A`, the question is only asked
 if the respondent had answered "Yes" to the question for `PRIP05A`
 with the text:
-> Have you had any of the following types of disputes or problems in Canada
+> "Have you had any of the following types of disputes or problems in Canada
 > since (month) 2018? - A large purchase or service where you did not get what
-> you paid for and the seller did not fix the problem
+> you paid for and the seller did not fix the problem"
 
 <br>
 
