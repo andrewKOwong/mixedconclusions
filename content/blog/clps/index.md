@@ -500,7 +500,7 @@ The checkboxes operate similarly.
 
 When the user changes an option,
 Streamlit [reruns the entire app script
-](docs.streamlit.io/library/get-started/main-concepts#app-model)
+](https://docs.streamlit.io/library/get-started/main-concepts#app-model)
 with the new option value set.
 Hence, it is important for relatively expensive operations
 like data-loading to be cached with `@st.cache_data`.
@@ -571,7 +571,7 @@ Note: when I was first developing the app,
 Streamlit only supported Altair version 4,
 but now supports Altair version 5 as of the
 [June 1, 2023 Streamlit version 1.23.0 release](
-    docs.streamlit.io/library/changelog#version-1230).
+    https://docs.streamlit.io/library/changelog#version-1230).
 
 The main plotting function in `app.py` is `create_chart()`.
 The body of this function deals largely with a number of chart arguments
@@ -735,7 +735,7 @@ to `Styler.hide()`.
 As well, there was a bug in the display of categorical index columns.
 Both these issues appear to have been fixed in the
 [June 1, 2023 release of Streamlit 1.23.0](
-    docs.streamlit.io/library/changelog#version-1230
+    https://docs.streamlit.io/library/changelog#version-1230
 )
 (search for "hide_index" and
 "display issue with index columns using category dtype").
