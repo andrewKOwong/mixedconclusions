@@ -205,7 +205,7 @@ browsed [as a dashboard](https://clps-survey-variables.streamlit.app/)
 in a [related project detailed in another blogpost](https://mixedconclusions.com/blog/clps_survey_vars/).
 
 
-Since this data is mostly ints, it's highly compressable, with the zipped data
+Since this data is mostly integers, it's highly compressable, with the zipped data
 taking 576KB of space (from 12MB uncompressed).
 
 ## Data Validation
@@ -254,9 +254,6 @@ Piping the `stderr` is optional, but convenient for inspection as Pandera
 outputs its collected errors to the `stderr` stream. See `--help` for
 input/output filepath options.
 
-Side note: while writing this section, I came across [Great
-Expectations](https://github.com/great-expectations/great_expectations),
-another data validation tool that I'm curious to explore in the future.
 
 ## Dashboard Overview
 The dashboard is built with [Streamlit](https://streamlit.io/).
