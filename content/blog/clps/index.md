@@ -10,8 +10,8 @@ ShowToc: true
 TocOpen: true
 EnableMathJax: false
 cover:
-    image:
-    caption:
+    image: "images/cflag_tile_w_lady_justice_red.jpg"
+    caption: "Image: Midjourney (mostly)."
 summary: "The Canadian Legal Problems Survey is a national survey of Canadians'
  experiences with the justice system.
 This post describes the construction of a data dashboard for the
